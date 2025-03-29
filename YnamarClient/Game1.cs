@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Threading;
 
 namespace YnamarClient
 {
@@ -10,6 +11,13 @@ namespace YnamarClient
     {
         private GraphicsDeviceManager _graphics;
         public static SpriteBatch spriteBatch;
+        ClientUDP clientUdp;
+        private static Thread udpThread;
+
+        float WalkTimer;
+        public static new int Tick;
+        public static int ElapsedTime;
+        public static int FrameTime;
 
         public Game1()
         {
@@ -20,60 +28,22 @@ namespace YnamarClient
 
         protected override void Initialize()
         {
+            clientUdp = new ClientUDP();
+            udpThread = new Thread(new ThreadStart(clientUdp.ConnectToServer));
+            udpThread.Start();
+
+            Types.Player[0].X = 0;
+            Types.Player[0].Y = 0;
+            Types.Player[0].Dir = 0;
+
+            Types.Player[0].Name = "teste";
+            Types.Player[0].Map = 0;
+            Types.Player[0].Level = 1;
+            Types.Player[0].EXP = 1;
+            Types.Player[0].Access = 0;
+
             Graphics.InitializeGraphics(Content);
-            ENet.Library.Initialize();
-            // TODO: Add your initialization logic here
-            using (Host client = new())
-            {
-                Address address = new();
-
-                address.SetHost("127.0.0.1");
-                address.Port = 8081;
-                client.Create();
-
-                Peer peer = client.Connect(address);
-
-                Event netEvent;
-
-                    bool polled = false;
-
-                    while (!polled)
-                    {
-                        if (client.CheckEvents(out netEvent) <= 0)
-                        {
-                            if (client.Service(1, out netEvent) <= 0)
-                                break;
-
-                            polled = true;
-                        }
-
-                        switch (netEvent.Type)
-                        {
-                            case EventType.None:
-                                break;
-
-                            case EventType.Connect:
-                                Console.WriteLine("Client connected to server");
-                                break;
-
-                            case EventType.Disconnect:
-                                Console.WriteLine("Client disconnected from server");
-                                break;
-
-                            case EventType.Timeout:
-                                Console.WriteLine("Client connection timeout");
-                                break;
-
-                            case EventType.Receive:
-                                Console.WriteLine("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
-                                netEvent.Packet.Dispose();
-                                break;
-                        }
-                    }
-
-                client.Flush();
-            }
-
+           
             base.Initialize();
         }
 
@@ -96,11 +66,34 @@ namespace YnamarClient
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            Tick = (int)gameTime.TotalGameTime.TotalMilliseconds;
+            ElapsedTime = (Tick - FrameTime);
+            FrameTime = Tick;
+
+            if (WalkTimer < Tick)
+            {
+              GameLogic.ProcessMovement(Globals.playerIndex);
+              WalkTimer = Tick + 30;
+            }
+
+            CheckKeys();
+            GameLogic.CheckMovement();
+            Graphics.RenderGraphics();
+            
             // TODO: Add your drawing code here
             Graphics.RenderGraphics();
             base.Draw(gameTime);
+        }
+
+        private void CheckKeys()
+        {
+            Globals.DirUp = Keyboard.GetState().IsKeyDown(Keys.Up);
+            Globals.DirDown = Keyboard.GetState().IsKeyDown(Keys.Down);
+            Globals.DirRight = Keyboard.GetState().IsKeyDown(Keys.Right);
+            Globals.DirLeft = Keyboard.GetState().IsKeyDown(Keys.Left);
         }
     }
 }
