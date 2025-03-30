@@ -1,4 +1,11 @@
 ﻿using ENet;
+using System;
+using System.Text;
+using System.Threading.Channels;
+using System.Xml;
+using YnamarServer.Network;
+using static YnamarClient.Network.NetworkPackets;
+
 /// <summary>
 /// Summary description for Class1
 /// </summary>
@@ -37,6 +44,23 @@ public class ServerProtocol
 
                     case EventType.Connect:
                         Console.WriteLine("Client connected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        XmlDocument doc = new XmlDocument();
+
+                        //doc.Load("C:\\Users\\sirio\\source\\repos\\YnamarEngine\\YnamarServer\\bin\\Debug\\net8.0\\playerData.xml");
+                        doc.Load("playerData.xml");
+                        XmlNode node = doc.DocumentElement.FirstChild;
+
+                        string playerName = node.InnerText;
+
+                       // byte[] data = Encoding.ASCII.GetBytes(playerName);
+
+                        PacketBuffer buffer = new PacketBuffer();
+                        buffer.AddInteger((int)ServerPackets.SJoinGame);
+                        buffer.AddInteger(0); // indice do player
+                        buffer.AddString(playerName);
+
+                        SendData(0, buffer.ToArray(), netEvent);
+                        buffer.Dispose();
                         break;
 
                     case EventType.Disconnect:
@@ -56,6 +80,12 @@ public class ServerProtocol
         }
 
         server.Flush();
+    }
 
+    public void SendData(int index, byte[] data, Event netEvent)
+    {
+        Packet packet = default(Packet);
+        packet.Create(data);
+        netEvent.Peer.Send(netEvent.ChannelID, ref packet);
     }
 }
