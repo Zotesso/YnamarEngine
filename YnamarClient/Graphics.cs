@@ -14,7 +14,7 @@ namespace YnamarClient
         private static SpriteFont font;
         public static void InitializeGraphics(ContentManager manager)
         {
-            //LoadFonts(manager);
+            LoadFonts(manager);
             LoadCharacters(manager);
         }
 
@@ -37,6 +37,7 @@ namespace YnamarClient
             DrawPlayer();
 
             DrawPlayer(0);
+            DrawPlayerName(0);
             Game1.spriteBatch.End();
         }
         private static void DrawPlayer(int index)
@@ -47,7 +48,7 @@ namespace YnamarClient
             int SpriteNum;
             int spriteLeft;
 
-            SpriteNum = 1;
+            SpriteNum = 0;
             spriteLeft = 0;
 
             anim = 1;
@@ -78,7 +79,7 @@ namespace YnamarClient
 
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
             X = Types.Player[index].X * 32 + Types.Player[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = Types.Player[index].Y * 64 + Types.Player[index].YOffset;
+            Y = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
@@ -90,16 +91,29 @@ namespace YnamarClient
             int SpriteNum;
             int spriteLeft;
 
-            SpriteNum = 0;
+            SpriteNum = 1;
             spriteLeft = 0;
 
             anim = 1;
 
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
             X = 3 * 32 + 1 - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = 3 * 47 + 1;
+            Y = 3 * 64 + 1;
 
             DrawSprite(SpriteNum, X, Y, srcrec);
+        }
+
+        private static void DrawPlayerName(int index)
+        {
+
+            int xoffset = Types.Player[index].X * 32 + Types.Player[index].XOffset;
+            int yoffset = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
+
+            int lengthOffset = Types.Player[index].Name.Length * 3;
+            int x = ConvertMapX(xoffset) - 6 - lengthOffset;
+            int y = ConvertMapY(yoffset) - 20;
+
+            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Yellow);
         }
 
         private static void DrawPlayerName()

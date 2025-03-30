@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Threading;
+using YnamarClient.Network;
 
 namespace YnamarClient
 {
@@ -12,6 +13,8 @@ namespace YnamarClient
         private GraphicsDeviceManager _graphics;
         public static SpriteBatch spriteBatch;
         ClientUDP clientUdp;
+        ClientHandleData clientDataHandle;
+
         private static Thread udpThread;
 
         float WalkTimer;
@@ -29,6 +32,9 @@ namespace YnamarClient
         protected override void Initialize()
         {
             clientUdp = new ClientUDP();
+            clientDataHandle = new ClientHandleData();
+            clientDataHandle.InitializeMessages();
+
             udpThread = new Thread(new ThreadStart(clientUdp.ConnectToServer));
             udpThread.Start();
 

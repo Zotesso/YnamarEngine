@@ -1,13 +1,19 @@
 ﻿using ENet;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
+using System.Text;
 
-namespace YnamarClient
+namespace YnamarClient.Network
 {
     internal class ClientUDP
     {
-        public void ConnectToServer() {
-            ENet.Library.Initialize();
+        private ClientHandleData clientDataHandle;
 
+        public void ConnectToServer()
+        {
+            clientDataHandle = new ClientHandleData();
+            Library.Initialize();
+            
             using (Host client = new Host())
             {
                 Address address = new Address();
@@ -53,6 +59,11 @@ namespace YnamarClient
 
                             case EventType.Receive:
                                 Console.WriteLine("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
+                                byte[] buffer = new byte[1024];
+                                netEvent.Packet.CopyTo(buffer);
+                                buffer = TrimEnd(buffer);
+
+                                clientDataHandle.HandleNetworkMessages(0, buffer);
                                 netEvent.Packet.Dispose();
                                 break;
                         }
@@ -62,6 +73,14 @@ namespace YnamarClient
                 client.Flush();
             }
 
+        }
+        public static byte[] TrimEnd(byte[] array)
+        {
+            int lastIndex = Array.FindLastIndex(array, b => b != 0);
+
+            Array.Resize(ref array, lastIndex + 1);
+
+            return array;
         }
     }
 }
