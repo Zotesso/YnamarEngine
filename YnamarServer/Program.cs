@@ -4,13 +4,18 @@ internal class Program
 {
     private static General? general;
     private static Thread? consoleThread;
+    private static Thread? tcpServerThread;
 
     private static void Main(string[] args)
     {
         Console.WriteLine("Initializing Server!");
         general = new General();
         consoleThread = new Thread(new ThreadStart(ConsoleThread));
+
+        tcpServerThread = new Thread(new ThreadStart(general.initializeTCPServer));
+
         consoleThread.Start();
+        tcpServerThread.Start();
         general.initializeServer();
     }
 

@@ -2,8 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Myra;
+using Myra.Graphics2D.UI;
 using System;
 using System.Threading;
+using YnamarClient.GUI;
 using YnamarClient.Network;
 
 namespace YnamarClient
@@ -12,10 +15,17 @@ namespace YnamarClient
     {
         private GraphicsDeviceManager _graphics;
         public static SpriteBatch spriteBatch;
+
         ClientUDP clientUdp;
         ClientHandleData clientDataHandle;
-
         private static Thread udpThread;
+
+        ClientTCP ctcp;
+        ClientHandleDataTCP clientDataHandleTCP;
+        private static Thread tcpThread;
+
+        InterfaceGUI IGUI = new InterfaceGUI();
+        public static Desktop desktop;
 
         float WalkTimer;
         public static new int Tick;
@@ -38,24 +48,27 @@ namespace YnamarClient
             udpThread = new Thread(new ThreadStart(clientUdp.ConnectToServer));
             udpThread.Start();
 
-            Types.Player[0].X = 0;
-            Types.Player[0].Y = 0;
-            Types.Player[0].Dir = 0;
+            ctcp = new ClientTCP();
+            clientDataHandleTCP = new ClientHandleDataTCP();
+            clientDataHandleTCP.InitializeMessages();
 
-            Types.Player[0].Name = "teste";
-            Types.Player[0].Map = 0;
-            Types.Player[0].Level = 1;
-            Types.Player[0].EXP = 1;
-            Types.Player[0].Access = 0;
+            tcpThread = new Thread(new ThreadStart(ctcp.ConnectToServer));
+            tcpThread.Start();
 
             Graphics.InitializeGraphics(Content);
            
             base.Initialize();
+
+            IGUI.InitializeGUI(this, desktop);
+            MenuManager.ChangeMenu(MenuManager.Menu.Login, desktop);
         }
 
         protected override void LoadContent()
         {
+            MyraEnvironment.Game = this;
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            desktop = new Desktop();
 
             // TODO: use this.Content to load your game content here
         }
@@ -75,22 +88,25 @@ namespace YnamarClient
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Tick = (int)gameTime.TotalGameTime.TotalMilliseconds;
-            ElapsedTime = (Tick - FrameTime);
-            FrameTime = Tick;
-
-            if (WalkTimer < Tick)
+            if (Globals.InGame)
             {
-              GameLogic.ProcessMovement(Globals.playerIndex);
-              WalkTimer = Tick + 30;
+                Tick = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                ElapsedTime = (Tick - FrameTime);
+                FrameTime = Tick;
+
+                if (WalkTimer < Tick)
+                {
+                    GameLogic.ProcessMovement(Globals.playerIndex);
+                    WalkTimer = Tick + 30;
+                }
+
+                CheckKeys();
+                GameLogic.CheckMovement();
+                Graphics.RenderGraphics();
             }
 
-            CheckKeys();
-            GameLogic.CheckMovement();
-            Graphics.RenderGraphics();
-            
-            // TODO: Add your drawing code here
-            Graphics.RenderGraphics();
+            desktop.Render();
+
             base.Draw(gameTime);
         }
 
