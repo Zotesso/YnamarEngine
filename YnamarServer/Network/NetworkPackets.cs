@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarClient.Network
+namespace YnamarServer.Network
 {
     internal class NetworkPackets
     {
         public enum ServerPackets
         {
             SJoinGame = 1,
+        }
+
+        public enum ClientTcpPackets
+        {
+            CLogin = 1,
+            CRegister,
         }
     }
 }

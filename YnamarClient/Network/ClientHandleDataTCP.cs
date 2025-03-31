@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YnamarClient.GUI;
 using static YnamarClient.Network.NetworkPackets;
+using YnamarClient.GUI;
 
 namespace YnamarClient.Network
 {
-    internal class ClientHandleData
+    internal class ClientHandleDataTCP
     {
         public PacketBuffer Buffer = new PacketBuffer();
         private delegate void Packet(int index, byte[] data);
@@ -43,17 +43,11 @@ namespace YnamarClient.Network
             buffer.AddByteArray(data);
             buffer.GetInteger();
 
-            int playerIndex = buffer.GetInteger();
-            string targetName = buffer.GetString();
+            Globals.playerIndex = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Name = buffer.GetString();
 
-            //Types.Player[0].Name = targetName;
-
-           // MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
-           // GameLogic.InGame();
-
-            //Globals.playerIndex = buffer.GetInteger();
-            //Types.Player[Globals.playerIndex].Name = buffer.GetString();
-            //int playerMap = buffer.GetInteger();
+            MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
+            GameLogic.InGame();
         }
     }
 }

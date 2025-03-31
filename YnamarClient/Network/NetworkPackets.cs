@@ -12,5 +12,11 @@ namespace YnamarClient.Network
         {
             SJoinGame = 1,
         }
+
+        public enum ClientTcpPackets
+        {
+            CLogin = 1,
+            CRegister,
+        }
     }
 }

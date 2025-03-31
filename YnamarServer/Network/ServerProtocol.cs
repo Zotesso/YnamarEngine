@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Xml;
 using YnamarServer.Network;
-using static YnamarClient.Network.NetworkPackets;
+using static YnamarServer.Network.NetworkPackets;
 
 /// <summary>
 /// Summary description for Class1
