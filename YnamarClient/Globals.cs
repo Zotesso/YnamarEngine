@@ -11,6 +11,7 @@ namespace YnamarClient
         public static bool InGame;
 
         public static int playerIndex;
+        public static Types.MapStruct PlayerMap;
 
         public static string loginUsername = "";
         public static string loginPassword = "";

@@ -86,7 +86,7 @@ namespace YnamarClient
         protected override void Draw(GameTime gameTime)
         {
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             if (Globals.InGame)
             {

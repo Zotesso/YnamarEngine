@@ -11,11 +11,13 @@ namespace YnamarClient
     {
 
         public static Texture2D[] Characters = new Texture2D[2];
+        public static Texture2D[] Tilesets = new Texture2D[1];
         private static SpriteFont font;
         public static void InitializeGraphics(ContentManager manager)
         {
             LoadFonts(manager);
             LoadCharacters(manager);
+            LoadTilesets(manager);
         }
 
         private static void LoadCharacters(ContentManager manager)
@@ -30,10 +32,20 @@ namespace YnamarClient
             font = manager.Load<SpriteFont>("Font");
         }
 
+        private static void LoadTilesets(ContentManager manager)
+        {
+            for (int i = 0; i < Tilesets.Length; i++)
+            {
+                Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
+            }
+        }
+
         public static void RenderGraphics()
         {
             Game1.spriteBatch.Begin();
             // DrawPlayerName();
+            DrawMapGrid();
+
             DrawPlayer();
 
             DrawPlayer(0);
@@ -108,12 +120,12 @@ namespace YnamarClient
 
             int xoffset = Types.Player[index].X * 32 + Types.Player[index].XOffset;
             int yoffset = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
-
-            int lengthOffset = Types.Player[index].Name.Length * 3;
+            double logPlayerNameLength = Math.Log(Types.Player[index].Name.Length, 10);
+            int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
             int x = ConvertMapX(xoffset) - 6 - lengthOffset;
             int y = ConvertMapY(yoffset) - 20;
 
-            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Yellow);
+            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Black);
         }
 
         private static void DrawPlayerName()
@@ -156,6 +168,35 @@ namespace YnamarClient
             Y = ConvertMapY(y2);
 
             Game1.spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
+        }
+
+        private static void DrawMapGrid()
+        {
+            byte maxMapLayer = 3;
+
+            for (byte layer = 0; layer < maxMapLayer; layer++)
+            {
+                for (int x = 0; x < Constants.MAX_MAP_X; x++)
+                {
+                    for (int y = 0; y < Constants.MAX_MAP_Y; y++)
+                    {
+                        DrawTile(x * 32, y * 32);
+                    }
+                }
+            }
+        }
+
+        private static void DrawTile(int x, int y)
+        {
+            Rectangle srcrec;
+            int tilesetnum = 0;
+
+            int X, Y;
+            X = ConvertMapX(x);
+            Y = ConvertMapY(y);
+
+            srcrec = new Rectangle(0,0,32,32);
+            Game1.spriteBatch.Draw(Tilesets[tilesetnum], new Vector2(X, Y), srcrec, Color.White);
         }
     }
 }
