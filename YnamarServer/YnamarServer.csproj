@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="ENet-CSharp" Version="2.4.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
   </ItemGroup>
 
 </Project>
