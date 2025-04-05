@@ -1,13 +1,30 @@
-﻿using System;
-using System.Threading;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 internal class Program
 {
     private static General? general;
     private static Thread? consoleThread;
     private static Thread? tcpServerThread;
 
+    private static YnamarServer.Database.Database database;
+    public static IServiceProvider ServiceProvider { get; private set; } = null!; // Global service provider
+
     private static void Main(string[] args)
     {
+        database = new YnamarServer.Database.Database();
+        var host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory());
+                config.AddJsonFile("appsettings.json");
+                //config.AddEnvironmentVariables();
+            })
+            .ConfigureServices((context, services) => database.ConfigureDatabase(context.Configuration, services))
+            .Build();
+
+        ServiceProvider = host.Services;
+
         Console.WriteLine("Initializing Server!");
         general = new General();
         consoleThread = new Thread(new ThreadStart(ConsoleThread));
