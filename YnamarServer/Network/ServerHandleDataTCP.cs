@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.Services;
 using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Network
@@ -59,6 +61,9 @@ namespace YnamarServer.Network
             stcp.SendData(index, bufferSend.ToArray());
 
             bufferSend.Dispose();
+
+            var myService = Program.ServiceProvider.GetRequiredService<TesteService>();
+            myService.DoSomething();
         }
 
         private void HandleRegister(int index, byte[] data)
