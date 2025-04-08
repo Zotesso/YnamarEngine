@@ -16,10 +16,10 @@ namespace YnamarServer.Database
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            Console.WriteLine("Db configurado! = " + connectionString);
+            Console.WriteLine("Db setted up");
 
             // Register other services
-            services.AddSingleton<TesteService>(); // Singleton to ensure reusability
+            services.AddSingleton<AccountService>(); // Singleton to ensure reusability
         }
     }
 }

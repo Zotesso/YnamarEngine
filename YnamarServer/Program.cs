@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using YnamarServer.Services;
 
 internal class Program
 {
@@ -8,8 +9,7 @@ internal class Program
     private static Thread? tcpServerThread;
 
     private static YnamarServer.Database.Database database;
-    public static IServiceProvider ServiceProvider { get; private set; } = null!; // Global service provider
-
+    public static AccountService accountService;
     private static void Main(string[] args)
     {
         database = new YnamarServer.Database.Database();
@@ -23,7 +23,8 @@ internal class Program
             .ConfigureServices((context, services) => database.ConfigureDatabase(context.Configuration, services))
             .Build();
 
-        ServiceProvider = host.Services;
+        var serviceScopeFactory = host.Services.GetRequiredService<IServiceScopeFactory>();
+        accountService = new AccountService(serviceScopeFactory);
 
         Console.WriteLine("Initializing Server!");
         general = new General();
