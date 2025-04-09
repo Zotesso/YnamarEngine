@@ -31,18 +31,39 @@ namespace YnamarServer.Services
                 Account accountToSave = new Account();
                 accountToSave.Username = username;
                 accountToSave.CharGender = false;
-                accountToSave.CharId = 0;
                 accountToSave.PasswordHash = hashedPassword;
                 // Agora você pode usar dbContext normalmente
                 Console.WriteLine("Service is running...");
                 await dbContext.Accounts.AddAsync(accountToSave);
                 var data = await dbContext.SaveChangesAsync();
 
+                await CreateCharacter(username, dbContext, accountToSave);
+
                 Console.WriteLine($" {data}.");
             }; // O escopo será descartado aqui automaticamente
         }
 
-        public async Task<bool> Login(string username, string password)
+        public async Task CreateCharacter(string username, AppDbContext dbContext, Account acc)
+        {
+            Character newCharacter = new Character();
+            newCharacter.Account = acc;
+            newCharacter.YOffset = 0;
+            newCharacter.XOffset = 0;
+            newCharacter.Dir = 0;
+            newCharacter.Name = username;
+            newCharacter.EXP = 0;
+            newCharacter.Access = 0;
+            newCharacter.Map = 0;
+            newCharacter.Sprite = 0;
+            newCharacter.X = 0;
+            newCharacter.Y = 0;
+            newCharacter.Level = 0;
+
+            await dbContext.Characters.AddAsync(newCharacter);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> Login(string username, string password)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
@@ -52,16 +73,31 @@ namespace YnamarServer.Services
             
                 if (userAccount == null)
                 {
-                    return false;
-                } else
+                    throw new ArgumentOutOfRangeException("Account or Password Invalid.");
+
+                }
+                else
                 {
                     bool isPasswordCorret = Verify(password, userAccount.PasswordHash);
-                    return isPasswordCorret;
+                    return isPasswordCorret 
+                        ? userAccount.Id 
+                        : throw new ArgumentOutOfRangeException("Account or Password Invalid.");
+                    ;
                 }
 
                 // Agora você pode usar dbContext normalmente
 
             }; // O escopo será descartado aqui automaticamente
+        }
+
+        public async Task<Character> GetCharacterAsync(int id)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                return await dbContext.Characters.FindAsync(id);
+            };
         }
     }
 }
