@@ -45,6 +45,16 @@ namespace YnamarClient.Network
 
             Globals.playerIndex = buffer.GetInteger();
             Types.Player[Globals.playerIndex].Name = buffer.GetString();
+            Types.Player[Globals.playerIndex].Sprite = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Level = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].EXP = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Map = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].X = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Y = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Dir = buffer.GetByte();
+            Types.Player[Globals.playerIndex].XOffset = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].YOffset = buffer.GetInteger();
+            Types.Player[Globals.playerIndex].Access = buffer.GetByte();
 
             MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
             GameLogic.InGame();

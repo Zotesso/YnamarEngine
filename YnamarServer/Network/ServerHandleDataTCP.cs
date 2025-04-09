@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.Database.Models;
 using YnamarServer.Services;
 using static YnamarServer.Network.NetworkPackets;
 
@@ -52,20 +54,35 @@ namespace YnamarServer.Network
             string password = buffer.GetString();
 
             var myService = Program.accountService;
-            bool canLogin = await myService.Login(username, password);
+            int userId = await myService.Login(username, password);
             Console.WriteLine("Player " + index + " Has logged in");
 
-            if (canLogin)
-            {
-                PacketBuffer bufferSend = new PacketBuffer();
-                bufferSend.AddInteger((int)ServerPackets.SJoinGame);
-                bufferSend.AddInteger(index);
-                bufferSend.AddString("teste");
+            Character accChar = await myService.GetCharacterAsync(userId);
+            SendCharacterPackage(index, accChar);
+        }
 
-                stcp.SendData(index, bufferSend.ToArray());
+        private void SendCharacterPackage(int index, Character accChar)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerPackets.SJoinGame);
+            bufferSend.AddInteger(index);
+            bufferSend.AddString(accChar.Name);
+            bufferSend.AddInteger(accChar.Sprite);
+            bufferSend.AddInteger(accChar.Level);
+            bufferSend.AddInteger(accChar.EXP);
+            bufferSend.AddInteger(accChar.Map);
 
-                bufferSend.Dispose();
-            }
+            bufferSend.AddInteger(accChar.X);
+            bufferSend.AddInteger(accChar.Y);
+            bufferSend.AddByte(accChar.Dir);
+
+            bufferSend.AddInteger(accChar.XOffset);
+            bufferSend.AddInteger(accChar.YOffset);
+            bufferSend.AddByte(accChar.Access);
+            
+            stcp.SendData(index, bufferSend.ToArray());
+
+            bufferSend.Dispose();
         }
 
         private void HandleRegister(int index, byte[] data)
