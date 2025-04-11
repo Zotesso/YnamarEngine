@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarClient.Network;
+using static YnamarClient.Network.NetworkPackets;
 
 namespace YnamarClient
 {
     internal class GameLogic
     {
 
-        //private static ClientTCP clienttcp = new ClientTCP();
+        private static ClientTCP clienttcp = new ClientTCP();
 
         public static bool IsTryingToMove()
         {
@@ -98,24 +100,22 @@ namespace YnamarClient
                     switch (Types.Player[Globals.playerIndex].Dir)
                     {
                         case Constants.DIR_UP:
-                            //clienttcp.SendPlayerMove();
+                            clienttcp.SendPlayerMove();
                             Types.Player[Globals.playerIndex].YOffset = 32;
                             Types.Player[Globals.playerIndex].Y -= 1;
                             break;
                         case Constants.DIR_DOWN:
-                            //clienttcp.SendPlayerMove();
-
+                            clienttcp.SendPlayerMove();
                             Types.Player[Globals.playerIndex].YOffset = (32 * -1);
                             Types.Player[Globals.playerIndex].Y += 1;
                             break;
                         case Constants.DIR_LEFT:
-                            //clienttcp.SendPlayerMove();
-
+                            clienttcp.SendPlayerMove();
                             Types.Player[Globals.playerIndex].XOffset = 32;
                             Types.Player[Globals.playerIndex].X -= 1;
                             break;
                         case Constants.DIR_RIGHT:
-                            //clienttcp.SendPlayerMove();
+                            clienttcp.SendPlayerMove();
                             Types.Player[Globals.playerIndex].XOffset = (32 * -1);
                             Types.Player[Globals.playerIndex].X += 1;
                             break;
@@ -126,8 +126,7 @@ namespace YnamarClient
 
         public static void ProcessMovement(int index)
         {
-            //int movementSpeed = (Types.Player[index].Moving * 6);
-            int movementSpeed = (2 * 6);
+            int movementSpeed = (Types.Player[index].Moving * 6);
 
             switch (Types.Player[index].Dir)
             {

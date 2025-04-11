@@ -19,6 +19,8 @@ namespace YnamarClient.Network
             Packets = new Dictionary<int, Packet>();
 
             Packets.Add((int)ServerPackets.SJoinGame, HandleJoinGame);
+            Packets.Add((int)ServerPackets.SPlayerData, HandlePlayerData);
+            Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -58,6 +60,69 @@ namespace YnamarClient.Network
 
             MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
             GameLogic.InGame();
+        }
+
+        private void HandlePlayerData(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int targetIndex = buffer.GetInteger();
+            Types.Player[targetIndex].Name = buffer.GetString();
+            Types.Player[targetIndex].Sprite = buffer.GetInteger();
+            Types.Player[targetIndex].Level = buffer.GetInteger();
+            Types.Player[targetIndex].EXP = buffer.GetInteger();
+            Types.Player[targetIndex].Map = buffer.GetInteger();
+            Types.Player[targetIndex].X = buffer.GetInteger();
+            Types.Player[targetIndex].Y = buffer.GetInteger();
+            Types.Player[targetIndex].Dir = buffer.GetByte();
+            Types.Player[targetIndex].XOffset = buffer.GetInteger();
+            Types.Player[targetIndex].YOffset = buffer.GetInteger();
+            Types.Player[targetIndex].Access = buffer.GetByte();
+        }
+
+        private void HandlePlayerMove(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int targetIndex = buffer.GetInteger();
+            int targetX = buffer.GetInteger();
+            int targetY = buffer.GetInteger();
+            byte targetDirection = buffer.GetByte();
+            int targetMoving = buffer.GetInteger();
+
+            Types.Player[targetIndex].X = targetX;
+            Types.Player[targetIndex].Y = targetY;
+            Types.Player[targetIndex].Dir = targetDirection;
+
+            Types.Player[targetIndex].XOffset = 0;
+            Types.Player[targetIndex].YOffset = 0;
+            Types.Player[targetIndex].Moving = targetMoving;
+
+            switch (Types.Player[targetIndex].Dir)
+            {
+                case Constants.DIR_UP:
+                    Types.Player[targetIndex].YOffset = 32;
+                    Types.Player[targetIndex].Y -= 1;
+                    break;
+                case Constants.DIR_DOWN:
+                    Types.Player[targetIndex].YOffset = 32 * -1;
+                    Types.Player[targetIndex].Y += 1;
+                    break;
+                case Constants.DIR_LEFT:
+                    Types.Player[targetIndex].XOffset = 32;
+                    Types.Player[targetIndex].X -= 1;
+                    break;
+                case Constants.DIR_RIGHT:
+                    Types.Player[targetIndex].XOffset = 32 * -1;
+                    Types.Player[targetIndex].X += 1;
+                    break;
+            }
+
+            GameLogic.ProcessMovement(targetIndex);
         }
     }
 }

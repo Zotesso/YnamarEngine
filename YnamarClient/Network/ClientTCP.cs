@@ -119,5 +119,17 @@ namespace YnamarClient.Network
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
+
+        public void SendPlayerMove()
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInteger((int)ClientTcpPackets.CPlayerMove);
+
+            buffer.AddByte(Types.Player[Globals.playerIndex].Dir);
+            buffer.AddInteger(Types.Player[Globals.playerIndex].Moving);
+
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
     }
 }
