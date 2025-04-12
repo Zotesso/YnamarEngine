@@ -10,6 +10,8 @@ internal class Program
 
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;
+    public static MapService mapService;
+
     private static void Main(string[] args)
     {
         database = new YnamarServer.Database.Database();
@@ -25,6 +27,7 @@ internal class Program
 
         var serviceScopeFactory = host.Services.GetRequiredService<IServiceScopeFactory>();
         accountService = new AccountService(serviceScopeFactory);
+        mapService = new MapService(serviceScopeFactory);
 
         Console.WriteLine("Initializing Server!");
         general = new General();

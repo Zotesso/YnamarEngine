@@ -12,7 +12,8 @@ namespace YnamarServer.Network
         {
             SJoinGame = 1,
             SPlayerData,
-            SPlayerMove
+            SPlayerMove,
+            SLoadMap
         }
 
         public enum ClientTcpPackets
@@ -20,6 +21,7 @@ namespace YnamarServer.Network
             CLogin = 1,
             CRegister,
             CPlayerMove,
+            CLoadMap
         }
     }
 }

@@ -29,6 +29,7 @@ namespace YnamarServer.Network
             Packets.Add((int)ClientTcpPackets.CLogin, HandleLoginAsync);
             Packets.Add((int)ClientTcpPackets.CRegister, HandleRegister);
             Packets.Add((int)ClientTcpPackets.CPlayerMove, HandlePlayerMovement);
+            Packets.Add((int)ClientTcpPackets.CLoadMap, HandleLoadMap);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -72,19 +73,10 @@ namespace YnamarServer.Network
             PacketBuffer bufferSend = new PacketBuffer();
             bufferSend.AddInteger((int)ServerPackets.SJoinGame);
             bufferSend.AddInteger(index);
-            bufferSend.AddString(accChar.Name);
-            bufferSend.AddInteger(accChar.Sprite);
-            bufferSend.AddInteger(accChar.Level);
-            bufferSend.AddInteger(accChar.EXP);
-            bufferSend.AddInteger(accChar.Map);
 
-            bufferSend.AddInteger(accChar.X);
-            bufferSend.AddInteger(accChar.Y);
-            bufferSend.AddByte(accChar.Dir);
-
-            bufferSend.AddInteger(accChar.XOffset);
-            bufferSend.AddInteger(accChar.YOffset);
-            bufferSend.AddByte(accChar.Access);
+            byte[] charProtoBuf = bufferSend.SerializeProto(accChar);
+            bufferSend.AddInteger(charProtoBuf.Length);
+            bufferSend.AddByteArray(charProtoBuf);
             
             stcp.SendData(index, bufferSend.ToArray());
 
@@ -95,19 +87,10 @@ namespace YnamarServer.Network
             PacketBuffer bufferSend = new PacketBuffer();
             bufferSend.AddInteger((int)ServerPackets.SPlayerData);
             bufferSend.AddInteger(index);
-            bufferSend.AddString(accChar.Name);
-            bufferSend.AddInteger(accChar.Sprite);
-            bufferSend.AddInteger(accChar.Level);
-            bufferSend.AddInteger(accChar.EXP);
-            bufferSend.AddInteger(accChar.Map);
 
-            bufferSend.AddInteger(accChar.X);
-            bufferSend.AddInteger(accChar.Y);
-            bufferSend.AddByte(accChar.Dir);
-
-            bufferSend.AddInteger(accChar.XOffset);
-            bufferSend.AddInteger(accChar.YOffset);
-            bufferSend.AddByte(accChar.Access);
+            byte[] charProtoBuf = bufferSend.SerializeProto(accChar);
+            bufferSend.AddInteger(charProtoBuf.Length);
+            bufferSend.AddByteArray(charProtoBuf);
 
             stcp.SendDataToMap(accChar.Map, bufferSend.ToArray());
 
@@ -124,22 +107,9 @@ namespace YnamarServer.Network
                     buffer.AddInteger((int)ServerPackets.SPlayerData);
                     buffer.AddInteger(i);
 
-                    buffer.AddString(InMemoryDatabase.Player[i].Name);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].Sprite);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].Level);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].EXP);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].Map);
-
-                    buffer.AddInteger(InMemoryDatabase.Player[i].X);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].Y);
-                    buffer.AddByte(InMemoryDatabase.Player[i].Dir);
-
-                    buffer.AddInteger(InMemoryDatabase.Player[i].XOffset);
-                    buffer.AddInteger(InMemoryDatabase.Player[i].YOffset);
-                    buffer.AddByte(InMemoryDatabase.Player[i].Access);
-
-                    Console.WriteLine(i.ToString());
-                    Console.WriteLine(InMemoryDatabase.Player[0].X.ToString());
+                    byte[] charProtoBuf = buffer.SerializeProto(InMemoryDatabase.Player[i]);
+                    buffer.AddInteger(charProtoBuf.Length);
+                    buffer.AddByteArray(charProtoBuf);
 
                     stcp.SendData(index, buffer.ToArray());
                     buffer.Dispose();
@@ -169,6 +139,17 @@ namespace YnamarServer.Network
             int moving = buffer.GetInteger();
 
             GameLogicHandler.PlayerMove(index, dir, moving);
+        }
+        private async void HandleLoadMap(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int mapNum = buffer.GetInteger();
+            MapService mapService = Program.mapService;
+            Map loadedMap = await mapService.LoadMap(mapNum);
+            mapService.SendMapToClient(index, loadedMap);
         }
     }
 }

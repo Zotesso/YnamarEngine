@@ -13,6 +13,7 @@ namespace YnamarClient.Network
         public PacketBuffer Buffer = new PacketBuffer();
         private delegate void Packet(int index, byte[] data);
         private static Dictionary<int, Packet> Packets;
+        private static ClientTCP clienttcp = new ClientTCP();
 
         public void InitializeMessages()
         {
@@ -46,18 +47,11 @@ namespace YnamarClient.Network
             buffer.GetInteger();
 
             Globals.playerIndex = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Name = buffer.GetString();
-            Types.Player[Globals.playerIndex].Sprite = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Level = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].EXP = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Map = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].X = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Y = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Dir = buffer.GetByte();
-            Types.Player[Globals.playerIndex].XOffset = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].YOffset = buffer.GetInteger();
-            Types.Player[Globals.playerIndex].Access = buffer.GetByte();
+            int bufferLength = buffer.GetInteger();
+            byte[] charBuff = buffer.GetByteArray(bufferLength);
+            Types.Player[Globals.playerIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
 
+            clienttcp.SendLoadMap();
             MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
             GameLogic.InGame();
         }
@@ -69,17 +63,9 @@ namespace YnamarClient.Network
             buffer.GetInteger();
 
             int targetIndex = buffer.GetInteger();
-            Types.Player[targetIndex].Name = buffer.GetString();
-            Types.Player[targetIndex].Sprite = buffer.GetInteger();
-            Types.Player[targetIndex].Level = buffer.GetInteger();
-            Types.Player[targetIndex].EXP = buffer.GetInteger();
-            Types.Player[targetIndex].Map = buffer.GetInteger();
-            Types.Player[targetIndex].X = buffer.GetInteger();
-            Types.Player[targetIndex].Y = buffer.GetInteger();
-            Types.Player[targetIndex].Dir = buffer.GetByte();
-            Types.Player[targetIndex].XOffset = buffer.GetInteger();
-            Types.Player[targetIndex].YOffset = buffer.GetInteger();
-            Types.Player[targetIndex].Access = buffer.GetByte();
+            int bufferLength = buffer.GetInteger();
+            byte[] charBuff = buffer.GetByteArray(bufferLength);
+            Types.Player[targetIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
         }
 
         private void HandlePlayerMove(int index, byte[] data)

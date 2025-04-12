@@ -84,10 +84,7 @@ namespace YnamarServer.Services
                         : throw new ArgumentOutOfRangeException("Account or Password Invalid.");
                     ;
                 }
-
-                // Agora você pode usar dbContext normalmente
-
-            }; // O escopo será descartado aqui automaticamente
+            };
         }
 
         public async Task<Character> GetCharacterAsync(int id)
