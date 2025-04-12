@@ -10,7 +10,7 @@ namespace YnamarServer.Database
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
-
+        public virtual DbSet<Map> Maps { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()

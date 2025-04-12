@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +12,46 @@ namespace YnamarClient
     {
         public static PlayerStruct[] Player = new PlayerStruct[100];
 
-        [Serializable]
+        [ProtoContract]
         public struct PlayerStruct
         {
             public string Login;
             public string Password;
 
+            [ProtoMember(1)]
             public string Name;
+
+            [ProtoMember(2)]
             public int Sprite;
+
+            [ProtoMember(3)]
             public int Level;
+
+            [ProtoMember(4)]
             public int EXP;
 
+            [ProtoMember(5)]
             public int Map;
+
+            [ProtoMember(6)]
             public int X;
+
+            [ProtoMember(7)]
             public int Y;
+
+            [ProtoMember(8)]
             public byte Dir;
 
+            [ProtoMember(9)]
             public int XOffset;
+
+            [ProtoMember(10)]
             public int YOffset;
+
             public int Moving;
             public byte Steps;
 
+            [ProtoMember(11)]
             public byte Access;
         }
 

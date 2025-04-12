@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static YnamarServer.Network.NetworkPackets;
+using YnamarServer.Database;
 
 namespace YnamarServer.Network
 {
@@ -58,6 +59,34 @@ namespace YnamarServer.Network
             clientStream = Clients[index].Socket.GetStream();
             clientStream.Write(buffer.ToArray(), 0, buffer.ToArray().Length);
             buffer.Dispose();
+        }
+
+        public void SendDataToMap(int mapNum, byte[] data)
+        {
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                if (isConnected(i))
+                {
+                    if (InMemoryDatabase.Player[i].Map == mapNum)
+                    {
+                        SendData(i, data);
+                    }
+                }
+            }
+        }
+
+        public void SendDataToMapBut(int index, int mapNum, byte[] data)
+        {
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                if (isConnected(i))
+                {
+                    if (InMemoryDatabase.Player[i].Map == mapNum && i != index)
+                    {
+                        SendData(i, data);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -248,6 +249,23 @@ namespace YnamarServer.Network
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public byte[] SerializeProto<T>(T obj)
+        {
+            using (var ms = new MemoryStream())
+            {
+                Serializer.Serialize(ms, obj);
+                return ms.ToArray();
+            }
+        }
+
+        public T DeserializeProto<T>(byte[] data)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                return Serializer.Deserialize<T>(ms);
+            }
         }
     }
 }

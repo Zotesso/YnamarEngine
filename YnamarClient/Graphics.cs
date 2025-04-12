@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
+using YnamarClient.Network;
 
 namespace YnamarClient
 {
@@ -46,10 +47,18 @@ namespace YnamarClient
             // DrawPlayerName();
             DrawMapGrid();
 
-            DrawPlayer();
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                if (ClientTCP.IsPlaying(i))
+                {
+                    if (Types.Player[i].Map == Types.Player[Globals.playerIndex].Map)
+                    {
+                        DrawPlayerName(i);
+                        DrawPlayer(i);
+                    }
+                }
+            }
 
-            DrawPlayer(0);
-            DrawPlayerName(0);
             Game1.spriteBatch.End();
         }
         private static void DrawPlayer(int index)
@@ -95,25 +104,6 @@ namespace YnamarClient
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
-        private static void DrawPlayer()
-        {
-            byte anim;
-            int X, Y;
-            Rectangle srcrec;
-            int SpriteNum;
-            int spriteLeft;
-
-            SpriteNum = 1;
-            spriteLeft = 0;
-
-            anim = 1;
-
-            srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
-            X = 3 * 32 + 1 - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = 3 * 64 + 1;
-
-            DrawSprite(SpriteNum, X, Y, srcrec);
-        }
 
         private static void DrawPlayerName(int index)
         {
@@ -126,18 +116,6 @@ namespace YnamarClient
             int y = ConvertMapY(yoffset) - 20;
 
             Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Black);
-        }
-
-        private static void DrawPlayerName()
-        {
-
-            int xoffset = 1 * 32 + 1;
-            int yoffset = 1 * 32 + 1;
-            int x = 0;
-            int y = 0;
-
-            Vector2 textMiddlePoint = font.MeasureString("") / 2;
-            Game1.spriteBatch.DrawString(font, "", new Vector2(x, y), Color.Yellow, 0, textMiddlePoint, 1.0f, SpriteEffects.None, 0.5f);
         }
 
         public static int ConvertMapX(int x)
