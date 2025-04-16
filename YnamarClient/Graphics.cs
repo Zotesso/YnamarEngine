@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using YnamarClient.Network;
+using YnamarClient.Database.Models;
 
 namespace YnamarClient
 {
@@ -150,31 +151,35 @@ namespace YnamarClient
 
         private static void DrawMapGrid()
         {
-            byte maxMapLayer = 3;
+            int maxMapLayer = Globals.PlayerMap.Layer.Length;
 
-            for (byte layer = 0; layer < maxMapLayer; layer++)
+
+            for (int layer = 0; layer < maxMapLayer; layer++)
             {
-                for (int x = 0; x < Constants.MAX_MAP_X; x++)
+                for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
                 {
-                    for (int y = 0; y < Constants.MAX_MAP_Y; y++)
+                    for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
                     {
-                        DrawTile(x * 32, y * 32);
+                        DrawTile(x * 32, y * 32, x, y, layer);
                     }
                 }
             }
         }
 
-        private static void DrawTile(int x, int y)
+        private static void DrawTile(int mapX, int mapY, int x, int y, int layerNum)
         {
             Rectangle srcrec;
-            int tilesetnum = 0;
+            int tilesetnum = Globals.PlayerMap.Layer[layerNum].Tile[x,y].TilesetNumber;
 
-            int X, Y;
-            X = ConvertMapX(x);
-            Y = ConvertMapY(y);
+            int MapX, MapY;
+            MapX = ConvertMapX(mapX);
+            MapY = ConvertMapY(mapY);
 
-            srcrec = new Rectangle(0,0,32,32);
-            Game1.spriteBatch.Draw(Tilesets[tilesetnum], new Vector2(X, Y), srcrec, Color.White);
+            int TilesetX = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileX;
+            int TilesetY = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileY;
+
+            srcrec = new Rectangle(TilesetX, TilesetY, 32,32);
+            Game1.spriteBatch.Draw(Tilesets[tilesetnum], new Vector2(MapX, MapY), srcrec, Color.White);
         }
     }
 }

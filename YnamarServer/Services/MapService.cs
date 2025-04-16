@@ -38,6 +38,10 @@ namespace YnamarServer.Services
             bufferSend.AddInteger((int)ServerPackets.SLoadMap);
             bufferSend.AddInteger(index);
 
+            byte[] mapProtoBuf = bufferSend.SerializeProto<Map>(map);
+            bufferSend.AddInteger(mapProtoBuf.Length);
+            bufferSend.AddByteArray(mapProtoBuf);
+
             stcp.SendData(index, bufferSend.ToArray());
 
             bufferSend.Dispose();
