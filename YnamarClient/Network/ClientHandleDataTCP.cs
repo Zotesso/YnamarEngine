@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static YnamarClient.Network.NetworkPackets;
 using YnamarClient.GUI;
+using YnamarClient.Database.Models;
+using YnamarClient.Services;
 
 namespace YnamarClient.Network
 {
@@ -14,6 +16,7 @@ namespace YnamarClient.Network
         private delegate void Packet(int index, byte[] data);
         private static Dictionary<int, Packet> Packets;
         private static ClientTCP clienttcp = new ClientTCP();
+        private static MapService mapService = new MapService();
 
         public void InitializeMessages()
         {
@@ -22,6 +25,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SJoinGame, HandleJoinGame);
             Packets.Add((int)ServerPackets.SPlayerData, HandlePlayerData);
             Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
+            Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -52,8 +56,6 @@ namespace YnamarClient.Network
             Types.Player[Globals.playerIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
 
             clienttcp.SendLoadMap();
-            MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
-            GameLogic.InGame();
         }
 
         private void HandlePlayerData(int index, byte[] data)
@@ -109,6 +111,21 @@ namespace YnamarClient.Network
             }
 
             GameLogic.ProcessMovement(targetIndex);
+        }
+
+        private void HandleLoadMap(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int targetIndex = buffer.GetInteger();
+            int bufferLength = buffer.GetInteger();
+            byte[] mapBuff = buffer.GetByteArray(bufferLength);
+            Map deserializedMap = buffer.DeserializeProto<Map>(mapBuff);
+            mapService.convertMapPayloadToClientMap(deserializedMap);
+            MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
+            GameLogic.InGame();
         }
     }
 }

@@ -2,16 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class Map
     {
-        [Key]
         [ProtoMember(1)]
         public int Id { get; set; }
 
@@ -25,7 +21,6 @@ namespace YnamarServer.Database.Models
         public int MaxMapY { get; set; }
 
         [ProtoMember(5)]
-        [Timestamp]
         public Byte[] LastUpdate { get; set; }
 
         [ProtoMember(6)]

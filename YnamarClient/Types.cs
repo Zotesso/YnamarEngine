@@ -11,6 +11,7 @@ namespace YnamarClient
     internal class Types
     {
         public static PlayerStruct[] Player = new PlayerStruct[100];
+        public static MapStruct[] Map = new MapStruct[100];
 
         [ProtoContract]
         public struct PlayerStruct
