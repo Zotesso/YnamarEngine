@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Network;
 using Microsoft.Xna.Framework;
+using Gum.DataTypes;
+using GumRuntime;
+using Gum.Wireframe;
+using MonoGameGum;
 
 namespace YnamarClient.GUI
 {
@@ -32,6 +36,9 @@ namespace YnamarClient.GUI
 
         public void CreateWindow_Login(Desktop desktop)
         {
+            ScreenSave screen = Game1.gumProject.Screens.Find(item => item.Name == "LoginScreen");
+            GraphicalUiElement screenRuntime = screen.ToGraphicalUiElement();
+            screenRuntime.AddToRoot();
 
             Panel panel = new Panel();
 
@@ -44,7 +51,7 @@ namespace YnamarClient.GUI
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            panel.Widgets.Add(lblLogin);
+           // panel.Widgets.Add(lblLogin);
 
             TextBox txtLogin = new TextBox
             {
@@ -59,7 +66,7 @@ namespace YnamarClient.GUI
                 Globals.loginUsername = a.NewValue;
             };
 
-            panel.Widgets.Add(txtLogin);
+            //panel.Widgets.Add(txtLogin);
 
             Label lblPassword = new Label
             {
@@ -71,7 +78,7 @@ namespace YnamarClient.GUI
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            panel.Widgets.Add(lblPassword);
+            //panel.Widgets.Add(lblPassword);
 
             TextBox txtPassword = new TextBox
             {
@@ -86,7 +93,7 @@ namespace YnamarClient.GUI
                 Globals.loginPassword = a.NewValue;
 
             };
-            panel.Widgets.Add(txtPassword);
+            //panel.Widgets.Add(txtPassword);
 
             // Button
             TextButton sendLogin = new TextButton
@@ -97,7 +104,7 @@ namespace YnamarClient.GUI
                 Text = "LOGAR"
             };
 
-            panel.Widgets.Add(sendLogin);
+            //panel.Widgets.Add(sendLogin);
 
             TextButton register = new TextButton
             {
@@ -128,7 +135,7 @@ namespace YnamarClient.GUI
                 }
             };
 
-            panel.Widgets.Add(register);
+            //panel.Widgets.Add(register);
 
             CreateWindow(panel);
         }
@@ -278,8 +285,22 @@ namespace YnamarClient.GUI
         {
 
             Panel panel = new Panel();
+            CreateGameChat(panel);
 
             CreateWindow(panel);
+        }
+
+        private void CreateGameChat(Panel panel)
+        {
+            TextBox txtGameChatBox = new TextBox
+            {
+                Margin = new Thickness(0, 40, 0, 0),
+                Width = 200,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+           
+            panel.Widgets.Add(txtGameChatBox);
         }
     }
 }
