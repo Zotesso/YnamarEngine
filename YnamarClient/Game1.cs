@@ -1,7 +1,10 @@
 ﻿using ENet;
+using Gum.DataTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameGum;
+using MonoGameGum.GueDeriving;
 using Myra;
 using Myra.Graphics2D.UI;
 using System;
@@ -14,6 +17,8 @@ namespace YnamarClient
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
+        GumService Gum => GumService.Default;
+
         public static SpriteBatch spriteBatch;
 
         ClientUDP clientUdp;
@@ -26,7 +31,7 @@ namespace YnamarClient
 
         InterfaceGUI IGUI = new InterfaceGUI();
         public static Desktop desktop;
-
+        public static GumProjectSave gumProject;
         float WalkTimer;
         public static new int Tick;
         public static int ElapsedTime;
@@ -55,8 +60,15 @@ namespace YnamarClient
             tcpThread = new Thread(new ThreadStart(ctcp.ConnectToServer));
             tcpThread.Start();
 
+            gumProject = Gum.Initialize(this, "GumUI/gumproject.gumx");
             Graphics.InitializeGraphics(Content);
-           
+
+            var rectangle = new ColoredRectangleRuntime();
+            rectangle.Width = 100;
+            rectangle.Height = 100;
+            rectangle.Color = Color.White;
+            rectangle.AddToRoot();
+
             base.Initialize();
 
             IGUI.InitializeGUI(this, desktop);
@@ -79,7 +91,7 @@ namespace YnamarClient
                 Exit();
 
             // TODO: Add your update logic here
-
+            Gum.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -107,6 +119,7 @@ namespace YnamarClient
 
             desktop.Render();
 
+            Gum.Draw();
             base.Draw(gameTime);
         }
 

@@ -15,11 +15,17 @@
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\GumUI\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ENet-CSharp" Version="2.4.8" />
+    <PackageReference Include="Gum.MonoGame" Version="2025.4.16.1" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="Myra" Version="1.5.9" />
