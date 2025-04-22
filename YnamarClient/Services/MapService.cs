@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Database.Models;
+using YnamarServer.Database.Models;
 using static YnamarClient.Types;
 
 namespace YnamarClient.Services
@@ -26,7 +27,7 @@ namespace YnamarClient.Services
                 int maxX = layer.Tile.Max(t => t.X);
                 int maxY = layer.Tile.Max(t => t.Y);
                 Types.Map[mapPayload.Id].Layer[layer.LayerLevel].Tile = new TileStruct[maxX + 1, maxY + 1];
-
+                Types.Map[mapPayload.Id].Layer[layer.LayerLevel].MapNpc = layer.MapNpc.ToArray();
                 int actualTile = 0;
                 for (int i = minX; i <= maxX; i++)
                 {

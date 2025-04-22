@@ -12,6 +12,7 @@ using Gum.DataTypes;
 using GumRuntime;
 using Gum.Wireframe;
 using MonoGameGum;
+using YnamarClient.Screens;
 
 namespace YnamarClient.GUI
 {
@@ -36,9 +37,27 @@ namespace YnamarClient.GUI
 
         public void CreateWindow_Login(Desktop desktop)
         {
-            ScreenSave screen = Game1.gumProject.Screens.Find(item => item.Name == "LoginScreen");
-            GraphicalUiElement screenRuntime = screen.ToGraphicalUiElement();
-            screenRuntime.AddToRoot();
+            //ScreenSave screen = Game1.gumProject.Screens.Find(item => item.Name == "LoginScreen");
+            //GraphicalUiElement screenRuntime = screen.ToGraphicalUiElement();
+
+            var screeen = new LoginScreenRuntime();
+            screeen.ButtonStandardIconInstance.Click += (_, _) =>
+            {
+                if (screeen.TextBoxInstance.Text == string.Empty || screeen.TextBoxInstance1.Text == string.Empty)
+                {
+                    var messageBox = Dialog.CreateMessageBox("Sem dados", "Por favor, insira seu Login e sua Senha!");
+                    messageBox.ShowModal(desktop);
+
+                }
+                else
+                {
+                    var messageBox = Dialog.CreateMessageBox("Boa", "Foi pro server!");
+                    messageBox.ShowModal(desktop);
+                    clienttcp.SendLogin(screeen.TextBoxInstance.Text, screeen.TextBoxInstance1.Text);
+                }
+            };
+
+            screeen.AddToRoot();
 
             Panel panel = new Panel();
 
@@ -131,7 +150,7 @@ namespace YnamarClient.GUI
                 {
                     var messageBox = Dialog.CreateMessageBox("Boa", "Foi pro server!");
                     messageBox.ShowModal(desktop);
-                    clienttcp.SendLogin();
+                    //clienttcp.SendLogin();
                 }
             };
 

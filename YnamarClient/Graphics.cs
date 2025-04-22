@@ -6,13 +6,14 @@ using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using YnamarClient.Network;
 using YnamarClient.Database.Models;
+using YnamarServer.Database.Models;
 
 namespace YnamarClient
 {
     internal class Graphics
     {
 
-        public static Texture2D[] Characters = new Texture2D[2];
+        public static Texture2D[] Characters = new Texture2D[3];
         public static Texture2D[] Tilesets = new Texture2D[1];
         private static SpriteFont font;
         public static void InitializeGraphics(ContentManager manager)
@@ -163,7 +164,59 @@ namespace YnamarClient
                         DrawTile(x * 32, y * 32, x, y, layer);
                     }
                 }
+
+                for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
+                {
+                    DrawMapNpc(Globals.PlayerMap.Layer[layer].MapNpc[x]);
+                }
             }
+        }
+
+        private static void DrawMapNpc(MapNpc mapNpc)
+        {
+            byte anim;
+            int X, Y;
+            Rectangle srcrec;
+            int SpriteNum;
+            int spriteLeft;
+
+            SpriteNum = mapNpc.Npc.Sprite;
+            spriteLeft = 0;
+
+            anim = 1;
+
+           /* switch (Types.Player[index].Dir)
+            {
+                case Constants.DIR_UP:
+                    spriteLeft = 3;
+                    if (Types.Player[index].YOffset > 8)
+                        anim = Types.Player[index].Steps;
+                    break;
+                case Constants.DIR_DOWN:
+                    spriteLeft = 0;
+                    if (Types.Player[index].YOffset < -8)
+                        anim = Types.Player[index].Steps;
+                    break;
+                case Constants.DIR_LEFT:
+                    spriteLeft = 1;
+                    if (Types.Player[index].XOffset > 8)
+                        anim = Types.Player[index].Steps;
+                    break;
+                case Constants.DIR_RIGHT:
+                    spriteLeft = 2;
+                    if (Types.Player[index].XOffset < -8)
+                        anim = Types.Player[index].Steps;
+                    break;
+            }
+           */
+
+            srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
+                             // 0 = Xoffset mudar
+            X = mapNpc.X * 32 + 0 - ((Characters[SpriteNum].Width / 4 - 32) / 2);
+                            // 0 = Yoffset mudar
+            Y = mapNpc.Y * 47 + 0;
+
+            DrawSprite(SpriteNum, X, Y, srcrec);
         }
 
         private static void DrawTile(int mapX, int mapY, int x, int y, int layerNum)

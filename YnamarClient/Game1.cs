@@ -130,5 +130,10 @@ namespace YnamarClient
             Globals.DirRight = Keyboard.GetState().IsKeyDown(Keys.Right);
             Globals.DirLeft = Keyboard.GetState().IsKeyDown(Keys.Left);
         }
+
+        public static void ClearScreenGum()
+        {
+            //Gum.Root.Children.Clear();
+        }
     }
 }

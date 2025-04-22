@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using MonoGameGum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,6 +199,8 @@ namespace YnamarClient
         public static void InGame()
         {
             Globals.InGame = true;
+            //Game1.ClearScreenGum();
+            GumService.Default.Root.Children.Clear();
         }
     }
 }

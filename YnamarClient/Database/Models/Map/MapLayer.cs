@@ -1,6 +1,7 @@
 ﻿using ProtoBuf;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using YnamarServer.Database.Models;
 
 namespace YnamarClient.Database.Models
 {
@@ -18,6 +19,9 @@ namespace YnamarClient.Database.Models
 
         [ProtoMember(3)]
         public ICollection<Tile> Tile { get; } = new List<Tile>();
+
+        [ProtoMember(4)]
+        public ICollection<MapNpc> MapNpc { get; } = new List<MapNpc>();
         public Map Map { get; set; } = null!;
     }
 }
