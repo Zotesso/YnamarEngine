@@ -1,14 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YnamarServer.Database.Models;
 using YnamarServer.Database;
 using static YnamarServer.Network.NetworkPackets;
 using YnamarServer.Network;
 using Microsoft.EntityFrameworkCore;
+using YnamarServer.Database.Models;
 
 namespace YnamarServer.Services
 {
@@ -28,8 +23,14 @@ namespace YnamarServer.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                return await dbContext.Maps.Where(m => m.Id == mapNum).Include(p => p.Layer).ThenInclude(x => x.Tile).FirstAsync();
-            };
+                return await dbContext.Maps.Where(m => m.Id == mapNum)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.Tile)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.MapNpc)
+                            .ThenInclude(mapNpc => mapNpc.Npc)
+                    .FirstAsync();
+            };  
         }
 
         public void SendMapToClient(int index, Map map)

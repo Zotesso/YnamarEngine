@@ -97,12 +97,12 @@ namespace YnamarClient.Network
             buffer.Dispose();
         }
 
-        public void SendLogin()
+        public void SendLogin(string username, string password)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)ClientTcpPackets.CLogin);
-            buffer.AddString(Globals.loginUsername);
-            buffer.AddString(Globals.loginPassword);
+            buffer.AddString(username);
+            buffer.AddString(password);
 
             SendData(buffer.ToArray());
             buffer.Dispose();

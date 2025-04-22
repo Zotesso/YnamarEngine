@@ -66,7 +66,7 @@
     <Variable>
       <Type>float</Type>
       <Name>SpriteInstance.Height</Name>
-      <Value xsi:type="xsd:float">58</Value>
+      <Value xsi:type="xsd:float">60</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -77,7 +77,7 @@
     <Variable>
       <Type>string</Type>
       <Name>SpriteInstance.Parent</Name>
-      <Value xsi:type="xsd:string">&lt;SCREEN BOUNDS&gt;</Value>
+      <Value xsi:type="xsd:string"></Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -102,7 +102,7 @@
     <Variable>
       <Type>float</Type>
       <Name>SpriteInstance.Y</Name>
-      <Value xsi:type="xsd:float">4</Value>
+      <Value xsi:type="xsd:float">-4</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>

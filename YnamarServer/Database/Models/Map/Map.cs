@@ -26,7 +26,7 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(5)]
         [Timestamp]
-        public Byte[] LastUpdate { get; set; }
+        public byte[] LastUpdate { get; set; }
 
         [ProtoMember(6)]
         public ICollection<MapLayer> Layer { get; } = new List<MapLayer>();
