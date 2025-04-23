@@ -10,6 +10,6 @@ namespace YnamarServer.Database
     internal class InMemoryDatabase
     {
         public static Character[] Player = new Character[Constants.MAX_PLAYERS];
-
+        public static Map[] Maps = new Map[Constants.MAX_MAPS];
     }
 }

@@ -1,6 +1,9 @@
 ﻿
 using YnamarServer;
+using YnamarServer.Database;
+using YnamarServer.Database.Models;
 using YnamarServer.Network;
+using YnamarServer.Services;
 
 public class General
 {
@@ -9,6 +12,12 @@ public class General
 
     private ServerTCP stcp;
     private ServerHandleDataTCP handleServerDataTcp;
+
+    public async Task LoadInMemoryResources()
+    {
+        MapService mapService = Program.mapService;
+        InMemoryDatabase.Maps = (await mapService.LoadAllMaps()).ToArray();
+    }
 
     public void initializeServer()
     {

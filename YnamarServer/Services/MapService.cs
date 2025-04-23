@@ -33,6 +33,22 @@ namespace YnamarServer.Services
             };  
         }
 
+        public async Task<List<Map>> LoadAllMaps()
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                return await dbContext.Maps
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.Tile)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.MapNpc)
+                            .ThenInclude(mapNpc => mapNpc.Npc)
+                    .ToListAsync();
+            };
+        }
+
         public void SendMapToClient(int index, Map map)
         {
             PacketBuffer bufferSend = new PacketBuffer();
@@ -44,6 +60,23 @@ namespace YnamarServer.Services
             bufferSend.AddByteArray(mapProtoBuf);
 
             stcp.SendData(index, bufferSend.ToArray());
+
+            bufferSend.Dispose();
+        }
+
+        public void SendMapNpcToMap(int mapNum, int layerNum, MapNpc mapNpc)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerPackets.SNpcMove);
+            bufferSend.AddInteger(mapNum);
+            bufferSend.AddInteger(layerNum);
+            bufferSend.AddInteger(mapNpc.Id);
+
+            byte[] mapNpcProtoBuf = bufferSend.SerializeProto<MapNpc>(mapNpc);
+            bufferSend.AddInteger(mapNpcProtoBuf.Length);
+            bufferSend.AddByteArray(mapNpcProtoBuf);
+
+            stcp.SendDataToMap(mapNum, bufferSend.ToArray());
 
             bufferSend.Dispose();
         }
