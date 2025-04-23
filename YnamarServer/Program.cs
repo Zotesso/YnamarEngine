@@ -15,7 +15,7 @@ internal class Program
     public static AccountService accountService;
     public static MapService mapService;
 
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         database = new YnamarServer.Database.Database();
         var host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
@@ -39,12 +39,12 @@ internal class Program
         tcpServerThread = new Thread(new ThreadStart(general.initializeTCPServer));
         gameLoopThread = new Thread(new ThreadStart(GameLoopThread));
 
+        await general.LoadInMemoryResources();
+
         consoleThread.Start();
         tcpServerThread.Start();
-        general.initializeServer();
-        general.LoadInMemoryResources();
-
         gameLoopThread.Start();
+        general.initializeServer();
     }
 
     private static void ConsoleThread()

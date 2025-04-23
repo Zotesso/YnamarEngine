@@ -12,17 +12,20 @@ namespace YnamarServer.GameLogic
     {
         public static void UpdateAllMaps()
         {
+            Random rnd = new Random();
             bool didWalk = false;
+            int targetY = rnd.Next(0, 20); ;
+            int targetX = rnd.Next(0, 20); ;
 
-            foreach (Map map in InMemoryDatabase.Maps)
+            foreach (var (map, mapIndex) in InMemoryDatabase.Maps.Select((value, i) => (value, i)))
             {
-                foreach (MapLayer layer in map.Layer)
+                foreach (var (layer, layerIndex) in map.Layer.Select((value, i) => (value, i)))
                 {
                     foreach (MapNpc mapNpc in layer.MapNpc)
                     {
                         if (mapNpc != null)
                         {
-                            Random rnd = new Random();
+                            
                             int i = rnd.Next(0, 5); // Generates 0 to 4 inclusive
 
                             // Let's move the NPC
@@ -32,39 +35,39 @@ namespace YnamarServer.GameLogic
                                     // Up
                                     if (mapNpc.Y > targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Up))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcMove(mapNum, x, Direction.Up, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Down
-                                    if (MapNpc[mapNum].Npc[x].Y < targetY && !didWalk)
+                                    if (mapNpc.Y < targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Down))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcMove(mapNum, x, Direction.Down, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Left
-                                    if (MapNpc[mapNum].Npc[x].X > targetX && !didWalk)
+                                    if (mapNpc.X > targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Left))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Left, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Right
-                                    if (MapNpc[mapNum].Npc[x].X < targetX && !didWalk)
+                                    if (mapNpc.X < targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Right))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Right, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
                                             didWalk = true;
                                         }
                                     }
@@ -72,41 +75,41 @@ namespace YnamarServer.GameLogic
 
                                 case 1:
                                     // Right
-                                    if (MapNpc[mapNum].Npc[x].X < targetX && !didWalk)
+                                    if (mapNpc.X < targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Right))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Right, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Left
-                                    if (MapNpc[mapNum].Npc[x].X > targetX && !didWalk)
+                                    if (mapNpc.X > targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Left))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Left, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Down
-                                    if (MapNpc[mapNum].Npc[x].Y < targetY && !didWalk)
+                                    if (mapNpc.Y < targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Down))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcMove(mapNum, x, Direction.Down, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Up
-                                    if (MapNpc[mapNum].Npc[x].Y > targetY && !didWalk)
+                                    if (mapNpc.Y > targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Up))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcMove(mapNum, x, Direction.Up, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
                                             didWalk = true;
                                         }
                                     }
@@ -114,41 +117,41 @@ namespace YnamarServer.GameLogic
 
                                 case 2:
                                     // Down
-                                    if (MapNpc[mapNum].Npc[x].Y < targetY && !didWalk)
+                                    if (mapNpc.Y < targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Down))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcMove(mapNum, x, Direction.Down, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Up
-                                    if (MapNpc[mapNum].Npc[x].Y > targetY && !didWalk)
+                                    if (mapNpc.Y > targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Up))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcMove(mapNum, x, Direction.Up, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Right
-                                    if (MapNpc[mapNum].Npc[x].X < targetX && !didWalk)
+                                    if (mapNpc.X < targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Right))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Right, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Left
-                                    if (MapNpc[mapNum].Npc[x].X > targetX && !didWalk)
+                                    if (mapNpc.X > targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Left))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Left, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
                                             didWalk = true;
                                         }
                                     }
@@ -156,41 +159,41 @@ namespace YnamarServer.GameLogic
 
                                 case 3:
                                     // Left
-                                    if (MapNpc[mapNum].Npc[x].X > targetX && !didWalk)
+                                    if (mapNpc.X > targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Left))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Left, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Right
-                                    if (MapNpc[mapNum].Npc[x].X < targetX && !didWalk)
+                                    if (mapNpc.X < targetX && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Right))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcMove(mapNum, x, Direction.Right, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Up
-                                    if (MapNpc[mapNum].Npc[x].Y > targetY && !didWalk)
+                                    if (mapNpc.Y > targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Up))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcMove(mapNum, x, Direction.Up, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
                                             didWalk = true;
                                         }
                                     }
 
                                     // Down
-                                    if (MapNpc[mapNum].Npc[x].Y < targetY && !didWalk)
+                                    if (mapNpc.Y < targetY && !didWalk)
                                     {
-                                        if (CanNpcMove(mapNum, x, Direction.Down))
+                                        if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcMove(mapNum, x, Direction.Down, MovementType.Walking);
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
                                             didWalk = true;
                                         }
                                     }

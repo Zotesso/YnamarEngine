@@ -52,6 +52,12 @@ namespace YnamarServer.Network
             }
             return false;
         }
+
+        public bool isPlaying(int index)
+        {
+            return InMemoryDatabase.Player[index] != null;
+        }
+
         public void SendData(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
@@ -65,7 +71,7 @@ namespace YnamarServer.Network
         {
             for (int i = 0; i < Constants.MAX_PLAYERS; i++)
             {
-                if (isConnected(i))
+                if (isConnected(i) && isPlaying(i))
                 {
                     if (InMemoryDatabase.Player[i].Map == mapNum)
                     {

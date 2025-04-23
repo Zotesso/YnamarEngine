@@ -13,7 +13,7 @@ public class General
     private ServerTCP stcp;
     private ServerHandleDataTCP handleServerDataTcp;
 
-    public async void LoadInMemoryResources()
+    public async Task LoadInMemoryResources()
     {
         MapService mapService = Program.mapService;
         InMemoryDatabase.Maps = (await mapService.LoadAllMaps()).ToArray();
