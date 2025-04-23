@@ -33,6 +33,22 @@ namespace YnamarServer.Services
             };  
         }
 
+        public async Task<List<Map>> LoadAllMaps()
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                return await dbContext.Maps
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.Tile)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.MapNpc)
+                            .ThenInclude(mapNpc => mapNpc.Npc)
+                    .ToListAsync();
+            };
+        }
+
         public void SendMapToClient(int index, Map map)
         {
             PacketBuffer bufferSend = new PacketBuffer();

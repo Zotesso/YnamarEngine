@@ -30,5 +30,8 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(5)]
         public int Y { get; set; }
+
+        [ProtoMember(6)]
+        public byte Dir { get; set; }
     }
 }

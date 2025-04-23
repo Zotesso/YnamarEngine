@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using YnamarServer.GameLogic;
 using YnamarServer.Services;
 
 internal class Program
@@ -7,7 +9,8 @@ internal class Program
     private static General? general;
     private static Thread? consoleThread;
     private static Thread? tcpServerThread;
-
+    private static Thread? gameLoopThread;
+    
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;
     public static MapService mapService;
@@ -34,10 +37,14 @@ internal class Program
         consoleThread = new Thread(new ThreadStart(ConsoleThread));
 
         tcpServerThread = new Thread(new ThreadStart(general.initializeTCPServer));
+        gameLoopThread = new Thread(new ThreadStart(GameLoopThread));
 
         consoleThread.Start();
         tcpServerThread.Start();
         general.initializeServer();
+        general.LoadInMemoryResources();
+
+        gameLoopThread.Start();
     }
 
     private static void ConsoleThread()
@@ -53,5 +60,30 @@ internal class Program
         }
 
         ConsoleThread();
+    }
+
+    private static void GameLoopThread()
+    {
+        long tick, elapsedTime, frameTime = 0;
+        long tmr25 = 0, tmr500 = 0, tmr1000 = 0;
+        long lastUpdateSavePlayers = 0, lastUpdateMapSpawnItems = 0, lastUpdatePlayerVitals = 0;
+
+        bool serverOnline = true;
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        while (serverOnline)
+        {
+            tick = stopwatch.ElapsedMilliseconds;
+            elapsedTime = tick - frameTime;
+            frameTime = tick;
+
+            if (tick >= tmr500)
+            {
+                // Run your 500ms logic
+                MapLogicHandler.UpdateAllMaps();
+                tmr500 = tick + 500;
+            }
+        }
     }
 }
