@@ -55,6 +55,15 @@ namespace YnamarClient
 
             [ProtoMember(11)]
             public byte Access;
+
+            [ProtoMember(12)]
+            public int MaxHP;
+
+            [ProtoMember(13)]
+            public int HP;
+
+            public int AttackCooldown;
+            public bool Attacking;
         }
 
         [Serializable]

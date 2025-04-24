@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Microsoft.Xna.Framework;
 using MonoGameGum;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,12 @@ namespace YnamarClient
 
         public static bool IsTryingToMove()
         {
-            if (Globals.DirUp || Globals.DirRight || Globals.DirLeft || Globals.DirDown)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (Globals.DirUp || Globals.DirRight || Globals.DirLeft || Globals.DirDown);
+        }
+
+        public static bool IsTryingToAttack()
+        {
+            return Globals.ZKeyPressed;
         }
 
         public static bool CanMove()
@@ -121,6 +120,22 @@ namespace YnamarClient
                             Types.Player[Globals.playerIndex].XOffset = (32 * -1);
                             Types.Player[Globals.playerIndex].X += 1;
                             break;
+                    }
+                }
+            }
+        }
+        public static void CheckAttack(int Tick)
+        {
+            if (IsTryingToAttack())
+            {
+                int attackSpeed = 1000;
+                if (Types.Player[Globals.playerIndex].AttackCooldown + attackSpeed < Tick)
+                {
+                    if (!Types.Player[Globals.playerIndex].Attacking)
+                    {
+                        Types.Player[Globals.playerIndex].Attacking = true;
+                        Types.Player[Globals.playerIndex].AttackCooldown = Tick;
+                        // sendDataToServer
                     }
                 }
             }

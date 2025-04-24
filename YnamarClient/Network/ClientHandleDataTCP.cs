@@ -56,7 +56,8 @@ namespace YnamarClient.Network
             int bufferLength = buffer.GetInteger();
             byte[] charBuff = buffer.GetByteArray(bufferLength);
             Types.Player[Globals.playerIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
-
+            Types.Player[Globals.playerIndex].MaxHP = 500;
+            Types.Player[Globals.playerIndex].HP = 423;
             clienttcp.SendLoadMap();
         }
 

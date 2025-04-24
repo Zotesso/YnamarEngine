@@ -16,11 +16,16 @@ namespace YnamarClient
         public static Texture2D[] Characters = new Texture2D[3];
         public static Texture2D[] Tilesets = new Texture2D[1];
         private static SpriteFont font;
+
+        public static Texture2D healthbarFull;
+        public static Texture2D healthbar;
+
         public static void InitializeGraphics(ContentManager manager)
         {
             LoadFonts(manager);
             LoadCharacters(manager);
             LoadTilesets(manager);
+            LoadGFX(manager);
         }
 
         private static void LoadCharacters(ContentManager manager)
@@ -42,12 +47,18 @@ namespace YnamarClient
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
             }
         }
+        private static void LoadGFX(ContentManager manager)
+        {
+            healthbarFull = manager.Load<Texture2D>("GFX/Player/healthbar1");
+            healthbar = manager.Load<Texture2D>("GFX/Player/healthbar2");
+        }
 
-        public static void RenderGraphics()
+        public static void RenderGraphics(GameTime gameTime)
         {
             Game1.spriteBatch.Begin();
             // DrawPlayerName();
             DrawMapGrid();
+            DrawPlayerHealthBar(Globals.playerIndex);
 
             for (int i = 0; i < Constants.MAX_PLAYERS; i++)
             {
@@ -56,14 +67,14 @@ namespace YnamarClient
                     if (Types.Player[i].Map == Types.Player[Globals.playerIndex].Map)
                     {
                         DrawPlayerName(i);
-                        DrawPlayer(i);
+                        DrawPlayer(i, gameTime);
                     }
                 }
             }
 
             Game1.spriteBatch.End();
         }
-        private static void DrawPlayer(int index)
+        private static void DrawPlayer(int index, GameTime gameTime)
         {
             byte anim;
             int X, Y;
@@ -75,6 +86,7 @@ namespace YnamarClient
             spriteLeft = 0;
 
             anim = 1;
+            int attackSpeed = 1000;
 
             switch (Types.Player[index].Dir)
             {
@@ -100,6 +112,17 @@ namespace YnamarClient
                     break;
             }
 
+            if ((Types.Player[index].AttackCooldown + (attackSpeed / 2) > (int)gameTime.TotalGameTime.TotalMilliseconds) && Types.Player[index].Attacking) 
+            {
+                anim = 3;
+            }
+
+            if (Types.Player[index].AttackCooldown + attackSpeed < (int)gameTime.TotalGameTime.TotalMilliseconds)
+            {
+                Types.Player[index].Attacking = false;
+                Types.Player[index].AttackCooldown = 0;
+            }
+
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
             X = Types.Player[index].X * 32 + Types.Player[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
             Y = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
@@ -118,6 +141,22 @@ namespace YnamarClient
             int y = ConvertMapY(yoffset) - 20;
 
             Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Blue);
+        }
+
+        private static void DrawPlayerHealthBar(int index)
+        {
+            Types.Player[Globals.playerIndex].MaxHP = 500;
+            Types.Player[Globals.playerIndex].HP = 23;
+            int healthBarWidht = Types.Player[index].MaxHP == 0 ? 0 : (Types.Player[index].HP * healthbar.Width) / Types.Player[index].MaxHP;
+            Rectangle rectanglHealthRight = new Rectangle(0, 0, healthBarWidht, healthbar.Height);
+            Rectangle rectangleForBar = new Rectangle(0, 0, healthbarFull.Width, healthbarFull.Height);
+
+            var originRight = new Vector2(rectanglHealthRight.Left, rectanglHealthRight.Top);
+
+            var originBar = new Vector2(rectangleForBar.Left, rectangleForBar.Top);
+
+            Game1.spriteBatch.Draw(healthbarFull, new Vector2(0,0), rectangleForBar, Color.White, 0.0f, originBar, 0.5f, SpriteEffects.None, 0.0f);
+            Game1.spriteBatch.Draw(healthbar, new Vector2(0,0), rectanglHealthRight, Color.White, 0.0f, originRight, 0.5f, SpriteEffects.None, 0.0f);
         }
 
         private static void DrawNpcName(MapNpc mapNpc)
