@@ -117,7 +117,20 @@ namespace YnamarClient
             int x = ConvertMapX(xoffset) - 6 - lengthOffset;
             int y = ConvertMapY(yoffset) - 20;
 
-            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Black);
+            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Blue);
+        }
+
+        private static void DrawNpcName(MapNpc mapNpc)
+        {
+
+            int xoffset = mapNpc.X * 32 + mapNpc.XOffset;
+            int yoffset = mapNpc.Y * 32 + mapNpc.YOffset;
+            // double logPlayerNameLength = Math.Log(Types.Player[index].Name.Length, 10);
+            int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
+            int x = ConvertMapX(xoffset) - 6 - lengthOffset;
+            int y = ConvertMapY(yoffset) - 20;
+
+            Game1.spriteBatch.DrawString(font, mapNpc.Npc.Name, new Vector2(x, y), Color.Blue);
         }
 
         public static int ConvertMapX(int x)
@@ -168,6 +181,7 @@ namespace YnamarClient
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
                 {
                     DrawMapNpc(Globals.PlayerMap.Layer[layer].MapNpc[x]);
+                    DrawNpcName(Globals.PlayerMap.Layer[layer].MapNpc[x]);
                 }
             }
         }
@@ -185,36 +199,33 @@ namespace YnamarClient
 
             anim = 1;
 
-           /* switch (Types.Player[index].Dir)
+           switch (mapNpc.Dir)
             {
                 case Constants.DIR_UP:
                     spriteLeft = 3;
-                    if (Types.Player[index].YOffset > 8)
-                        anim = Types.Player[index].Steps;
+                    if (mapNpc.YOffset > 8)
+                        anim = mapNpc.Steps;
                     break;
                 case Constants.DIR_DOWN:
                     spriteLeft = 0;
-                    if (Types.Player[index].YOffset < -8)
-                        anim = Types.Player[index].Steps;
+                    if (mapNpc.YOffset < -8)
+                        anim = mapNpc.Steps;
                     break;
                 case Constants.DIR_LEFT:
                     spriteLeft = 1;
-                    if (Types.Player[index].XOffset > 8)
-                        anim = Types.Player[index].Steps;
+                    if (mapNpc.XOffset > 8)
+                        anim = mapNpc.Steps;
                     break;
                 case Constants.DIR_RIGHT:
                     spriteLeft = 2;
-                    if (Types.Player[index].XOffset < -8)
-                        anim = Types.Player[index].Steps;
+                    if (mapNpc.XOffset < -8)
+                        anim = mapNpc.Steps;
                     break;
             }
-           */
 
-            srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
-                             // 0 = Xoffset mudar
-            X = mapNpc.X * 32 + 0 - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-                            // 0 = Yoffset mudar
-            Y = mapNpc.Y * 47 + 0;
+            srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 3), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 3, Characters[SpriteNum].Height / 4);
+            X = mapNpc.X * 32 + mapNpc.XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
+            Y = mapNpc.Y * 32 + mapNpc.YOffset;
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }

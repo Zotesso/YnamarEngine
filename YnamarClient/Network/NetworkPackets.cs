@@ -13,10 +13,11 @@ namespace YnamarClient.Network
             SJoinGame = 1,
             SPlayerData,
             SPlayerMove,
-            SLoadMap
+            SLoadMap,
+            SNpcMove,
         }
 
-    public enum ClientTcpPackets
+        public enum ClientTcpPackets
         {
             CLogin = 1,
             CRegister,

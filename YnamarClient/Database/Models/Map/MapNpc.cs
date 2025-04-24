@@ -34,5 +34,9 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(6)]
         public byte Dir { get; set; }
+        public int XOffset { get; set; }
+        public int YOffset { get; set; }
+        public byte Steps;
+        public int Moving;
     }
 }

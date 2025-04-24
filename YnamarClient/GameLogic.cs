@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Network;
+using YnamarServer.Database.Models;
 using static YnamarClient.Network.NetworkPackets;
 
 namespace YnamarClient
@@ -127,7 +128,7 @@ namespace YnamarClient
 
         public static void ProcessMovement(int index)
         {
-            int movementSpeed = (Types.Player[index].Moving * 6);
+            int movementSpeed = 6;//(Types.Player[index].Moving * 6);
 
             switch (Types.Player[index].Dir)
             {
@@ -190,6 +191,77 @@ namespace YnamarClient
                         else
                         {
                             Types.Player[index].Steps = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ProcessNpcMovement(MapNpc mapNpc)
+        {
+            int movementSpeed = 6;//(Types.Player[index].Moving * 6);
+
+            switch (mapNpc.Dir)
+            {
+                case Constants.DIR_UP:
+                    mapNpc.YOffset -= movementSpeed;
+                    if (mapNpc.YOffset < 0)
+                    {
+                        mapNpc.YOffset = 0;
+                    }
+                    break;
+                case Constants.DIR_DOWN:
+                    mapNpc.YOffset += movementSpeed;
+                    if (mapNpc.YOffset > 0)
+                    {
+                        mapNpc.YOffset = 0;
+                    }
+                    break;
+                case Constants.DIR_LEFT:
+                    mapNpc.XOffset -= movementSpeed;
+                    if (mapNpc.XOffset < 0)
+                    {
+                        mapNpc.XOffset = 0;
+                    }
+                    break;
+                case Constants.DIR_RIGHT:
+                    mapNpc.XOffset += movementSpeed;
+                    if (mapNpc.XOffset > 0)
+                    {
+                        mapNpc.XOffset = 0;
+                    }
+                    break;
+            }
+
+            if (mapNpc.Moving > 0)
+            {
+                if (mapNpc.Dir == Constants.DIR_RIGHT || mapNpc.Dir == Constants.DIR_DOWN)
+                {
+                    if (mapNpc.XOffset >= 0 && mapNpc.YOffset >= 0)
+                    {
+                        mapNpc.Moving = 0;
+                        if (mapNpc.Steps == 0)
+                        {
+                            mapNpc.Steps = 2;
+                        }
+                        else
+                        {
+                            mapNpc.Steps = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    if (mapNpc.XOffset <= 0 && mapNpc.YOffset <= 0)
+                    {
+                        mapNpc.Moving = 0;
+                        if (mapNpc.Steps == 0)
+                        {
+                            mapNpc.Steps = 2;
+                        }
+                        else
+                        {
+                            mapNpc.Steps = 0;
                         }
                     }
                 }

@@ -109,6 +109,7 @@ namespace YnamarClient
                 if (WalkTimer < Tick)
                 {
                     GameLogic.ProcessMovement(Globals.playerIndex);
+                    GameLogic.ProcessNpcMovement(Globals.PlayerMap.Layer[0].MapNpc[0]);
                     WalkTimer = Tick + 30;
                 }
 
