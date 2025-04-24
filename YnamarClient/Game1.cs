@@ -97,7 +97,6 @@ namespace YnamarClient
 
         protected override void Draw(GameTime gameTime)
         {
-
             GraphicsDevice.Clear(Color.Black);
 
             if (Globals.InGame)
@@ -109,12 +108,15 @@ namespace YnamarClient
                 if (WalkTimer < Tick)
                 {
                     GameLogic.ProcessMovement(Globals.playerIndex);
+                    GameLogic.ProcessNpcMovement(Globals.PlayerMap.Layer[0].MapNpc[0]);
                     WalkTimer = Tick + 30;
                 }
 
+
                 CheckKeys();
                 GameLogic.CheckMovement();
-                Graphics.RenderGraphics();
+                GameLogic.CheckAttack(Tick);
+                Graphics.RenderGraphics(gameTime);
             }
 
             desktop.Render();
@@ -129,6 +131,7 @@ namespace YnamarClient
             Globals.DirDown = Keyboard.GetState().IsKeyDown(Keys.Down);
             Globals.DirRight = Keyboard.GetState().IsKeyDown(Keys.Right);
             Globals.DirLeft = Keyboard.GetState().IsKeyDown(Keys.Left);
+            Globals.ZKeyPressed = Keyboard.GetState().IsKeyDown(Keys.Z);
         }
 
         public static void ClearScreenGum()

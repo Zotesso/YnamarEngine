@@ -47,6 +47,13 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(11)]
         public byte Access { get; set; }
+
+        [ProtoMember(12)]
+        public int MaxHP;
+
+        [ProtoMember(13)]
+        public int HP;
+
         public Account Account { get; set; } = null!;
     }
 }

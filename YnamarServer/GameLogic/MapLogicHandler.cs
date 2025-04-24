@@ -14,8 +14,8 @@ namespace YnamarServer.GameLogic
         {
             Random rnd = new Random();
             bool didWalk = false;
-            int targetY = rnd.Next(0, 20); ;
-            int targetX = rnd.Next(0, 20); ;
+            int targetY = rnd.Next(0, 5);
+            int targetX = rnd.Next(0, 5);
 
             foreach (var (map, mapIndex) in InMemoryDatabase.Maps.Select((value, i) => (value, i)))
             {

@@ -56,6 +56,30 @@
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
 
+#begin GFX/Player/healthbar1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GFX/Player/healthbar1.png
+
+#begin GFX/Player/healthbar2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GFX/Player/healthbar2.png
+
 #begin Tilesets/tileset0.png
 /importer:TextureImporter
 /processor:TextureProcessor

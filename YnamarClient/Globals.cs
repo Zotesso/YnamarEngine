@@ -24,6 +24,6 @@ namespace YnamarClient
         public static bool DirDown;
         public static bool DirLeft;
         public static bool DirRight;
-
+        public static bool ZKeyPressed;
     }
 }
