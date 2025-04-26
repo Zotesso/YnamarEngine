@@ -145,8 +145,6 @@ namespace YnamarClient
 
         private static void DrawPlayerHealthBar(int index)
         {
-            Types.Player[Globals.playerIndex].MaxHP = 500;
-            Types.Player[Globals.playerIndex].HP = 23;
             int healthBarWidht = Types.Player[index].MaxHP == 0 ? 0 : (Types.Player[index].HP * healthbar.Width) / Types.Player[index].MaxHP;
             Rectangle rectanglHealthRight = new Rectangle(0, 0, healthBarWidht, healthbar.Height);
             Rectangle rectangleForBar = new Rectangle(0, 0, healthbarFull.Width, healthbarFull.Height);
@@ -157,6 +155,25 @@ namespace YnamarClient
 
             Game1.spriteBatch.Draw(healthbarFull, new Vector2(0,0), rectangleForBar, Color.White, 0.0f, originBar, 0.5f, SpriteEffects.None, 0.0f);
             Game1.spriteBatch.Draw(healthbar, new Vector2(0,0), rectanglHealthRight, Color.White, 0.0f, originRight, 0.5f, SpriteEffects.None, 0.0f);
+        }
+
+        private static void DrawNpcHealthBar(MapNpc mapNpc)
+        {
+            int healthBarWidht = mapNpc.Npc.MaxHp == 0 ? 0 : (mapNpc.Hp * 72) / mapNpc.Npc.MaxHp;
+            Rectangle rectanglHealthRight = new Rectangle(0, 0, healthBarWidht, 12);
+            Rectangle rectangleForBar = new Rectangle(0, 0, 72, 12);
+
+            int xoffset = mapNpc.X * 32 + mapNpc.XOffset;
+            int yoffset = mapNpc.Y * 32 + mapNpc.YOffset;
+            int x = ConvertMapX(xoffset);
+            int y = ConvertMapY(yoffset) + 40;
+
+            var originRight = new Vector2(rectanglHealthRight.Left, rectanglHealthRight.Top);
+
+            var originBar = new Vector2(rectangleForBar.Left, rectangleForBar.Top);
+
+            Game1.spriteBatch.Draw(healthbarFull, new Vector2(x, y), rectangleForBar, Color.White, 0.0f, originBar, 0.5f, SpriteEffects.None, 0.0f);
+            Game1.spriteBatch.Draw(healthbar, new Vector2(x, y), rectanglHealthRight, Color.White, 0.0f, originRight, 0.5f, SpriteEffects.None, 0.0f);
         }
 
         private static void DrawNpcName(MapNpc mapNpc)
@@ -221,6 +238,7 @@ namespace YnamarClient
                 {
                     DrawMapNpc(Globals.PlayerMap.Layer[layer].MapNpc[x]);
                     DrawNpcName(Globals.PlayerMap.Layer[layer].MapNpc[x]);
+                    DrawNpcHealthBar(Globals.PlayerMap.Layer[layer].MapNpc[x]);
                 }
             }
         }
