@@ -49,10 +49,10 @@ namespace YnamarServer.Database.Models
         public byte Access { get; set; }
 
         [ProtoMember(12)]
-        public int MaxHP;
+        public int MaxHP { get; set; }
 
         [ProtoMember(13)]
-        public int HP;
+        public int HP { get; set; }
 
         public Account Account { get; set; } = null!;
     }
