@@ -24,5 +24,11 @@ namespace YnamarClient.Network
             CPlayerMove,
             CLoadMap
         }
+
+
+        public enum ClientUdpPackets
+        {
+            UdpCAttack = 100,
+        }
     }
 }
