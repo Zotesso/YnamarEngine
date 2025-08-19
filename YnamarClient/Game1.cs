@@ -21,7 +21,6 @@ namespace YnamarClient
 
         public static SpriteBatch spriteBatch;
 
-        ClientUDP clientUdp;
         ClientHandleData clientDataHandle;
         private static Thread udpThread;
 
@@ -46,11 +45,10 @@ namespace YnamarClient
 
         protected override void Initialize()
         {
-            clientUdp = new ClientUDP();
             clientDataHandle = new ClientHandleData();
             clientDataHandle.InitializeMessages();
 
-            udpThread = new Thread(new ThreadStart(clientUdp.ConnectToServer));
+            udpThread = new Thread(new ThreadStart(NetworkManager.Client.ConnectToServer));
             udpThread.Start();
 
             ctcp = new ClientTCP();

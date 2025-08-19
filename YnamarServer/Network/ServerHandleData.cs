@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Network
 {
@@ -18,7 +19,7 @@ namespace YnamarServer.Network
             Console.WriteLine("Initializing Packets");
 
             //Packets
-            //Packets.Add((int)ClientPackets.CLogin, HandleLogin);
+            Packets.Add((int)ClientUdpPackets.UdpCAttack, HandlePlayerAttack);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -35,6 +36,16 @@ namespace YnamarServer.Network
             {
                 Packet.Invoke(index, data);
             }
+        }
+        
+
+        public void HandlePlayerAttack(int index, byte[] data)
+        {
+            PacketBuffer buffer;
+            buffer = new PacketBuffer();
+
+            buffer.AddByteArray(data);
+            buffer.Dispose();
         }
     }
 }

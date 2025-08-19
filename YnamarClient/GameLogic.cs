@@ -135,7 +135,7 @@ namespace YnamarClient
                     {
                         Types.Player[Globals.playerIndex].Attacking = true;
                         Types.Player[Globals.playerIndex].AttackCooldown = Tick;
-                        // sendDataToServer
+                        NetworkManager.Client.SendPlayerAttack();
                     }
                 }
             }
