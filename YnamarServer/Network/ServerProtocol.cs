@@ -11,9 +11,13 @@ using static YnamarServer.Network.NetworkPackets;
 /// </summary>
 public class ServerProtocol
 {
+    private ServerHandleData handleServerData;
+
     public void initializeNetwork()
     {
         ENet.Library.Initialize();
+        handleServerData = new ServerHandleData();
+
         using Host server = new();
         Address address = new()
         {
@@ -44,23 +48,6 @@ public class ServerProtocol
 
                     case EventType.Connect:
                         Console.WriteLine("Client connected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
-                        XmlDocument doc = new XmlDocument();
-
-                        //doc.Load("C:\\Users\\sirio\\source\\repos\\YnamarEngine\\YnamarServer\\bin\\Debug\\net8.0\\playerData.xml");
-                        doc.Load("playerData.xml");
-                        XmlNode node = doc.DocumentElement.FirstChild;
-
-                        string playerName = node.InnerText;
-
-                       // byte[] data = Encoding.ASCII.GetBytes(playerName);
-
-                        PacketBuffer buffer = new PacketBuffer();
-                        buffer.AddInteger((int)ServerPackets.SJoinGame);
-                        buffer.AddInteger(0); // indice do player
-                        buffer.AddString(playerName);
-
-                        SendData(0, buffer.ToArray(), netEvent);
-                        buffer.Dispose();
                         break;
 
                     case EventType.Disconnect:
@@ -73,6 +60,10 @@ public class ServerProtocol
 
                     case EventType.Receive:
                         Console.WriteLine("Packet received from - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP + ", Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
+                        byte[] buffer = new byte[netEvent.Packet.Length];
+                        netEvent.Packet.CopyTo(buffer);
+
+                        handleServerData.HandleNetworkMessages(netEvent.ChannelID, buffer);
                         netEvent.Packet.Dispose();
                         break;
                 }
