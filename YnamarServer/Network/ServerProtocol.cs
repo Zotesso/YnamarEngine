@@ -73,10 +73,41 @@ public class ServerProtocol
         server.Flush();
     }
 
+    // Resolver essa questão aqui, ainda não é possivel mandar os dados pro cliente por que o peer esta somento no escopo ali da conexão
+    // Também ver como será possivel via UDP enviar o dado pra todos que estiverem no mapa.
+    public void SendData(int index, byte[] data)
+    {
+        if (serverPeer.IsSet && serverPeer.State == PeerState.Connected)
+        {
+            Packet packet = default(Packet);
+            packet.Create(data);
+            serverPeer.Send(0, ref packet);
+            client.Flush();
+        }
+        else
+        {
+            Console.WriteLine("Not connected yet, cannot send!");
+        }
+
+    }
     public void SendData(int index, byte[] data, Event netEvent)
     {
         Packet packet = default(Packet);
         packet.Create(data);
         netEvent.Peer.Send(netEvent.ChannelID, ref packet);
+    }
+
+    public void SendDataToMap(int mapNum, byte[] data)
+    {
+        for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+        {
+            if (isConnected(i) && isPlaying(i))
+            {
+                if (InMemoryDatabase.Player[i].Map == mapNum)
+                {
+                    SendData(i, data);
+                }
+            }
+        }
     }
 }

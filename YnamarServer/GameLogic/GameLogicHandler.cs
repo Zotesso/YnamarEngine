@@ -37,6 +37,21 @@ namespace YnamarServer.GameLogic
                 buffer.Dispose();
             }
         }
+
+        public static void PlayerAttack(int index, byte dir)
+        {
+            int targetX = DirToX(InMemoryDatabase.Player[index].X, dir);
+            int targetY = DirToY(InMemoryDatabase.Player[index].Y, dir);
+            int playerMapNum = InMemoryDatabase.Player[index].Map;
+            int? mapNpcIndex = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
+
+            if (mapNpcIndex)
+            {
+                InMemoryDatabase.Maps[playerMapNum].Layer[0].MapNpc[mapNpcIndex].Hp -= 10;
+                NpcService npcService = Program.npcService;
+                npcService.SendNpcAttackedtoMap(mapNum, layerNum, mapNpc);
+            }
+        }
         public static int DirToX(int x, byte dir)
         {
             if (dir == Constants.DIR_UP || dir == Constants.DIR_DOWN)
