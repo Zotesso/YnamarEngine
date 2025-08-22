@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using static YnamarServer.Network.NetworkPackets;
+using YnamarServer.Database.Models;
 using YnamarServer.Network;
 
 namespace YnamarServer.Services
@@ -12,25 +14,10 @@ namespace YnamarServer.Services
 			_serviceScopeFactory = serviceScopeFactory;
 		}
 
-		public void SendMapToClient(int index, Map map)
-		{
-			PacketBuffer bufferSend = new PacketBuffer();
-			bufferSend.AddInteger((int)ServerPackets.SLoadMap);
-			bufferSend.AddInteger(index);
-
-			byte[] mapProtoBuf = bufferSend.SerializeProto<Map>(map);
-			bufferSend.AddInteger(mapProtoBuf.Length);
-			bufferSend.AddByteArray(mapProtoBuf);
-
-			stcp.SendData(index, bufferSend.ToArray());
-
-			bufferSend.Dispose();
-		}
-
 		public void SendNpcAttackedtoMap(int mapNum, int layerNum, MapNpc mapNpc)
 		{
 			PacketBuffer bufferSend = new PacketBuffer();
-			bufferSend.AddInteger((int)ServerPackets.SNpcMove);
+			bufferSend.AddInteger((int)ServerUdpPackets.UdpSNpcAttacked);
 			bufferSend.AddInteger(mapNum);
 			bufferSend.AddInteger(layerNum);
 			bufferSend.AddInteger(mapNpc.Id);
@@ -39,9 +26,9 @@ namespace YnamarServer.Services
 			bufferSend.AddInteger(mapNpcProtoBuf.Length);
 			bufferSend.AddByteArray(mapNpcProtoBuf);
 
-			stcp.SendDataToMap(mapNum, bufferSend.ToArray());
+            NetworkManager.ServerUdp.SendDataToMap(mapNum, bufferSend.ToArray());
 
-			bufferSend.Dispose();
+            bufferSend.Dispose();
 		}
 	}
 }

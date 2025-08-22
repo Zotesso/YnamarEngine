@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.GameLogic;
 using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Network
@@ -41,11 +42,13 @@ namespace YnamarServer.Network
 
         public void HandlePlayerAttack(int index, byte[] data)
         {
-            PacketBuffer buffer;
-            buffer = new PacketBuffer();
-
+            PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
-            buffer.Dispose();
+            buffer.GetInteger();
+
+            byte dir = buffer.GetByte();
+
+            GameLogicHandler.PlayerAttack(index, dir);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Xml;
 using YnamarServer.Network;
+using YnamarServer.Database;
 using static YnamarServer.Network.NetworkPackets;
 
 /// <summary>
@@ -12,13 +13,16 @@ using static YnamarServer.Network.NetworkPackets;
 public class ServerProtocol
 {
     private ServerHandleData handleServerData;
+    private Host server;
+
+    private Dictionary<uint, Peer> connectedClients = new();
 
     public void initializeNetwork()
     {
         ENet.Library.Initialize();
         handleServerData = new ServerHandleData();
 
-        using Host server = new();
+        server = new Host();
         Address address = new()
         {
             Port = 8081
@@ -27,7 +31,7 @@ public class ServerProtocol
 
         Event netEvent;
 
-        while (!Console.KeyAvailable)
+        while (true)
         {
             bool polled = false;
 
@@ -48,14 +52,17 @@ public class ServerProtocol
 
                     case EventType.Connect:
                         Console.WriteLine("Client connected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        connectedClients[netEvent.Peer.ID] = netEvent.Peer;
                         break;
 
                     case EventType.Disconnect:
                         Console.WriteLine("Client disconnected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        connectedClients.Remove(netEvent.Peer.ID);
                         break;
 
                     case EventType.Timeout:
                         Console.WriteLine("Client timeout - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        connectedClients.Remove(netEvent.Peer.ID);
                         break;
 
                     case EventType.Receive:
@@ -73,41 +80,57 @@ public class ServerProtocol
         server.Flush();
     }
 
-    // Resolver essa questão aqui, ainda não é possivel mandar os dados pro cliente por que o peer esta somento no escopo ali da conexão
-    // Também ver como será possivel via UDP enviar o dado pra todos que estiverem no mapa.
-    public void SendData(int index, byte[] data)
+    public void SendData(uint clientId, byte[] data, byte channel = 0)
     {
-        if (serverPeer.IsSet && serverPeer.State == PeerState.Connected)
+        if (connectedClients.TryGetValue(clientId, out Peer peer))
         {
-            Packet packet = default(Packet);
-            packet.Create(data);
-            serverPeer.Send(0, ref packet);
-            client.Flush();
+            Packet packet = default;
+            packet.Create(data, PacketFlags.Reliable);
+            peer.Send(channel, ref packet);
+            Console.WriteLine($"Sent {data.Length} bytes to client {clientId}");
         }
         else
         {
-            Console.WriteLine("Not connected yet, cannot send!");
+            Console.WriteLine($"Client {clientId} not found.");
+        }
+    }
+
+
+    public void Broadcast(byte channel, byte[] data)
+    {
+        Packet packet = default;
+        packet.Create(data, PacketFlags.Reliable);
+
+        foreach (var peer in connectedClients.Values)
+        {
+            peer.Send(channel, ref packet);
         }
 
-    }
-    public void SendData(int index, byte[] data, Event netEvent)
-    {
-        Packet packet = default(Packet);
-        packet.Create(data);
-        netEvent.Peer.Send(netEvent.ChannelID, ref packet);
+        Console.WriteLine($"Broadcasted {data.Length} bytes to {connectedClients.Count} clients.");
     }
 
     public void SendDataToMap(int mapNum, byte[] data)
     {
-        for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+        for (int i = 0; i < YnamarServer.Constants.MAX_PLAYERS; i++)
         {
             if (isConnected(i) && isPlaying(i))
             {
                 if (InMemoryDatabase.Player[i].Map == mapNum)
                 {
-                    SendData(i, data);
+                    SendData((uint)i, data);
                 }
             }
         }
     }
+
+    public bool isConnected(int index)
+    {
+        return connectedClients.TryGetValue((uint)index, out Peer peer);
+    }
+
+    public bool isPlaying(int index)
+    {
+        return InMemoryDatabase.Player[index] != null;
+    }
+
 }

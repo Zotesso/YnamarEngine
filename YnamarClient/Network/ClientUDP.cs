@@ -65,7 +65,7 @@ namespace YnamarClient.Network
             return array;
         }
 
-        public void SendData(int index, byte[] data)
+        public void SendData(byte[] data)
         {
             if (serverPeer.IsSet && serverPeer.State == PeerState.Connected)
             {
@@ -82,12 +82,11 @@ namespace YnamarClient.Network
 
         public void SendPlayerAttack()
         {
-            Console.WriteLine("Client connection timeout");
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCAttack);
 
             buffer.AddByte(Types.Player[Globals.playerIndex].Dir);
-            SendData(0, buffer.ToArray());
+            SendData(buffer.ToArray());
             buffer.Dispose();
         }
     }

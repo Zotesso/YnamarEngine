@@ -208,15 +208,14 @@ namespace YnamarServer.GameLogic
         public static int? CheckForNpcInRange(int mapNum, int targetX, int targetY)
         {
             // Change Layer here - i need to update the character type to include the layerLevel he is, in order to only hit something that is in the same layer.
-            MapNpc[] mapNpcs = InMemoryDatabase.Maps[mapNum].Layer[0].MapNpc;
+            MapLayer mapLayer = InMemoryDatabase.Maps[mapNum].Layer.ElementAt(0);
+            // MapNpc[] mapNpcs = .MapNpc;
 
-            int index = npcs
+            int? index = mapLayer.MapNpc
                 .Select((npc, i) => new { npc, i })
-                .Where(x => x.npc.x == targetX && x.npc.y == targetY)
-                .Select(x => x.i)
-                .FirstOrDefault(-1);
+                .FirstOrDefault(a => a.npc.X == targetX && a.npc.Y == targetY)?.i;
 
-            return index => 0 ? index : null;
+            return index;
         }
     }
 }
