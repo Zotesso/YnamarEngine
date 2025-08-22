@@ -29,5 +29,10 @@ namespace YnamarServer.Network
         {
             UdpCAttack = 100,
         }
+
+        public enum ServerUdpPackets
+        {
+            UdpSNpcAttacked = 100,
+        }
     }
 }

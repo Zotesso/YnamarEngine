@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Xml;
 using YnamarServer.Network;
+using YnamarServer.Database;
 using static YnamarServer.Network.NetworkPackets;
 
 /// <summary>
@@ -11,10 +12,17 @@ using static YnamarServer.Network.NetworkPackets;
 /// </summary>
 public class ServerProtocol
 {
+    private ServerHandleData handleServerData;
+    private Host server;
+
+    private Dictionary<uint, Peer> connectedClients = new();
+
     public void initializeNetwork()
     {
         ENet.Library.Initialize();
-        using Host server = new();
+        handleServerData = new ServerHandleData();
+
+        server = new Host();
         Address address = new()
         {
             Port = 8081
@@ -23,7 +31,7 @@ public class ServerProtocol
 
         Event netEvent;
 
-        while (!Console.KeyAvailable)
+        while (true)
         {
             bool polled = false;
 
@@ -44,35 +52,25 @@ public class ServerProtocol
 
                     case EventType.Connect:
                         Console.WriteLine("Client connected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
-                        XmlDocument doc = new XmlDocument();
-
-                        //doc.Load("C:\\Users\\sirio\\source\\repos\\YnamarEngine\\YnamarServer\\bin\\Debug\\net8.0\\playerData.xml");
-                        doc.Load("playerData.xml");
-                        XmlNode node = doc.DocumentElement.FirstChild;
-
-                        string playerName = node.InnerText;
-
-                       // byte[] data = Encoding.ASCII.GetBytes(playerName);
-
-                        PacketBuffer buffer = new PacketBuffer();
-                        buffer.AddInteger((int)ServerPackets.SJoinGame);
-                        buffer.AddInteger(0); // indice do player
-                        buffer.AddString(playerName);
-
-                        SendData(0, buffer.ToArray(), netEvent);
-                        buffer.Dispose();
+                        connectedClients[netEvent.Peer.ID] = netEvent.Peer;
                         break;
 
                     case EventType.Disconnect:
                         Console.WriteLine("Client disconnected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        connectedClients.Remove(netEvent.Peer.ID);
                         break;
 
                     case EventType.Timeout:
                         Console.WriteLine("Client timeout - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        connectedClients.Remove(netEvent.Peer.ID);
                         break;
 
                     case EventType.Receive:
                         Console.WriteLine("Packet received from - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP + ", Channel ID: " + netEvent.ChannelID + ", Data length: " + netEvent.Packet.Length);
+                        byte[] buffer = new byte[netEvent.Packet.Length];
+                        netEvent.Packet.CopyTo(buffer);
+
+                        handleServerData.HandleNetworkMessages(netEvent.ChannelID, buffer);
                         netEvent.Packet.Dispose();
                         break;
                 }
@@ -82,10 +80,57 @@ public class ServerProtocol
         server.Flush();
     }
 
-    public void SendData(int index, byte[] data, Event netEvent)
+    public void SendData(uint clientId, byte[] data, byte channel = 0)
     {
-        Packet packet = default(Packet);
-        packet.Create(data);
-        netEvent.Peer.Send(netEvent.ChannelID, ref packet);
+        if (connectedClients.TryGetValue(clientId, out Peer peer))
+        {
+            Packet packet = default;
+            packet.Create(data, PacketFlags.Reliable);
+            peer.Send(channel, ref packet);
+            Console.WriteLine($"Sent {data.Length} bytes to client {clientId}");
+        }
+        else
+        {
+            Console.WriteLine($"Client {clientId} not found.");
+        }
     }
+
+
+    public void Broadcast(byte channel, byte[] data)
+    {
+        Packet packet = default;
+        packet.Create(data, PacketFlags.Reliable);
+
+        foreach (var peer in connectedClients.Values)
+        {
+            peer.Send(channel, ref packet);
+        }
+
+        Console.WriteLine($"Broadcasted {data.Length} bytes to {connectedClients.Count} clients.");
+    }
+
+    public void SendDataToMap(int mapNum, byte[] data)
+    {
+        for (int i = 0; i < YnamarServer.Constants.MAX_PLAYERS; i++)
+        {
+            if (isConnected(i) && isPlaying(i))
+            {
+                if (InMemoryDatabase.Player[i].Map == mapNum)
+                {
+                    SendData((uint)i, data);
+                }
+            }
+        }
+    }
+
+    public bool isConnected(int index)
+    {
+        return connectedClients.TryGetValue((uint)index, out Peer peer);
+    }
+
+    public bool isPlaying(int index)
+    {
+        return InMemoryDatabase.Player[index] != null;
+    }
+
 }

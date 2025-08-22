@@ -21,11 +21,10 @@ public class General
 
     public void initializeServer()
     {
-        serverProtocol = new ServerProtocol();
         handleServerData = new ServerHandleData();
         handleServerData.InitializeMessages();
 
-        serverProtocol.initializeNetwork();
+        NetworkManager.ServerUdp.initializeNetwork();
     }
 
     public void initializeTCPServer()

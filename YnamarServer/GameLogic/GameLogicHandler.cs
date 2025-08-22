@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static YnamarServer.Network.NetworkPackets;
 using YnamarServer.Network;
 using YnamarServer.Database;
+using YnamarServer.Services;
 
 namespace YnamarServer.GameLogic
 {
@@ -35,6 +36,21 @@ namespace YnamarServer.GameLogic
 
                 stcp.SendDataToMapBut(index, InMemoryDatabase.Player[index].Map, buffer.ToArray());
                 buffer.Dispose();
+            }
+        }
+
+        public static void PlayerAttack(int index, byte dir)
+        {
+            int targetX = DirToX(InMemoryDatabase.Player[index].X, dir);
+            int targetY = DirToY(InMemoryDatabase.Player[index].Y, dir);
+            int playerMapNum = InMemoryDatabase.Player[index].Map;
+            int? mapNpcIndex = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
+
+            if (mapNpcIndex.HasValue)
+            {
+                InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
+                NpcService npcService = Program.npcService;
+                npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
             }
         }
         public static int DirToX(int x, byte dir)
