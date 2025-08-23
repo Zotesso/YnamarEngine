@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Network;
-using YnamarServer.Database.Models;
+using YnamarClient.Database.Models;
 using static YnamarClient.Network.NetworkPackets;
 
 namespace YnamarClient

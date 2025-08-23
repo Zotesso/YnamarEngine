@@ -55,5 +55,7 @@ namespace YnamarServer.Database.Models
         public int HP { get; set; }
 
         public Account Account { get; set; } = null!;
+
+        public Inventory Inventory { get; set; } = null!;
     }
 }

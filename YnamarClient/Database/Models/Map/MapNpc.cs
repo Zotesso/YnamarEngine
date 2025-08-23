@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using YnamarClient.Database.Models;
 
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class MapNpc

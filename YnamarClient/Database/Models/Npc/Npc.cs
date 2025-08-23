@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class Npc
