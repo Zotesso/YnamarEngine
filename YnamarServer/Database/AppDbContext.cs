@@ -11,6 +11,7 @@ namespace YnamarServer.Database
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
+        public virtual DbSet<MapNpc> MapNpc { get; set; }
         public virtual DbSet<Npc> Npcs { get; set; }
         public virtual DbSet<NpcDrop> NpcDrops { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }

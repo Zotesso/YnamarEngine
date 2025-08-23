@@ -6,6 +6,9 @@ using YnamarServer.Services;
 
 internal class Program
 {
+    private static Stopwatch _stopwatch = Stopwatch.StartNew();
+    public static long CurrentTick { get; private set; }
+
     private static General? general;
     private static Thread? consoleThread;
     private static Thread? tcpServerThread;
@@ -72,13 +75,13 @@ internal class Program
 
         bool serverOnline = true;
 
-        Stopwatch stopwatch = Stopwatch.StartNew();
-
         while (serverOnline)
         {
-            tick = stopwatch.ElapsedMilliseconds;
+            tick = _stopwatch.ElapsedMilliseconds;
             elapsedTime = tick - frameTime;
             frameTime = tick;
+
+            CurrentTick = tick;
 
             if (tick >= tmr500)
             {

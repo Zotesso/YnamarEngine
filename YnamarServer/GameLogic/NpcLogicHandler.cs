@@ -130,5 +130,22 @@ namespace YnamarServer.GameLogic
             MapService mapService = Program.mapService;
             mapService.SendMapNpcToMap(mapNum, layerNum, mapNpc);
         }
+
+        public static void NpcAttacked(int playerMapNum, int mapNpcIndex, int damage)
+        {
+            InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= damage;
+            NpcService npcService = Program.npcService;
+
+            if (InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp <= 0)
+            {
+                InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).RespawnWait = (int)Program.CurrentTick;
+                Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpcIndex);
+                npcService.SendNpcKilledToMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+                return;
+            }
+
+            npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+
+        }
     }
 }

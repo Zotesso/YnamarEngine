@@ -27,6 +27,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
             Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
             Packets.Add((int)ServerPackets.SNpcMove, HandleNpcMove);
+            Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -145,6 +146,19 @@ namespace YnamarClient.Network
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
             Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+        }
+
+        private void HandleNpcKilled(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int mapNum = buffer.GetInteger();
+            int layerNum = buffer.GetInteger();
+            int mapNpcNum = buffer.GetInteger();
+
+            Types.Map[mapNum].Layer[layerNum].MapNpc.RemoveAt(Types.Map[mapNum].Layer[layerNum].MapNpc, mapNpcNum);
         }
     }
 }

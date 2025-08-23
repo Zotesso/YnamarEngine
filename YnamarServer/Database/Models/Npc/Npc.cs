@@ -35,6 +35,8 @@ namespace YnamarServer.Database.Models
         [ProtoMember(7)]
         public byte Behavior { get; set; }
 
+        public int RespawnTime { get; set; }
+
         public ICollection<NpcDrop> Drops { get; set; } = new List<NpcDrop>();
     }
 }
