@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Database.Models;
-using YnamarServer.Database.Models;
 using static YnamarClient.Types;
 
 namespace YnamarClient.Services

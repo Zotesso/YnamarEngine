@@ -48,9 +48,10 @@ namespace YnamarServer.GameLogic
 
             if (mapNpcIndex.HasValue)
             {
-                InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
-                NpcService npcService = Program.npcService;
-                npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+                NpcLogicHandler.NpcAttacked(playerMapNum, (int)mapNpcIndex, 50);
+                //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
+               // NpcService npcService = Program.npcService;
+                //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
             }
         }
         public static int DirToX(int x, byte dir)

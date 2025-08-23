@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.GUI;
+using YnamarClient.Database.Models;
 using static YnamarClient.Network.NetworkPackets;
 
 namespace YnamarClient.Network
@@ -18,7 +19,7 @@ namespace YnamarClient.Network
         {
             Packets = new Dictionary<int, Packet>();
 
-            Packets.Add((int)ServerPackets.SJoinGame, HandleJoinGame);
+            Packets.Add((int)ServerUdpPackets.UdpSNpcAttacked, HandleNpcAttacked);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -37,23 +38,19 @@ namespace YnamarClient.Network
             }
         }
 
-        private void HandleJoinGame(int index, byte[] data)
+        private void HandleNpcAttacked(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
             buffer.GetInteger();
 
-            int playerIndex = buffer.GetInteger();
-            string targetName = buffer.GetString();
+            int mapNum = buffer.GetInteger();
+            int layerNum = buffer.GetInteger();
+            int mapNpcNum = buffer.GetInteger();
 
-            //Types.Player[0].Name = targetName;
-
-           // MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
-           // GameLogic.InGame();
-
-            //Globals.playerIndex = buffer.GetInteger();
-            //Types.Player[Globals.playerIndex].Name = buffer.GetString();
-            //int playerMap = buffer.GetInteger();
+            int bufferLength = buffer.GetInteger();
+            byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
+            MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
         }
     }
 }

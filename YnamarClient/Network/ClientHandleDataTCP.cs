@@ -7,7 +7,6 @@ using static YnamarClient.Network.NetworkPackets;
 using YnamarClient.GUI;
 using YnamarClient.Database.Models;
 using YnamarClient.Services;
-using YnamarServer.Database.Models;
 
 namespace YnamarClient.Network
 {
@@ -28,6 +27,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
             Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
             Packets.Add((int)ServerPackets.SNpcMove, HandleNpcMove);
+            Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -145,34 +145,20 @@ namespace YnamarClient.Network
             byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
-            if (Types.Map[mapNum].Equals(Globals.PlayerMap) && Globals.InGame)
-            {
-                Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
-                Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].XOffset = 0;
-                Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].YOffset = 0;
-                Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].Moving = 1;
+            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+        }
 
-                switch (Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].Dir)
-                {
-                    case Constants.DIR_UP:
-                        Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].YOffset = 32;
-                        //Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].Y -= 1;
-                        break;
-                    case Constants.DIR_DOWN:
-                        Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].YOffset = (32 * -1);
-                        //Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].Y += 1;
-                        break;
-                    case Constants.DIR_LEFT:
-                        Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].XOffset = 32;
-                        //Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].X -= 1;
-                        break;
-                    case Constants.DIR_RIGHT:
-                        Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].XOffset = (32 * -1);
-                       // Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum].X += 1;
-                        break;
-                }
-                GameLogic.ProcessNpcMovement(Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum]);
-            }
+        private void HandleNpcKilled(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int mapNum = buffer.GetInteger();
+            int layerNum = buffer.GetInteger();
+            int mapNpcNum = buffer.GetInteger();
+
+            Types.Map[mapNum].Layer[layerNum].MapNpc.RemoveAt(Types.Map[mapNum].Layer[layerNum].MapNpc, mapNpcNum);
         }
     }
 }

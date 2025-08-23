@@ -6,7 +6,6 @@ using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using YnamarClient.Network;
 using YnamarClient.Database.Models;
-using YnamarServer.Database.Models;
 
 namespace YnamarClient
 {

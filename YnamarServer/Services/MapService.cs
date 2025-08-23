@@ -49,6 +49,28 @@ namespace YnamarServer.Services
             };
         }
 
+        public async Task SaveMapNpcRespawnWait(int playerMapNum, int layerIndex, int mapNpcIndex)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                MapNpc inMemoryMapNpc = InMemoryDatabase.Maps[playerMapNum]
+                    .Layer.ElementAt(layerIndex)
+                    .MapNpc.ElementAt(mapNpcIndex);
+
+                var npc = new MapNpc { Id = inMemoryMapNpc.Id };
+
+                dbContext.Attach(npc);
+
+                dbContext.Entry(npc).Property(x => x.RespawnWait).CurrentValue = inMemoryMapNpc.RespawnWait;
+                dbContext.Entry(npc).Property(x => x.RespawnWait).IsModified = true;
+
+                await dbContext.SaveChangesAsync();
+            };
+        }
+
         public void SendMapToClient(int index, Map map)
         {
             PacketBuffer bufferSend = new PacketBuffer();

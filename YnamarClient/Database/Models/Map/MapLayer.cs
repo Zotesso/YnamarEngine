@@ -1,7 +1,7 @@
 ﻿using ProtoBuf;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using YnamarServer.Database.Models;
+using YnamarClient.Database.Models;
 
 namespace YnamarClient.Database.Models
 {

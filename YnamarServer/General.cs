@@ -16,7 +16,10 @@ public class General
     public async Task LoadInMemoryResources()
     {
         MapService mapService = Program.mapService;
+        NpcService npcService = Program.npcService;
+
         InMemoryDatabase.Maps = (await mapService.LoadAllMaps()).ToArray();
+        InMemoryDatabase.Npcs = (await npcService.LoadAllNpcs()).ToArray();
     }
 
     public void initializeServer()

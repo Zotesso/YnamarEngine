@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using YnamarClient.Database.Models;
 
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class MapNpc
@@ -20,7 +20,7 @@ namespace YnamarServer.Database.Models
         public int Hp { get; set; }
 
         [ProtoMember(2)]
-        public bool InRespawn { get; set; }
+        public bool RespawnWait { get; set; }
         public MapLayer Layer { get; set; } = null!;
 
         [ProtoMember(3)]

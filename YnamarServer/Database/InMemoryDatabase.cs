@@ -11,5 +11,6 @@ namespace YnamarServer.Database
     {
         public static Character[] Player = new Character[Constants.MAX_PLAYERS];
         public static Map[] Maps = new Map[Constants.MAX_MAPS];
+        public static Npc[] Npcs = new Npc[Constants.MAX_NPCS];
     }
 }

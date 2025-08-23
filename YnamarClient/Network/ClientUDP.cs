@@ -44,6 +44,11 @@ namespace YnamarClient.Network
 
                         case EventType.Receive:
                             Console.WriteLine("Got data: " + netEvent.Packet.Length);
+                            byte[] buffer = new byte[netEvent.Packet.Length];
+                            netEvent.Packet.CopyTo(buffer);
+
+                            clientDataHandle.HandleNetworkMessages(netEvent.ChannelID, buffer);
+
                             netEvent.Packet.Dispose();
                             break;
 

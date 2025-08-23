@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarClient.Database.Models
+namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class Npc
+    internal class Item
     {
         [Key]
         public int Id { get; set; }
@@ -18,21 +18,13 @@ namespace YnamarClient.Database.Models
         public string Name { get; set; }
 
         [ProtoMember(2)]
-        public int Sprite { get; set; }
+        public string Description { get; set; }
 
         [ProtoMember(3)]
-        public int Level { get; set; }
+        public bool Stackable { get; set; }
 
         [ProtoMember(4)]
-        public int MaxHp { get; set; }
+        public int Type { get; set; }
 
-        [ProtoMember(5)]
-        public int Atk { get; set; }
-
-        [ProtoMember(6)]
-        public int Def { get; set; }
-
-        [ProtoMember(7)]
-        public byte Behavior { get; set; }
     }
 }

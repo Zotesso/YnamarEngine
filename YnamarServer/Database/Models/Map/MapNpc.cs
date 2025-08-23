@@ -19,7 +19,7 @@ namespace YnamarServer.Database.Models
         public int Hp { get; set; }
 
         [ProtoMember(2)]
-        public bool InRespawn { get; set; }
+        public int RespawnWait { get; set; }
         public MapLayer Layer { get; set; } = null!;
 
         [ProtoMember(3)]
