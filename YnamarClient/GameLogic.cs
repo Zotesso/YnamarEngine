@@ -212,6 +212,23 @@ namespace YnamarClient
             }
         }
 
+        public static void ProcessMapNpcsMovement()
+        {
+            int maxMapLayer = Globals.PlayerMap.Layer.Length;
+
+            for (int layer = 0; layer < maxMapLayer; layer++)
+            {
+                for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
+                {
+                    var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
+                    if (npc.RespawnWait > 0)
+                        continue;
+
+                    ProcessNpcMovement(npc);
+                }
+            }
+        }
+
         public static void ProcessNpcMovement(MapNpc mapNpc)
         {
             int movementSpeed = 6;//(Types.Player[index].Moving * 6);

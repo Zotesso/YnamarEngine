@@ -23,7 +23,7 @@ namespace YnamarServer.GameLogic
                 {
                     foreach (MapNpc mapNpc in layer.MapNpc)
                     {
-                        if (mapNpc != null)
+                        if (mapNpc != null && mapNpc.RespawnWait == 0)
                         {
                             
                             int i = rnd.Next(0, 5); // Generates 0 to 4 inclusive

@@ -235,9 +235,14 @@ namespace YnamarClient
 
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
                 {
-                    DrawMapNpc(Globals.PlayerMap.Layer[layer].MapNpc[x]);
-                    DrawNpcName(Globals.PlayerMap.Layer[layer].MapNpc[x]);
-                    DrawNpcHealthBar(Globals.PlayerMap.Layer[layer].MapNpc[x]);
+
+                    var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
+                    if (npc.RespawnWait > 0)
+                        continue;
+
+                    DrawMapNpc(npc);
+                    DrawNpcName(npc);
+                    DrawNpcHealthBar(npc);
                 }
             }
         }
