@@ -93,7 +93,10 @@ namespace YnamarServer.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                return await dbContext.Characters.FindAsync(id);
+                return await dbContext.Characters.Include(p => p.Inventory)
+                            .ThenInclude(i => i.Slots)
+                                .ThenInclude(y => y.Item)
+                        .FirstOrDefaultAsync(c => c.Id == id);
             };
         }
     }

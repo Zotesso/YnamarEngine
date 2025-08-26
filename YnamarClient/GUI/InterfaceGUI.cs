@@ -13,6 +13,7 @@ using GumRuntime;
 using Gum.Wireframe;
 using MonoGameGum;
 using YnamarClient.Screens;
+using YnamarClient.Components;
 
 namespace YnamarClient.GUI
 {
@@ -33,6 +34,12 @@ namespace YnamarClient.GUI
         public void CreateWindow(Panel panel)
         {
             Windows.Add(panel);
+        }
+
+        public void CreateWindow_Inventory()
+        {
+            InventoryRuntime inventoryRuntime = new InventoryRuntime();
+            inventoryRuntime.AddToRoot();
         }
 
         public void CreateWindow_Login(Desktop desktop)

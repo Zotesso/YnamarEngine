@@ -2,25 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class InventorySlot
     {
-        [Key]
         [ProtoMember(1)]
         public int Id { get; set; }
 
-        [Required]
-        public int InventoryId { get; set; }
-
-        public Inventory Inventory { get; set; } = null!;
-
-        [Required]
         [ProtoMember(2)]
         public int SlotId { get; set; }
 

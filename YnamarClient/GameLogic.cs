@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Network;
 using YnamarClient.Database.Models;
+using YnamarClient.GUI;
 using static YnamarClient.Network.NetworkPackets;
 
 namespace YnamarClient
@@ -298,6 +299,11 @@ namespace YnamarClient
                     }
                 }
             }
+        }
+
+        public static void OpenInventory()
+        {
+            MenuManager.IGUI.CreateWindow_Inventory();
         }
 
         public static void InGame()

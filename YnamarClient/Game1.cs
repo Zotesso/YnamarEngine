@@ -28,7 +28,6 @@ namespace YnamarClient
         ClientHandleDataTCP clientDataHandleTCP;
         private static Thread tcpThread;
 
-        InterfaceGUI IGUI = new InterfaceGUI();
         public static Desktop desktop;
         public static GumProjectSave gumProject;
         float WalkTimer;
@@ -69,7 +68,7 @@ namespace YnamarClient
 
             base.Initialize();
 
-            IGUI.InitializeGUI(this, desktop);
+            MenuManager.IGUI.InitializeGUI(this, desktop);
             MenuManager.ChangeMenu(MenuManager.Menu.Login, desktop);
         }
 
@@ -88,8 +87,16 @@ namespace YnamarClient
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            Gum.Update(gameTime);
+            if (Globals.InGame)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.E))
+                {
+                    GameLogic.OpenInventory();
+                }
+            }
+
+                // TODO: Add your update logic here
+                Gum.Update(gameTime);
             base.Update(gameTime);
         }
 

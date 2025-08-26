@@ -2,102 +2,46 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "LoginScreen",
+        "NewName": "Inventory",
         "OldName": null,
-        "ElementType": "Screens",
+        "ElementType": "Components",
         "EventType": 0,
-        "TimestampUtc": "2025-04-18T00:23:52.1122731Z"
+        "TimestampUtc": "2025-08-24T22:00:00.6940251Z"
       },
       {
-        "NewName": "LoginScreen.RectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:24:22.5366878Z"
-      },
-      {
-        "NewName": "LoginScreen.ColoredRectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:27:22.6765431Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "LoginScreen.Rectangle RectangleInstance in LoginScreen",
-        "ElementType": "Screens",
-        "EventType": 6,
-        "TimestampUtc": "2025-04-18T00:27:26.1673403Z"
-      },
-      {
-        "NewName": "LoginScreen.TextInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:27:55.7075334Z"
-      },
-      {
-        "NewName": "LoginScreen.TextInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:29:53.9552737Z"
-      },
-      {
-        "NewName": "LoginScreen.TextInstance2",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:30:43.8970906Z"
-      },
-      {
-        "NewName": "LoginScreen.TextBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:31:57.6467389Z"
-      },
-      {
-        "NewName": "LoginScreen.TextBoxInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:32:03.9294545Z"
-      },
-      {
-        "NewName": "LoginScreen.ButtonConfirmInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:33:35.965193Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "LoginScreen.Controls/ButtonConfirm ButtonConfirmInstance in LoginScreen",
-        "ElementType": "Screens",
-        "EventType": 6,
-        "TimestampUtc": "2025-04-18T00:33:56.2093018Z"
-      },
-      {
-        "NewName": "Controls/ButtonIcon (Container).ButtonStandardInstance",
+        "NewName": "Inventory (Container).Gray",
         "OldName": null,
         "ElementType": "Components",
         "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:34:04.2964325Z"
+        "TimestampUtc": "2025-08-24T22:01:39.0352853Z"
       },
       {
-        "NewName": "LoginScreen.ButtonStandardIconInstance",
+        "NewName": "Inventory (Container).Title",
         "OldName": null,
-        "ElementType": "Screens",
+        "ElementType": "Components",
         "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:34:57.3978471Z"
+        "TimestampUtc": "2025-08-24T22:06:36.0220434Z"
       },
       {
-        "NewName": "LoginScreen.SpriteInstance",
+        "NewName": "InventoryItem",
         "OldName": null,
-        "ElementType": "Screens",
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2025-08-24T22:10:06.4775501Z"
+      },
+      {
+        "NewName": "InventoryItem (Container).Black",
+        "OldName": null,
+        "ElementType": "Components",
         "EventType": 5,
-        "TimestampUtc": "2025-04-18T00:57:49.2235318Z"
+        "TimestampUtc": "2025-08-24T22:10:19.6485462Z"
+      },
+      {
+        "NewName": "InventoryItem (Container).SpriteInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-24T22:29:23.7063622Z"
       }
     ]
   }
