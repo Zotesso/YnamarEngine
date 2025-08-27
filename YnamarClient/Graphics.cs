@@ -14,6 +14,7 @@ namespace YnamarClient
 
         public static Texture2D[] Characters = new Texture2D[3];
         public static Texture2D[] Tilesets = new Texture2D[1];
+        public static Texture2D[] Items = new Texture2D[1];
         private static SpriteFont font;
 
         public static Texture2D healthbarFull;
@@ -24,6 +25,7 @@ namespace YnamarClient
             LoadFonts(manager);
             LoadCharacters(manager);
             LoadTilesets(manager);
+            LoadItems(manager);
             LoadGFX(manager);
         }
 
@@ -46,10 +48,19 @@ namespace YnamarClient
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
             }
         }
+
         private static void LoadGFX(ContentManager manager)
         {
             healthbarFull = manager.Load<Texture2D>("GFX/Player/healthbar1");
             healthbar = manager.Load<Texture2D>("GFX/Player/healthbar2");
+        }
+
+        private static void LoadItems(ContentManager manager)
+        {
+            for (int i = 0; i < Items.Length; i++)
+            {
+                Items[i] = manager.Load<Texture2D>("Items/item" + i.ToString());
+            }
         }
 
         public static void RenderGraphics(GameTime gameTime)
@@ -235,9 +246,14 @@ namespace YnamarClient
 
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
                 {
-                    DrawMapNpc(Globals.PlayerMap.Layer[layer].MapNpc[x]);
-                    DrawNpcName(Globals.PlayerMap.Layer[layer].MapNpc[x]);
-                    DrawNpcHealthBar(Globals.PlayerMap.Layer[layer].MapNpc[x]);
+
+                    var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
+                    if (npc.RespawnWait > 0)
+                        continue;
+
+                    DrawMapNpc(npc);
+                    DrawNpcName(npc);
+                    DrawNpcHealthBar(npc);
                 }
             }
         }

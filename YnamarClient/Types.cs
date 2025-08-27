@@ -62,6 +62,9 @@ namespace YnamarClient
             [ProtoMember(13)]
             public int HP;
 
+            [ProtoMember(14)]
+            public Inventory Inventory;
+
             public int AttackCooldown;
             public bool Attacking;
         }

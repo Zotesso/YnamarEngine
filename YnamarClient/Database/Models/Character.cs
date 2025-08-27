@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using ProtoBuf;
 
-namespace YnamarServer.Database.Models
+namespace YnamarClient.Database.Models
 {
     [ProtoContract]
     internal class Character
     {
-        [Key]
-        public int Id { get; set; }
-
         [ProtoMember(1)]
         public string Name { get; set; }
 
@@ -53,8 +49,6 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(13)]
         public int HP { get; set; }
-
-        public Account Account { get; set; } = null!;
 
         [ProtoMember(14)]
         public Inventory Inventory { get; set; } = null!;

@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Network;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Gum.DataTypes;
 using GumRuntime;
 using Gum.Wireframe;
 using MonoGameGum;
 using YnamarClient.Screens;
+using YnamarClient.Database.Models;
+using YnamarClient.Components;
 
 namespace YnamarClient.GUI
 {
@@ -33,6 +36,29 @@ namespace YnamarClient.GUI
         public void CreateWindow(Panel panel)
         {
             Windows.Add(panel);
+        }
+
+        public void CreateWindow_Inventory()
+        {
+            InventoryRuntime inventoryRuntime = new InventoryRuntime();
+
+            foreach (var slot in Types.Player[Globals.playerIndex].Inventory.Slots.Select((value, i) => new { i, value }))
+            {
+                Texture2D texture = Graphics.Items[0]; //Atualizar pra pegar o spriteNum do item.
+
+                InventoryItemRuntime invSlot = new InventoryItemRuntime();
+
+                invSlot.SpriteInstance.Texture = texture;
+                int column = slot.i % 5;
+                int row = slot.i / 5;
+
+                invSlot.X = inventoryRuntime.X + (column * 49) + ((column + 1) * 5);
+                invSlot.Y = inventoryRuntime.Y + 50 + (row * 49);
+
+                inventoryRuntime.Children.Add(invSlot);
+            }
+            
+            inventoryRuntime.AddToRoot();
         }
 
         public void CreateWindow_Login(Desktop desktop)
@@ -60,7 +86,7 @@ namespace YnamarClient.GUI
             screeen.AddToRoot();
 
             Panel panel = new Panel();
-
+            /*
             Label lblLogin = new Label
             {
                 Id = "lblLogin",
@@ -155,15 +181,16 @@ namespace YnamarClient.GUI
             };
 
             //panel.Widgets.Add(register);
-
+*/
             CreateWindow(panel);
+            
         }
 
         public void CreateWindow_Register(Desktop desktop)
         {
 
-            Panel panel = new Panel();
-
+           Panel panel = new Panel();
+ /*
             Label lblRegister = new Label
             {
                 Id = "lblRegister",
@@ -296,8 +323,9 @@ namespace YnamarClient.GUI
                 }
             };
 
-            panel.Widgets.Add(back);
+            panel.Widgets.Add(back); */
             CreateWindow(panel);
+           
         }
 
         public void CreateWindow_InGame()
@@ -315,8 +343,8 @@ namespace YnamarClient.GUI
             {
                 Margin = new Thickness(0, 40, 0, 0),
                 Width = 200,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Left,
+                VerticalAlignment = Myra.Graphics2D.UI.VerticalAlignment.Bottom,
             };
            
             panel.Widgets.Add(txtGameChatBox);

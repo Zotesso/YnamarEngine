@@ -158,7 +158,11 @@ namespace YnamarClient.Network
             int layerNum = buffer.GetInteger();
             int mapNpcNum = buffer.GetInteger();
 
-            Types.Map[mapNum].Layer[layerNum].MapNpc.RemoveAt(Types.Map[mapNum].Layer[layerNum].MapNpc, mapNpcNum);
-        }
+            int bufferLength = buffer.GetInteger();
+            byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
+            MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
+
+            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+        }   
     }
 }

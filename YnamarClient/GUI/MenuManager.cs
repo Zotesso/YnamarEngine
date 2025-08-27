@@ -10,6 +10,8 @@ namespace YnamarClient.GUI
     internal class MenuManager
     {
         public static Menu menu;
+        public static InterfaceGUI IGUI { get; } = new InterfaceGUI();
+
         public enum Menu
         {
             Login,
