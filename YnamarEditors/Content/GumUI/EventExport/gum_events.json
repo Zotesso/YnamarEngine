@@ -1,0 +1,104 @@
+{
+  "UserEvents": {
+    "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
+      {
+        "NewName": "Inventory",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2025-08-24T22:00:00.6940251Z"
+      },
+      {
+        "NewName": "Inventory (Container).Gray",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-24T22:01:39.0352853Z"
+      },
+      {
+        "NewName": "Inventory (Container).Title",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-24T22:06:36.0220434Z"
+      },
+      {
+        "NewName": "InventoryItem",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2025-08-24T22:10:06.4775501Z"
+      },
+      {
+        "NewName": "InventoryItem (Container).Black",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-24T22:10:19.6485462Z"
+      },
+      {
+        "NewName": "InventoryItem (Container).SpriteInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-24T22:29:23.7063622Z"
+      },
+      {
+        "NewName": "EditorSelector",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 0,
+        "TimestampUtc": "2025-08-30T01:57:08.156132Z"
+      },
+      {
+        "NewName": "EditorSelector.ContainerInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-30T02:00:40.4758108Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "EditorSelector.Container ContainerInstance in EditorSelector",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2025-08-30T02:01:06.2854557Z"
+      },
+      {
+        "NewName": "EditorSelector.ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-30T02:01:08.8353783Z"
+      },
+      {
+        "NewName": "EditorSelector.TextInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-30T02:02:25.9065817Z"
+      },
+      {
+        "NewName": "EditorSelector.ButtonStandardInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-30T02:03:38.1447058Z"
+      },
+      {
+        "NewName": "MapEditor",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 0,
+        "TimestampUtc": "2025-08-30T02:05:16.2340004Z"
+      },
+      {
+        "NewName": "MapEditor.ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-08-30T02:05:38.2896064Z"
+      }
+    ]
+  }
+}
