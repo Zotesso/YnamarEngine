@@ -23,6 +23,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <!-- Inclui todos os arquivos dentro de Content -->
+    <Content Include="Content\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Gum.MonoGame" Version="2025.8.26.1" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
   </ItemGroup>

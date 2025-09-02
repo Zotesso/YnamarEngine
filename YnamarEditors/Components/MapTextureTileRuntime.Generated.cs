@@ -1,4 +1,4 @@
-//Code for Controls/ButtonStandard (Container)
+//Code for MapTextureTile (Container)
 using GumRuntime;
 using Gum.Converters;
 using Gum.DataTypes;
@@ -12,13 +12,12 @@ using System.Linq;
 
 namespace YnamarEditors.Components
 {
-    partial class ButtonStandardRuntime:ContainerRuntime
+    partial class MapTextureTileRuntime:ContainerRuntime
     {
         [System.Runtime.CompilerServices.ModuleInitializer]
         public static void RegisterRuntimeType()
         {
-            GumRuntime.ElementSaveExtensions.RegisterGueInstantiationType("Controls/ButtonStandard", typeof(ButtonStandardRuntime));
-            MonoGameGum.Forms.Controls.FrameworkElement.DefaultFormsComponents[typeof(MonoGameGum.Forms.Controls.Button)] = typeof(ButtonStandardRuntime);
+            GumRuntime.ElementSaveExtensions.RegisterGueInstantiationType("MapTextureTile", typeof(MapTextureTileRuntime));
         }
         public MonoGameGum.Forms.Controls.Button FormsControl => FormsControlAsObject as MonoGameGum.Forms.Controls.Button;
         public enum ButtonCategory
@@ -50,21 +49,18 @@ namespace YnamarEditors.Components
                 }
             }
         }
-        public NineSliceRuntime Background { get; protected set; }
-        public TextRuntime TextInstance { get; protected set; }
-        public NineSliceRuntime FocusedIndicator { get; protected set; }
+        public SpriteRuntime SpriteInstance { get; protected set; }
 
-        public string ButtonDisplayText
+        public int texturePosition
         {
-            get => TextInstance.Text;
-            set => TextInstance.Text = value;
+            get;
+            set;
         }
-
-        public ButtonStandardRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
+        public MapTextureTileRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
             if(fullInstantiation)
             {
-                var element = ObjectFinder.Self.GetElementSave("Controls/ButtonStandard");
+                var element = ObjectFinder.Self.GetElementSave("MapTextureTile");
                 element?.SetGraphicalUiElement(this, global::RenderingLibrary.SystemManagers.Default);
             }
 
@@ -77,9 +73,7 @@ namespace YnamarEditors.Components
             {
                 FormsControlAsObject = new MonoGameGum.Forms.Controls.Button(this);
             }
-            Background = this.GetGraphicalUiElementByName("Background") as NineSliceRuntime;
-            TextInstance = this.GetGraphicalUiElementByName("TextInstance") as TextRuntime;
-            FocusedIndicator = this.GetGraphicalUiElementByName("FocusedIndicator") as NineSliceRuntime;
+            SpriteInstance = this.GetGraphicalUiElementByName("SpriteInstance") as SpriteRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

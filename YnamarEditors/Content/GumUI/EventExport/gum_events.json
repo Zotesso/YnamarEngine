@@ -98,6 +98,20 @@
         "ElementType": "Screens",
         "EventType": 5,
         "TimestampUtc": "2025-08-30T02:05:38.2896064Z"
+      },
+      {
+        "NewName": "MapTextureTile",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2025-09-02T02:18:36.2498684Z"
+      },
+      {
+        "NewName": "MapTextureTile (Container).SpriteInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-02T02:19:15.9314256Z"
       }
     ]
   }
