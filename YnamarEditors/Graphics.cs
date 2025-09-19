@@ -4,20 +4,63 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
+using YnamarEditors.Screens;
+using System.Linq;
+using YnamarEditors.Components;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
+using RenderingLibrary.Graphics;
+using MonoGameGum.GueDeriving;
 
 namespace YnamarEditors
 {
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[1];
-        private static Rectangle _resourcesPanel = new Rectangle(0, 0, 300, 720);
-        private static Rectangle _mapPanel = new Rectangle(300, 0, 980, 720);
-
-        private static Texture2D _pixel;
+        private static Texture2D pixel;
+        private static int resourcePanelBoundariesX = 0;
 
         public static void InitializeGraphics(ContentManager manager)
         {
             LoadTilesets(manager);
+        }
+        public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
+        {
+            MapEditorRuntime mapEditorScreen = (MapEditorRuntime)menuManager.GetCurrentScreen();
+            int tileSize = 32;
+
+            var resourcePanel = mapEditorScreen.ResourcePanel;
+            resourcePanelBoundariesX = (int)resourcePanel.Width;
+            var tilesetSprite = new SpriteRuntime
+            {
+                Texture = Tilesets[0],
+                Width = Tilesets[0].Width,
+                Height = Tilesets[0].Height,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                X = 0,
+                Y = 0
+            };
+
+            var selectionBox = new RectangleRuntime
+            {
+                Name = "SelectionBox",
+                Width = tileSize,
+                Height = tileSize,
+                Color = Microsoft.Xna.Framework.Color.White, // no fill
+                //OutlineColor = Microsoft.Xna.Framework.Color.Yellow,
+                OutlineThickness = 2,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                Visible = false
+            };
+
+            // Add to Gum screen
+            resourcePanel.InnerPanelInstance.ChildrenLayout = Gum.Managers.ChildrenLayout.Regular;
+            resourcePanel.InnerPanelInstance.Children.Add(tilesetSprite);
+            resourcePanel.InnerPanelInstance.Children.Add(selectionBox);
+            selectionBox.Z = tilesetSprite.Z + 1;
+
         }
 
         private static void LoadTilesets(ContentManager manager)
@@ -28,36 +71,14 @@ namespace YnamarEditors
             }
         }
 
+
         public static void RenderGraphics(GraphicsDevice graphicsDevice)
         {
+            pixel = new Texture2D(graphicsDevice, 1, 1);
+            pixel.SetData(new[] { Color.White });
+
             Game1._spriteBatch.Begin();
-            _pixel = new Texture2D(graphicsDevice, width: 1, height: 1);
-            _pixel.SetData(new[] { Color.White });
-
-            //DrawMapGrid();
-            Game1._spriteBatch.Draw(_pixel, _resourcesPanel, Color.DarkGray);
-
-            // draw main map panel (blue-ish background)
-            Game1._spriteBatch.Draw(_pixel, _mapPanel, Color.LightBlue);
-
-            // Example: draw some placeholder textures in the resources panel
-            int y = 10;
-            foreach (var tex in Tilesets)
-            {
-                Game1._spriteBatch.Draw(tex, new Rectangle(10, y, 64, 64), Color.White);
-                y += 74;
-            }
-
-            // Example: draw grid in map panel
-            int tileSize = 32;
-            for (int x = _mapPanel.X; x < _mapPanel.Right; x += tileSize)
-            {
-                for (int y2 = _mapPanel.Y; y2 < _mapPanel.Bottom; y2 += tileSize)
-                {
-                    var rect = new Rectangle(x, y2, tileSize, tileSize);
-                    Game1._spriteBatch.Draw(_pixel, rect, Color.Black * 0.05f);
-                }
-            }
+            DrawMapGrid();
 
             Game1._spriteBatch.End();
         }
@@ -83,40 +104,51 @@ namespace YnamarEditors
             return y - (tileViewTop * 32) - cameraTop;
         }
 
-        /*
+        
         private static void DrawMapGrid()
         {
-            int maxMapLayer = Globals.PlayerMap.Layer.Length;
-
+            int maxMapLayer = 1;
+            Types.Maps[0].MaxMapX = 50;
+            Types.Maps[0].MaxMapY = 50;
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
-                for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
+                for (int x = 0; x < Types.Maps[0].MaxMapX; x++)
                 {
-                    for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
+                    for (int y = 0; y < Types.Maps[0].MaxMapY; y++)
                     {
-                        DrawTile(x * 32, y * 32, x, y, layer);
+                        DrawTileGrid((resourcePanelBoundariesX + 30) + (x * 32), y * 32, x, y, layer);
                     }
                 }
             }
         }
 
-        private static void DrawTile(int mapX, int mapY, int x, int y, int layerNum)
+        private static void DrawTileGrid(int mapX, int mapY, int x, int y, int layerNum)
         {
             Rectangle srcrec;
-            int tilesetnum = Globals.PlayerMap.Layer[layerNum].Tile[x,y].TilesetNumber;
+            //int tilesetnum = 0;
+            int tileSize = 32;
+            int thickness = 1;
 
             int MapX, MapY;
             MapX = ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
-            int TilesetX = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileX;
-            int TilesetY = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileY;
+            int TilesetX = Types.Maps[0].Layer[layerNum].Tile[x, y].TileX;
+            int TilesetY = Types.Maps[0].Layer[layerNum].Tile[x, y].TileY;
 
-            srcrec = new Rectangle(TilesetX, TilesetY, 32,32);
-            Game1.spriteBatch.Draw(Tilesets[tilesetnum], new Vector2(MapX, MapY), srcrec, Color.White);
+            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
+            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
+
+            Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY, tileSize, thickness), Color.White);
+            // Left line
+            Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY, thickness, tileSize), Color.White);
+            // Right line
+            Game1._spriteBatch.Draw(pixel, new Rectangle(MapX + tileSize - thickness, MapY, thickness, tileSize), Color.White);
+            // Bottom line
+            Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY + tileSize - thickness, tileSize, thickness), Color.White);
+
         }
     }
-        */
-    }
+    
 }

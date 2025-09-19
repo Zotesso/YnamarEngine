@@ -2,116 +2,130 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "Inventory",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 0,
-        "TimestampUtc": "2025-08-24T22:00:00.6940251Z"
-      },
-      {
-        "NewName": "Inventory (Container).Gray",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:01:39.0352853Z"
-      },
-      {
-        "NewName": "Inventory (Container).Title",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:06:36.0220434Z"
-      },
-      {
-        "NewName": "InventoryItem",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 0,
-        "TimestampUtc": "2025-08-24T22:10:06.4775501Z"
-      },
-      {
-        "NewName": "InventoryItem (Container).Black",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:10:19.6485462Z"
-      },
-      {
-        "NewName": "InventoryItem (Container).SpriteInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:29:23.7063622Z"
-      },
-      {
-        "NewName": "EditorSelector",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 0,
-        "TimestampUtc": "2025-08-30T01:57:08.156132Z"
-      },
-      {
-        "NewName": "EditorSelector.ContainerInstance",
+        "NewName": "MapEditor.ContainerInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-08-30T02:00:40.4758108Z"
+        "TimestampUtc": "2025-09-06T19:12:41.2320417Z"
+      },
+      {
+        "NewName": "MapEditor.EditorSection",
+        "OldName": "MapEditor.ColoredRectangleInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-06T19:12:52.3166164Z"
+      },
+      {
+        "NewName": "MapEditor.ResourcePanel",
+        "OldName": "MapEditor.ContainerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-06T19:13:05.4791368Z"
       },
       {
         "NewName": null,
-        "OldName": "EditorSelector.Container ContainerInstance in EditorSelector",
+        "OldName": "MapEditor.Container ResourcePanel in MapEditor",
         "ElementType": "Screens",
         "EventType": 6,
-        "TimestampUtc": "2025-08-30T02:01:06.2854557Z"
+        "TimestampUtc": "2025-09-06T19:13:41.2022835Z"
       },
       {
-        "NewName": "EditorSelector.ColoredRectangleInstance",
+        "NewName": "MapEditor.ScrollViewerInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-08-30T02:01:08.8353783Z"
+        "TimestampUtc": "2025-09-06T19:13:43.9388487Z"
       },
       {
-        "NewName": "EditorSelector.TextInstance",
+        "NewName": "MapEditor.ResourcePanel",
+        "OldName": "MapEditor.ScrollViewerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-06T19:13:52.6372368Z"
+      },
+      {
+        "NewName": "MapEditor.SpriteInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-08-30T02:02:25.9065817Z"
+        "TimestampUtc": "2025-09-06T19:14:46.2529589Z"
       },
       {
-        "NewName": "EditorSelector.ButtonStandardInstance",
-        "OldName": null,
+        "NewName": null,
+        "OldName": "MapEditor.Sprite SpriteInstance in MapEditor",
         "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-30T02:03:38.1447058Z"
+        "EventType": 6,
+        "TimestampUtc": "2025-09-06T19:16:42.4262509Z"
       },
       {
-        "NewName": "MapEditor",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 0,
-        "TimestampUtc": "2025-08-30T02:05:16.2340004Z"
-      },
-      {
-        "NewName": "MapEditor.ColoredRectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-30T02:05:38.2896064Z"
-      },
-      {
-        "NewName": "MapTextureTile",
+        "NewName": "MapResourceTile",
         "OldName": null,
         "ElementType": "Components",
         "EventType": 0,
-        "TimestampUtc": "2025-09-02T02:18:36.2498684Z"
+        "TimestampUtc": "2025-09-06T19:16:55.5906372Z"
       },
       {
-        "NewName": "MapTextureTile (Container).SpriteInstance",
+        "NewName": null,
+        "OldName": "MapResourceTile",
+        "ElementType": "Components",
+        "EventType": 1,
+        "TimestampUtc": "2025-09-06T19:17:07.2898944Z"
+      },
+      {
+        "NewName": "MapEditor.SpriteInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-19T00:58:45.2289021Z"
+      },
+      {
+        "NewName": "MapEditor.RectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-19T00:58:49.7108522Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "MapEditor.Sprite SpriteInstance in MapEditor",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2025-09-19T01:02:13.750778Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "MapEditor.Rectangle RectangleInstance in MapEditor",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2025-09-19T01:02:19.3539408Z"
+      },
+      {
+        "NewName": "Controls/ScrollViewer (Container).SpriteInstance",
         "OldName": null,
         "ElementType": "Components",
         "EventType": 5,
-        "TimestampUtc": "2025-09-02T02:19:15.9314256Z"
+        "TimestampUtc": "2025-09-19T01:02:23.813309Z"
+      },
+      {
+        "NewName": "Controls/ScrollViewer (Container).RectangleInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-19T01:02:36.2247973Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "Controls/ScrollViewer (Container).Sprite SpriteInstance in Controls/ScrollViewer (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2025-09-19T01:06:05.0489408Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "Controls/ScrollViewer (Container).Rectangle RectangleInstance in Controls/ScrollViewer (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2025-09-19T01:06:08.3778795Z"
       }
     ]
   }

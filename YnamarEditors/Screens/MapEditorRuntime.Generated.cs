@@ -1,14 +1,15 @@
 //Code for MapEditor
 using GumRuntime;
+using YnamarEditors.Components;
 using Gum.Converters;
 using Gum.DataTypes;
 using Gum.Managers;
 using Gum.Wireframe;
-using MonoGameGum.GueDeriving;
 
 using RenderingLibrary.Graphics;
 
 using System.Linq;
+using MonoGameGum.GueDeriving;
 
 namespace YnamarEditors.Screens
 {
@@ -19,7 +20,8 @@ namespace YnamarEditors.Screens
         {
             GumRuntime.ElementSaveExtensions.RegisterGueInstantiationType("MapEditor", typeof(MapEditorRuntime));
         }
-        public ColoredRectangleRuntime ColoredRectangleInstance { get; protected set; }
+        public ColoredRectangleRuntime EditorSection { get; protected set; }
+        public ScrollViewerRuntime ResourcePanel { get; protected set; }
 
         public MapEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -34,7 +36,8 @@ namespace YnamarEditors.Screens
         }
         public override void AfterFullCreation()
         {
-            ColoredRectangleInstance = this.GetGraphicalUiElementByName("ColoredRectangleInstance") as ColoredRectangleRuntime;
+            EditorSection = this.GetGraphicalUiElementByName("EditorSection") as ColoredRectangleRuntime;
+            ResourcePanel = this.GetGraphicalUiElementByName("ResourcePanel") as ScrollViewerRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code
