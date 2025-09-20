@@ -64,6 +64,8 @@ public class Game1 : Game
         Graphics.InitializeGraphics(Content);
 
         gumProject = Gum.Initialize(this, "GumUI/ynamarEditorsProject.gumx");
+        gumProject.DefaultCanvasWidth = 1280;
+        gumProject.DefaultCanvasHeight = 720;
         _menuManager = new MenuManager(gumProject);
 
         EditorSelectorRuntime mainMenu = (EditorSelectorRuntime)_menuManager.LoadScreen("EditorSelector");   

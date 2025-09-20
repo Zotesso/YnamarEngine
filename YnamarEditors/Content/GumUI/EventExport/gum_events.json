@@ -126,6 +126,146 @@
         "ElementType": "Components",
         "EventType": 6,
         "TimestampUtc": "2025-09-19T01:06:08.3778795Z"
+      },
+      {
+        "NewName": "MapEditor.ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T15:35:45.1346882Z"
+      },
+      {
+        "NewName": "MapEditor.HorizontalScrollbarSection",
+        "OldName": "MapEditor.ColoredRectangleInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T15:37:21.0896381Z"
+      },
+      {
+        "NewName": "MapEditor.ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T15:37:25.836306Z"
+      },
+      {
+        "NewName": "MapEditor.VerticalScrollbarSection",
+        "OldName": "MapEditor.ColoredRectangleInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T15:37:58.9601828Z"
+      },
+      {
+        "NewName": "MapEditor.ScrollBarInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T15:38:41.0852981Z"
+      },
+      {
+        "NewName": "MapEditor.ScrollBarInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T15:39:56.9234633Z"
+      },
+      {
+        "NewName": "MapEditor.HorizontalScrollbar",
+        "OldName": "MapEditor.ScrollBarInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T15:41:24.0695587Z"
+      },
+      {
+        "NewName": "MapEditor.VerticalScrollbar",
+        "OldName": "MapEditor.ScrollBarInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T15:41:31.22182Z"
+      },
+      {
+        "NewName": "MapEditor.TextInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:19:15.8254669Z"
+      },
+      {
+        "NewName": "MapEditor.TextInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:19:30.6567497Z"
+      },
+      {
+        "NewName": "MapEditor.TextInstance2",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:19:33.8176378Z"
+      },
+      {
+        "NewName": "MapEditor.TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:20:01.8529935Z"
+      },
+      {
+        "NewName": "MapEditor.TextBoxInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:22:07.7799329Z"
+      },
+      {
+        "NewName": "MapEditor.TextBoxInstance2",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-20T18:22:11.9510064Z"
+      },
+      {
+        "NewName": "MapEditor.MapNumText",
+        "OldName": "MapEditor.TextInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:22:33.6458393Z"
+      },
+      {
+        "NewName": "MapEditor.MapNumTextBox",
+        "OldName": "MapEditor.TextBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:23:19.9541062Z"
+      },
+      {
+        "NewName": "MapEditor.MapMaxXText",
+        "OldName": "MapEditor.TextInstance2",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:23:41.6525533Z"
+      },
+      {
+        "NewName": "MapEditor.MapMaxXTextBox",
+        "OldName": "MapEditor.TextBoxInstance2",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:25:19.1157256Z"
+      },
+      {
+        "NewName": "MapEditor.MapMaxYTextBox",
+        "OldName": "MapEditor.TextBoxInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:25:31.0287712Z"
+      },
+      {
+        "NewName": "MapEditor.MaxMapYText",
+        "OldName": "MapEditor.TextInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-20T18:25:52.6274043Z"
       }
     ]
   }
