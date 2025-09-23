@@ -43,7 +43,13 @@
     <Variable>
       <Type>float</Type>
       <Name>ColoredRectangleInstance.Height</Name>
-      <Value xsi:type="xsd:float">600</Value>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>ColoredRectangleInstance.HeightUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -55,7 +61,13 @@
     <Variable>
       <Type>float</Type>
       <Name>ColoredRectangleInstance.Width</Name>
-      <Value xsi:type="xsd:float">800</Value>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>ColoredRectangleInstance.WidthUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>

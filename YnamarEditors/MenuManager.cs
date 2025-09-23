@@ -33,6 +33,11 @@ namespace YnamarEditors
                 .First(s => s.Name == screenName)
                 .ToGraphicalUiElement();
 
+            screenRuntime.WidthUnits = DimensionUnitType.PercentageOfParent;
+            screenRuntime.HeightUnits = DimensionUnitType.PercentageOfParent;
+            screenRuntime.Width = 100;
+            screenRuntime.Height = 100;
+
             screenRuntime.AddToRoot();
             _currentScreen = screenRuntime;
 

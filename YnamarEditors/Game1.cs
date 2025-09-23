@@ -64,6 +64,8 @@ public class Game1 : Game
         Graphics.InitializeGraphics(Content);
 
         gumProject = Gum.Initialize(this, "GumUI/ynamarEditorsProject.gumx");
+        gumProject.DefaultCanvasWidth = 1280;
+        gumProject.DefaultCanvasHeight = 720;
         _menuManager = new MenuManager(gumProject);
 
         EditorSelectorRuntime mainMenu = (EditorSelectorRuntime)_menuManager.LoadScreen("EditorSelector");   
@@ -132,12 +134,17 @@ public class Game1 : Game
                     RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
 
                     float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).ResourcePanel.Width + 30);
+                        
+                    int mapTileX = ((int)mapLocalX / 32) + (int)Graphics.horizontalScrollbar.FormsControl.Value;
+                    int mapTileY = ((int)screenY / 32) + (int)Graphics.verticalScrollbar.FormsControl.Value;
 
-                    int mapTileX = (int)mapLocalX / 32;
-                    int mapTileY = (int)screenY / 32;
-                    // SetTile Tileset
-                    Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                    Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+                    if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
+                    {
+                        // SetTile Tileset
+                        Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
+                        Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+
+                    }
 
                 }
             }
