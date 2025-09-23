@@ -17,9 +17,11 @@ namespace YnamarEditors
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[1];
+        public static ScrollBarRuntime verticalScrollbar;
+        public static ScrollBarRuntime horizontalScrollbar;
+
         private static Texture2D pixel;
         private static int resourcePanelBoundariesX = 0;
-
         public static void InitializeGraphics(ContentManager manager)
         {
             LoadTilesets(manager);
@@ -27,7 +29,20 @@ namespace YnamarEditors
         public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
         {
             MapEditorRuntime mapEditorScreen = (MapEditorRuntime)menuManager.GetCurrentScreen();
+            verticalScrollbar = mapEditorScreen.VerticalScrollbar;
+            horizontalScrollbar = mapEditorScreen.HorizontalScrollbar;
+
             int tileSize = 32;
+            float viewportHeight = 30;
+            float maxScroll = (55) - viewportHeight;
+
+            verticalScrollbar.FormsControl.Minimum = 0;
+            verticalScrollbar.FormsControl.Maximum = maxScroll;
+            verticalScrollbar.FormsControl.ViewportSize = viewportHeight;
+
+            horizontalScrollbar.FormsControl.Minimum = 0;
+            horizontalScrollbar.FormsControl.Maximum = maxScroll;
+            horizontalScrollbar.FormsControl.ViewportSize = viewportHeight;
 
             var resourcePanel = mapEditorScreen.ResourcePanel;
             resourcePanelBoundariesX = (int)resourcePanel.Width;
@@ -88,9 +103,9 @@ namespace YnamarEditors
             int cameraLeft = 0;
             int tileViewLeft = 0;
 
-            cameraLeft = 0;//Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset;
-            tileViewLeft = 0;// Types.Player[Globals.playerIndex].X - 5;
-
+            cameraLeft = (int)(horizontalScrollbar?.FormsControl?.Value ?? 0);
+            tileViewLeft = (int)(horizontalScrollbar?.FormsControl?.Value ?? 0);
+            
             return x - (tileViewLeft * 32) - cameraLeft;
         }
 
@@ -99,8 +114,8 @@ namespace YnamarEditors
             int cameraTop = 0;
             int tileViewTop = 0;
 
-            cameraTop = 0;// Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset;
-            tileViewTop = 0;// Types.Player[Globals.playerIndex].Y - 5;
+            cameraTop = (int)(verticalScrollbar?.FormsControl?.Value ?? 0);
+            tileViewTop = (int)(verticalScrollbar?.FormsControl?.Value ?? 0);
             return y - (tileViewTop * 32) - cameraTop;
         }
 
