@@ -129,7 +129,10 @@ public class Game1 : Game
                     selectionBox.Z = 3;
                     selectionBox.Visible = true;
                 }
-                else
+                else if (
+                    (screenX < (_graphics.PreferredBackBufferWidth - ((MapEditorRuntime)currentScreen).VerticalScrollbarSection.GetAbsoluteWidth() - 15))
+                    && (screenY < (_graphics.PreferredBackBufferHeight - ((MapEditorRuntime)currentScreen).HorizontalScrollbarSection.GetAbsoluteHeight() - 15))
+                    )
                 {
                     RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
 

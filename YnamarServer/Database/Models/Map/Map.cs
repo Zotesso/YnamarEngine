@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class Map
+    public class Map
     {
         [Key]
         [ProtoMember(1)]
