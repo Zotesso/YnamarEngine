@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class MapNpc
+    public class MapNpc
     {
         [Key]
         public int Id { get; set; }

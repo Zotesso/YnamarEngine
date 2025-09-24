@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class Tile
+    public class Tile
     {
         [Key]
         public int Id { get; set; }

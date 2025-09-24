@@ -1,6 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
+using YnamarServer.Controllers;
 using YnamarServer.GameLogic;
 using YnamarServer.Services;
 
@@ -12,6 +17,7 @@ internal class Program
     private static General? general;
     private static Thread? consoleThread;
     private static Thread? tcpServerThread;
+    private static Thread? udpServerThread;
     private static Thread? gameLoopThread;
     
     private static YnamarServer.Database.Database database;
@@ -22,15 +28,41 @@ internal class Program
     private static async Task Main(string[] args)
     {
         database = new YnamarServer.Database.Database();
-        var host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+
+        var host = Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
             {
                 config.SetBasePath(Directory.GetCurrentDirectory());
                 config.AddJsonFile("appsettings.json");
                 //config.AddEnvironmentVariables();
             })
-            .ConfigureServices((context, services) => database.ConfigureDatabase(context.Configuration, services))
+            .ConfigureServices((context, services) =>
+            {
+                database.ConfigureDatabase(context.Configuration, services);
+                services.AddControllers().AddApplicationPart(typeof(MapEditorController).Assembly); ;
+            })
+            .ConfigureWebHost(webBuilder =>
+            {
+                webBuilder.UseKestrel(option =>
+                {
+                    option.ListenAnyIP(8080);
+                });
+
+                webBuilder.Configure(app =>
+                {
+                    app.UseRouting();
+                    app.UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapControllers();
+                    });
+                });
+
+            })
             .Build();
+
+        var routeEndpoints = host.Services.GetRequiredService<EndpointDataSource>().Endpoints;
+        foreach (var ep in routeEndpoints)
+            Console.WriteLine(ep.DisplayName);
 
         var serviceScopeFactory = host.Services.GetRequiredService<IServiceScopeFactory>();
         accountService = new AccountService(serviceScopeFactory);
@@ -42,6 +74,7 @@ internal class Program
         consoleThread = new Thread(new ThreadStart(ConsoleThread));
 
         tcpServerThread = new Thread(new ThreadStart(general.initializeTCPServer));
+        udpServerThread = new Thread(new ThreadStart(general.initializeServer));
         gameLoopThread = new Thread(new ThreadStart(GameLoopThread));
 
         await general.LoadInMemoryResources();
@@ -49,7 +82,9 @@ internal class Program
         consoleThread.Start();
         tcpServerThread.Start();
         gameLoopThread.Start();
-        general.initializeServer();
+        udpServerThread.Start();
+
+        await host.RunAsync();
     }
 
     private static void ConsoleThread()
