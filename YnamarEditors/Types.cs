@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarEditors.Models;
 
 namespace YnamarEditors
 {
     internal class Types
     {
-        public static MapStruct[] Maps = new MapStruct[100];
+        public static Map[] Maps = new Map[100];
 
+        /*
         [Serializable]
         public struct MapStruct
         {
@@ -40,5 +42,6 @@ namespace YnamarEditors
             public int Data2;
             public int Data3;
         }
+        */
     }
 }

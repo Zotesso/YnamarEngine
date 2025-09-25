@@ -8,6 +8,7 @@ using RenderingLibrary;
 using System.Diagnostics;
 using System.Linq;
 using YnamarEditors.Components;
+using YnamarEditors.Models;
 using YnamarEditors.Screens;
 
 namespace YnamarEditors;
@@ -40,23 +41,38 @@ public class Game1 : Game
         int maxMapX = 50;
         int maxMapY = 50;
 
-        Types.Maps[mapIndex].Layer = new Types.MapLayerStruct[maxLayers];
+        if (Types.Maps[mapIndex] == null)
+        {
+            Types.Maps[mapIndex] = new Map
+            {
+                Id = mapIndex,
+                Name = $"Map {mapIndex}",
+                MaxMapX = maxMapX,
+                MaxMapY = maxMapY
+            };
+        }
+
 
         for (int l = 0; l < maxLayers; l++)
         {
-            // allocate 2-D array of MapTile
-            Types.Maps[mapIndex].Layer[l].Tile = new Types.TileStruct[maxMapX, maxMapY];
+            Types.Maps[mapIndex].Layer.Add(new MapLayer
+            {
+                Id = l,
+                MapId = mapIndex,
+                LayerLevel = (byte)l,
+                TileMatrix = new Tile[maxMapX, maxMapY],
+            });
 
             // optional: initialize each tile’s fields
             for (int x = 0; x < maxMapX; x++)
             {
                 for (int y = 0; y < maxMapY; y++)
                 {
-                    Types.Maps[mapIndex].Layer[l].Tile[x, y] = new Types.TileStruct
-                    {
-                        TileX = x,
-                        TileY = y
-                    };
+
+                    Tile tile = new Tile { X = x, Y = y, TileX = 0, TileY = 0 };
+
+                    Types.Maps[mapIndex].Layer.ElementAt(l).Tile.Add(tile);
+                    Types.Maps[mapIndex].Layer.ElementAt(l).TileMatrix[x, y] = tile;
                 }
             }
 
@@ -144,8 +160,8 @@ public class Game1 : Game
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
                         // SetTile Tileset
-                        Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                        Types.Maps[0].Layer[0].Tile[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+                        Types.Maps[0].Layer.ElementAt(0).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
+                        Types.Maps[0].Layer.ElementAt(0).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
 
                     }
 
