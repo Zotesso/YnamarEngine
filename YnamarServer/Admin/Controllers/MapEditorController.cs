@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YnamarServer.Database.Models;
 
-namespace YnamarServer.Controllers
+namespace YnamarServer.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -9,9 +9,18 @@ namespace YnamarServer.Controllers
     {
         [HttpPost]
         [Consumes("application/x-protobuf")]
-        public IActionResult SaveMap([FromBody] Map map)
+        public async Task<IActionResult> SaveMap([FromBody] Map map)
         {
-            return Ok();
+            int affectedRows = await Program.mapEditorService.SaveMap(map);
+
+            if (affectedRows > 0)
+            {
+                return Ok(affectedRows);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpGet]

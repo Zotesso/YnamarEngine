@@ -21,8 +21,8 @@ namespace YnamarServer.Network
         {
             handleServerData = new ServerHandleDataTCP();
 
-            Socket.SendBufferSize = 4096;
-            Socket.ReceiveBufferSize = 4096;
+            Socket.SendBufferSize = 30000;
+            Socket.ReceiveBufferSize = 30000;
             myStream = Socket.GetStream();
 
             Array.Resize(ref readBuff, Socket.ReceiveBufferSize);

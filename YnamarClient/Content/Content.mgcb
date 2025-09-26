@@ -92,7 +92,7 @@
 /processorParam:TextureFormat=Color
 /build:Items/item0.png
 
-#begin Tilesets/tileset0.png
+#begin Tilesets/tileset1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,5 +102,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tilesets/tileset0.png;Tilesets/0.png
+/build:Tilesets/tileset1.png;Tilesets/0
 

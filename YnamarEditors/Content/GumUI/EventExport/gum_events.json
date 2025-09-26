@@ -196,6 +196,83 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2025-09-20T18:25:52.6274043Z"
+      },
+      {
+        "NewName": "MapEditor.ButtonConfirmInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-26T00:29:15.1057269Z"
+      },
+      {
+        "NewName": "FeedbackPanel",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2025-09-26T00:34:18.2438941Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-26T00:34:32.1667183Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).TextInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-26T00:36:06.8587603Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).SpriteInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-26T00:38:14.706427Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).SpriteInstance1",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-26T00:39:05.9516375Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).SuccessIcon",
+        "OldName": "FeedbackPanel (Container).SpriteInstance",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-26T00:39:21.9732047Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).ErrorIcon",
+        "OldName": "FeedbackPanel (Container).SuccessIcon",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-26T00:39:46.9823347Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).SuccessIcon",
+        "OldName": "FeedbackPanel (Container).ErrorIcon",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-26T00:40:06.492281Z"
+      },
+      {
+        "NewName": "FeedbackPanel (Container).ErrorIcon",
+        "OldName": "FeedbackPanel (Container).SpriteInstance1",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-26T00:40:19.2657053Z"
+      },
+      {
+        "NewName": "MapEditor.SaveMapButton",
+        "OldName": "MapEditor.ButtonConfirmInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-26T00:42:13.402324Z"
       }
     ]
   }

@@ -4,6 +4,36 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <Type>string</Type>
+      <Name>SaveMapButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Save</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SaveMapButton.X</Name>
+      <Value xsi:type="xsd:float">1.5</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SaveMapButton.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SaveMapButton.Y</Name>
+      <Value xsi:type="xsd:float">94</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SaveMapButton.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>EditorSection.Height</Name>
       <Value xsi:type="xsd:float">100</Value>
@@ -536,6 +566,11 @@
   <Instance>
     <Name>MapMaxXTextBox</Name>
     <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>SaveMapButton</Name>
+    <BaseType>Controls/ButtonConfirm</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />

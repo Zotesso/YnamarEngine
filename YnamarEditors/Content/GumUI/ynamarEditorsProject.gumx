@@ -234,6 +234,11 @@
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
+    <Name>FeedbackPanel</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>MapTextureTile</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>

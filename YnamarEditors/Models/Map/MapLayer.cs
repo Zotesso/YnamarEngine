@@ -30,6 +30,8 @@ namespace YnamarEditors.Models
 
         [ProtoMember(4)]
         public ICollection<MapNpc> MapNpc { get; } = new List<MapNpc>();
-        public Map Map { get; set; } = null!;
+
+        [ProtoIgnore]
+        public Map? Map { get; set; } = null;
     }
 }

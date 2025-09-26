@@ -10,6 +10,7 @@ using System.Linq;
 using YnamarEditors.Components;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
+using YnamarEditors.Services;
 
 namespace YnamarEditors;
 
@@ -57,7 +58,6 @@ public class Game1 : Game
         {
             Types.Maps[mapIndex].Layer.Add(new MapLayer
             {
-                Id = l,
                 MapId = mapIndex,
                 LayerLevel = (byte)l,
                 TileMatrix = new Tile[maxMapX, maxMapY],
@@ -69,7 +69,18 @@ public class Game1 : Game
                 for (int y = 0; y < maxMapY; y++)
                 {
 
-                    Tile tile = new Tile { X = x, Y = y, TileX = 0, TileY = 0 };
+                    Tile tile = new Tile { 
+                        TilesetNumber = 0,
+                        Type = 0,
+                        Moral = 0,
+                        Data1 = 0,
+                        Data2 = 0,
+                        Data3 = 0,
+                        X = x,
+                        Y = y,
+                        TileX = 0,
+                        TileY = 0,
+                    };
 
                     Types.Maps[mapIndex].Layer.ElementAt(l).Tile.Add(tile);
                     Types.Maps[mapIndex].Layer.ElementAt(l).TileMatrix[x, y] = tile;
@@ -92,6 +103,10 @@ public class Game1 : Game
         {
             // Switch to Map Editor screen
             _menuManager.LoadScreen("MapEditor");
+            ((MapEditorRuntime)_menuManager.GetCurrentScreen()).SaveMapButton.Click += (_, _) =>
+            {
+                MapEditorService.SaveMap();
+            };
             Graphics.LoadGumTilesetResourcePanel(_menuManager);
         };
 

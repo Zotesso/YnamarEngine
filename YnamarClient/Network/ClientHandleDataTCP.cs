@@ -133,6 +133,8 @@ namespace YnamarClient.Network
 
         private void HandleNpcMove(int index, byte[] data)
         {
+            if (!Globals.InGame) return;
+
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
             buffer.GetInteger();
