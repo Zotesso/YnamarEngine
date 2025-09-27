@@ -26,36 +26,22 @@ namespace YnamarServer.Admin.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+                using var transaction = await dbContext.Database.BeginTransactionAsync();
+
                 var existing = await dbContext.Maps
-                    .Include(m => m.Layer)
-                        .ThenInclude(l => l.Tile)
                     .FirstOrDefaultAsync(m => m.Id == editedMap.Id);
 
-                if (existing is null)
+                if (existing is not null)
                 {
-                    dbContext.Maps.Add(editedMap);
-                }
-                else
-                {
-                    dbContext.Entry(existing).CurrentValues.SetValues(editedMap);
-
-                    foreach (var layer in editedMap.Layer)
-                    {
-                        var targetLayer = existing.Layer
-                            .FirstOrDefault(l => l.LayerLevel == layer.LayerLevel);
-
-                        if (targetLayer == null)
-                        {
-                            existing.Layer.Add(layer);
-                        }
-                        else
-                        {
-                            dbContext.Entry(targetLayer).CurrentValues.SetValues(layer);
-                        }
-                    }
+                    dbContext.Maps.Remove(existing);
+                    await dbContext.SaveChangesAsync();
                 }
 
-                return await dbContext.SaveChangesAsync();
+                dbContext.Maps.Add(editedMap);
+                var rows = await dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+                return rows;
             };
         }
     }

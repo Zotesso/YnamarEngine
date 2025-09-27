@@ -21,6 +21,8 @@ namespace YnamarClient.Services
             {
                 Types.Map[mapPayload.Id].Layer[layer.LayerLevel].Index = layer.LayerLevel;
 
+                if (layer.Tile.Count == 0) continue;
+
                 int minX = layer.Tile.Min(t => t.X);
                 int minY = layer.Tile.Min(t => t.Y);
                 int maxX = layer.Tile.Max(t => t.X);

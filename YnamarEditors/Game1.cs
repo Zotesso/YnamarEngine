@@ -62,31 +62,30 @@ public class Game1 : Game
                 LayerLevel = (byte)l,
                 TileMatrix = new Tile[maxMapX, maxMapY],
             });
+        }
 
-            // optional: initialize each tile’s fields
-            for (int x = 0; x < maxMapX; x++)
+        for (int x = 0; x < maxMapX; x++)
+        {
+            for (int y = 0; y < maxMapY; y++)
             {
-                for (int y = 0; y < maxMapY; y++)
+
+                Tile tile = new Tile
                 {
+                    TilesetNumber = 0,
+                    Type = 0,
+                    Moral = 0,
+                    Data1 = 0,
+                    Data2 = 0,
+                    Data3 = 0,
+                    X = x,
+                    Y = y,
+                    TileX = 0,
+                    TileY = 0,
+                };
 
-                    Tile tile = new Tile { 
-                        TilesetNumber = 0,
-                        Type = 0,
-                        Moral = 0,
-                        Data1 = 0,
-                        Data2 = 0,
-                        Data3 = 0,
-                        X = x,
-                        Y = y,
-                        TileX = 0,
-                        TileY = 0,
-                    };
-
-                    Types.Maps[mapIndex].Layer.ElementAt(l).Tile.Add(tile);
-                    Types.Maps[mapIndex].Layer.ElementAt(l).TileMatrix[x, y] = tile;
-                }
+                Types.Maps[mapIndex].Layer.ElementAt(0).Tile.Add(tile);
+                Types.Maps[mapIndex].Layer.ElementAt(0).TileMatrix[x, y] = tile;
             }
-
         }
         Graphics.InitializeGraphics(Content);
 
