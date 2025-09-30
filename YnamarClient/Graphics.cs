@@ -135,7 +135,7 @@ namespace YnamarClient
 
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
             X = Types.Player[index].X * 32 + Types.Player[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
+            Y = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
@@ -144,7 +144,7 @@ namespace YnamarClient
         {
 
             int xoffset = Types.Player[index].X * 32 + Types.Player[index].XOffset;
-            int yoffset = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
+            int yoffset = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
             double logPlayerNameLength = Math.Log(Types.Player[index].Name.Length, 10);
             int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
             int x = ConvertMapX(xoffset) - 6 - lengthOffset;
@@ -204,7 +204,7 @@ namespace YnamarClient
             int cameraLeft = 0;
             int tileViewLeft = 0;
 
-            cameraLeft = Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset;
+            cameraLeft = (Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset) - 350;
             tileViewLeft = Types.Player[Globals.playerIndex].X;
 
             return x - (tileViewLeft * 32) - cameraLeft;
@@ -215,7 +215,7 @@ namespace YnamarClient
             int cameraTop = 0;
             int tileViewTop = 0;
 
-            cameraTop = Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset;
+            cameraTop = (Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset) - 250;
             tileViewTop = Types.Player[Globals.playerIndex].Y;
             return y - (tileViewTop * 32) - cameraTop;
         }

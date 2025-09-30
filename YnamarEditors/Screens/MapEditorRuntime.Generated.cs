@@ -33,6 +33,10 @@ namespace YnamarEditors.Screens
         public TextBoxRuntime MapMaxYTextBox { get; protected set; }
         public TextBoxRuntime MapMaxXTextBox { get; protected set; }
         public ButtonConfirmRuntime SaveMapButton { get; protected set; }
+        public ContainerRuntime LayerContainer { get; protected set; }
+        public ButtonIconRuntime LayerUpControl { get; protected set; }
+        public ButtonIconRuntime LayerDownControl { get; protected set; }
+        public TextRuntime TextLayer { get; protected set; }
 
         public MapEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -60,6 +64,10 @@ namespace YnamarEditors.Screens
             MapMaxYTextBox = this.GetGraphicalUiElementByName("MapMaxYTextBox") as TextBoxRuntime;
             MapMaxXTextBox = this.GetGraphicalUiElementByName("MapMaxXTextBox") as TextBoxRuntime;
             SaveMapButton = this.GetGraphicalUiElementByName("SaveMapButton") as ButtonConfirmRuntime;
+            LayerContainer = this.GetGraphicalUiElementByName("LayerContainer") as ContainerRuntime;
+            LayerUpControl = this.GetGraphicalUiElementByName("LayerUpControl") as ButtonIconRuntime;
+            LayerDownControl = this.GetGraphicalUiElementByName("LayerDownControl") as ButtonIconRuntime;
+            TextLayer = this.GetGraphicalUiElementByName("TextLayer") as TextRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

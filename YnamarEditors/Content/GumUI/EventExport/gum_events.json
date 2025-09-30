@@ -273,6 +273,69 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2025-09-26T00:42:13.402324Z"
+      },
+      {
+        "NewName": "MapEditor.ContainerInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-30T02:43:49.8798206Z"
+      },
+      {
+        "NewName": "MapEditor.LayerContainer",
+        "OldName": "MapEditor.ContainerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-30T02:43:57.4025118Z"
+      },
+      {
+        "NewName": "MapEditor.ButtonIconInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-30T02:45:46.7014679Z"
+      },
+      {
+        "NewName": "MapEditor.ButtonIconInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-30T02:45:56.1349587Z"
+      },
+      {
+        "NewName": "MapEditor.UpLayer",
+        "OldName": "MapEditor.ButtonIconInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-30T02:46:02.7417612Z"
+      },
+      {
+        "NewName": "MapEditor.LayerUpControl",
+        "OldName": "MapEditor.UpLayer",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-30T02:46:09.0968258Z"
+      },
+      {
+        "NewName": "MapEditor.LayerDownControl",
+        "OldName": "MapEditor.ButtonIconInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-30T02:46:17.8436536Z"
+      },
+      {
+        "NewName": "MapEditor.TextInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-09-30T02:46:28.0959199Z"
+      },
+      {
+        "NewName": "MapEditor.TextLayer",
+        "OldName": "MapEditor.TextInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-09-30T02:46:34.649948Z"
       }
     ]
   }

@@ -93,24 +93,7 @@ public class Game1 : Game
         gumProject.DefaultCanvasWidth = 1280;
         gumProject.DefaultCanvasHeight = 720;
         _menuManager = new MenuManager(gumProject);
-
-        EditorSelectorRuntime mainMenu = (EditorSelectorRuntime)_menuManager.LoadScreen("EditorSelector");   
-        ButtonStandardRuntime startButton = mainMenu.ButtonStandardInstance;
-
-        // Subscribe to click
-        startButton.Click += (not, used) =>
-        {
-            // Switch to Map Editor screen
-            _menuManager.LoadScreen("MapEditor");
-            ((MapEditorRuntime)_menuManager.GetCurrentScreen()).SaveMapButton.Click += (_, _) =>
-            {
-                MapEditorService.SaveMap();
-            };
-            Graphics.LoadGumTilesetResourcePanel(_menuManager);
-        };
-
-        //var screenRuntime = gumProject.Screens.First().ToGraphicalUiElement();
-        //screenRuntime.AddToRoot();
+        _menuManager.LoadScreen("EditorSelector");
 
         base.Initialize();
 
