@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarServer.Database.Models
+namespace YnamarEditors.Models
 {
     [ProtoContract]
     public class MapLayer
@@ -23,6 +24,9 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(3)]
         public ICollection<Tile> Tile { get; } = new List<Tile>();
+
+        [NotMapped]
+        public Tile[,] TileMatrix { get; set; } = default!;
 
         [ProtoMember(4)]
         public ICollection<MapNpc> MapNpc { get; } = new List<MapNpc>();

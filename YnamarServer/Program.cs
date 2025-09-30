@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
-using YnamarServer.Controllers;
+using YnamarServer.Admin.Controllers;
+using YnamarServer.Admin.Services;
 using YnamarServer.GameLogic;
 using YnamarServer.Services;
 
@@ -23,6 +24,7 @@ internal class Program
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;
     public static MapService mapService;
+    public static MapEditorService mapEditorService;
     public static NpcService npcService;
 
     private static async Task Main(string[] args)
@@ -39,12 +41,12 @@ internal class Program
             .ConfigureServices((context, services) =>
             {
                 database.ConfigureDatabase(context.Configuration, services);
-                services.AddControllers().AddApplicationPart(typeof(MapEditorController).Assembly); ;
+                services.AddControllers().AddProtoBufNet().AddApplicationPart(typeof(MapEditorController).Assembly);
             })
             .ConfigureWebHost(webBuilder =>
             {
                 webBuilder.UseKestrel(option =>
-                {
+                {   
                     option.ListenAnyIP(8080);
                 });
 
@@ -67,6 +69,7 @@ internal class Program
         var serviceScopeFactory = host.Services.GetRequiredService<IServiceScopeFactory>();
         accountService = new AccountService(serviceScopeFactory);
         mapService = new MapService(serviceScopeFactory);
+        mapEditorService = new MapEditorService(serviceScopeFactory);
         npcService = new NpcService(serviceScopeFactory);
 
         Console.WriteLine("Initializing Server!");

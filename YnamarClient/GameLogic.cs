@@ -219,13 +219,18 @@ namespace YnamarClient
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
+                if (Globals.PlayerMap.Layer[layer].MapNpc == null) continue;
+
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
                 {
                     var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
-                    if (npc.RespawnWait > 0)
-                        continue;
+                    if (npc != null)
+                    {
+                        if (npc.RespawnWait > 0)
+                            continue;
 
-                    ProcessNpcMovement(npc);
+                        ProcessNpcMovement(npc);
+                    }
                 }
             }
         }

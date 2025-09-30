@@ -149,8 +149,8 @@ namespace YnamarEditors
             MapX = ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
-            int TilesetX = Types.Maps[0].Layer[layerNum].Tile[x, y].TileX;
-            int TilesetY = Types.Maps[0].Layer[layerNum].Tile[x, y].TileY;
+            int TilesetX = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
+            int TilesetY = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
 
             srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
             Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);

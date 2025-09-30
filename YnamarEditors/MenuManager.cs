@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RenderingLibrary.Graphics;
 using MonoGameGum;
+using YnamarEditors.Screens;
+using YnamarEditors.Services;
 
 namespace YnamarEditors
 {
@@ -41,7 +43,32 @@ namespace YnamarEditors
             screenRuntime.AddToRoot();
             _currentScreen = screenRuntime;
 
+            WireScreenEvents(screenName, screenRuntime);
+
             return _currentScreen;
+        }
+
+        private void WireScreenEvents(string screenName, GraphicalUiElement screenRuntime)
+        {
+            switch (screenName)
+            {
+                case "EditorSelector":
+                    var selector = (EditorSelectorRuntime)screenRuntime;
+                    selector.ButtonStandardInstance.Click += (_, __) =>
+                    {
+                        LoadScreen("MapEditor");
+                    };
+                    break;
+
+                case "MapEditor":
+                    var editor = (MapEditorRuntime)screenRuntime;
+                    editor.SaveMapButton.Click += (_, __) =>
+                    {
+                        MapEditorService.SaveMap();
+                    };
+                    Graphics.LoadGumTilesetResourcePanel(this);
+                    break;
+            }
         }
 
         /// <summary>

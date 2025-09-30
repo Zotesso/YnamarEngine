@@ -21,12 +21,21 @@ namespace YnamarClient.Services
             {
                 Types.Map[mapPayload.Id].Layer[layer.LayerLevel].Index = layer.LayerLevel;
 
+                if (layer.Tile.Count == 0) continue;
+
                 int minX = layer.Tile.Min(t => t.X);
                 int minY = layer.Tile.Min(t => t.Y);
                 int maxX = layer.Tile.Max(t => t.X);
                 int maxY = layer.Tile.Max(t => t.Y);
                 Types.Map[mapPayload.Id].Layer[layer.LayerLevel].Tile = new TileStruct[maxX + 1, maxY + 1];
-                Types.Map[mapPayload.Id].Layer[layer.LayerLevel].MapNpc = layer.MapNpc.ToArray();
+                if (layer.MapNpc.ToArray().Length > 0)
+                {
+                    Types.Map[mapPayload.Id].Layer[layer.LayerLevel].MapNpc = layer.MapNpc.ToArray();
+                } else
+                {
+                    Types.Map[mapPayload.Id].Layer[layer.LayerLevel].MapNpc = new MapNpc[Constants.MAX_MAP_NPCS];
+                }
+
                 int actualTile = 0;
                 for (int i = minX; i <= maxX; i++)
                 {

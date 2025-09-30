@@ -1,10 +1,16 @@
 ﻿using ProtoBuf;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace YnamarClient.Database.Models
+namespace YnamarEditors.Models
 {
     [ProtoContract]
-    internal class Tile
+    public class Tile
     {
         [Key]
         public int Id { get; set; }
@@ -42,7 +48,7 @@ namespace YnamarClient.Database.Models
         [ProtoMember(11)]
         public int Data3 { get; set; }
 
-        [ProtoIgnore]
+        [ProtoIgnore]   
         public MapLayer? MapLayer { get; set; } = null;
     }
 }

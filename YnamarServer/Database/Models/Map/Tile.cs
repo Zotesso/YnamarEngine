@@ -48,6 +48,7 @@ namespace YnamarServer.Database.Models
         [ProtoMember(11)]
         public int Data3 { get; set; }
 
-        public MapLayer MapLayer { get; set; } = null!;
+        [ProtoIgnore]
+        public MapLayer? MapLayer { get; set; } = null;
     }
 }

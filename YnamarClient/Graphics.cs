@@ -135,7 +135,7 @@ namespace YnamarClient
 
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
             X = Types.Player[index].X * 32 + Types.Player[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
+            Y = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
@@ -144,7 +144,7 @@ namespace YnamarClient
         {
 
             int xoffset = Types.Player[index].X * 32 + Types.Player[index].XOffset;
-            int yoffset = Types.Player[index].Y * 47 + Types.Player[index].YOffset;
+            int yoffset = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
             double logPlayerNameLength = Math.Log(Types.Player[index].Name.Length, 10);
             int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
             int x = ConvertMapX(xoffset) - 6 - lengthOffset;
@@ -204,8 +204,8 @@ namespace YnamarClient
             int cameraLeft = 0;
             int tileViewLeft = 0;
 
-            cameraLeft = Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset;
-            tileViewLeft = Types.Player[Globals.playerIndex].X - 5;
+            cameraLeft = (Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset) - 350;
+            tileViewLeft = Types.Player[Globals.playerIndex].X;
 
             return x - (tileViewLeft * 32) - cameraLeft;
         }
@@ -215,8 +215,8 @@ namespace YnamarClient
             int cameraTop = 0;
             int tileViewTop = 0;
 
-            cameraTop = Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset;
-            tileViewTop = Types.Player[Globals.playerIndex].Y - 5;
+            cameraTop = (Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset) - 250;
+            tileViewTop = Types.Player[Globals.playerIndex].Y;
             return y - (tileViewTop * 32) - cameraTop;
         }
 
@@ -236,6 +236,8 @@ namespace YnamarClient
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
+                if (Globals.PlayerMap.Layer[layer].Tile == null) continue;
+
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
                 {
                     for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
@@ -244,16 +246,21 @@ namespace YnamarClient
                     }
                 }
 
+                if (Globals.PlayerMap.Layer[layer].MapNpc == null) continue;
+
                 for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
                 {
 
                     var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
-                    if (npc.RespawnWait > 0)
-                        continue;
+                    if (npc != null)
+                    {
+                        if (npc.RespawnWait > 0)
+                            continue;
 
-                    DrawMapNpc(npc);
-                    DrawNpcName(npc);
-                    DrawNpcHealthBar(npc);
+                        DrawMapNpc(npc);
+                        DrawNpcName(npc);
+                        DrawNpcHealthBar(npc);
+                    }
                 }
             }
         }
@@ -304,6 +311,11 @@ namespace YnamarClient
 
         private static void DrawTile(int mapX, int mapY, int x, int y, int layerNum)
         {
+            int TilesetX = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileX;
+            int TilesetY = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileY;
+
+            if (TilesetX == 0 && TilesetY == 0) return;
+
             Rectangle srcrec;
             int tilesetnum = Globals.PlayerMap.Layer[layerNum].Tile[x,y].TilesetNumber;
 
@@ -311,8 +323,6 @@ namespace YnamarClient
             MapX = ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
-            int TilesetX = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileX;
-            int TilesetY = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileY;
 
             srcrec = new Rectangle(TilesetX, TilesetY, 32,32);
             Game1.spriteBatch.Draw(Tilesets[tilesetnum], new Vector2(MapX, MapY), srcrec, Color.White);
