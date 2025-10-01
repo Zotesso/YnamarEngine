@@ -122,7 +122,7 @@ namespace YnamarEditors
         
         private static void DrawMapGrid()
         {
-            int maxMapLayer = 1;
+            int maxMapLayer = 2;
             Types.Maps[0].MaxMapX = 50;
             Types.Maps[0].MaxMapY = 50;
 
@@ -140,6 +140,10 @@ namespace YnamarEditors
 
         private static void DrawTileGrid(int mapX, int mapY, int x, int y, int layerNum)
         {
+            int TilesetX = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
+            int TilesetY = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
+
+
             Rectangle srcrec;
             //int tilesetnum = 0;
             int tileSize = 32;
@@ -149,11 +153,7 @@ namespace YnamarEditors
             MapX = ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
-            int TilesetX = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
-            int TilesetY = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
 
-            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
-            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
 
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY, tileSize, thickness), Color.White);
             // Left line
@@ -162,6 +162,11 @@ namespace YnamarEditors
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX + tileSize - thickness, MapY, thickness, tileSize), Color.White);
             // Bottom line
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY + tileSize - thickness, tileSize, thickness), Color.White);
+
+            if (TilesetX == 0 && TilesetY == 0) return;
+
+            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
+            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
 
         }
     }

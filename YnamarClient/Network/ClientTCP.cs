@@ -33,11 +33,11 @@ namespace YnamarClient.Network
 
             PlayerSocket = new TcpClient();
             clientDataHandle = new ClientHandleDataTCP();
-            PlayerSocket.ReceiveBufferSize = 30000;
-            PlayerSocket.SendBufferSize = 30000;
+            PlayerSocket.ReceiveBufferSize = 100000;
+            PlayerSocket.SendBufferSize = 100000;
             PlayerSocket.NoDelay = false;
 
-            Array.Resize(ref asyncBuff, 30000);
+            Array.Resize(ref asyncBuff, 100000);
 
             PlayerSocket.BeginConnect("127.0.0.1", 5555, new AsyncCallback(ConnectCallback), PlayerSocket);
             connecting = true;
@@ -56,7 +56,7 @@ namespace YnamarClient.Network
             {
                 PlayerSocket.NoDelay = true;
                 myStream = PlayerSocket.GetStream();
-                myStream.BeginRead(asyncBuff, 0, 30000, OnReceive, null);
+                myStream.BeginRead(asyncBuff, 0, 100000, OnReceive, null);
                 connected = true;
                 connecting = false;
             }
@@ -75,7 +75,7 @@ namespace YnamarClient.Network
             }
 
             clientDataHandle.HandleNetworkMessages(0, myBytes);
-            myStream.BeginRead(asyncBuff, 0, 30000, OnReceive, null);
+            myStream.BeginRead(asyncBuff, 0, 100000, OnReceive, null);
         }
 
         public static bool IsPlaying(int index)

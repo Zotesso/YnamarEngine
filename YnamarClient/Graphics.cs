@@ -67,20 +67,8 @@ namespace YnamarClient
         {
             Game1.spriteBatch.Begin();
             // DrawPlayerName();
-            DrawMapGrid();
+            DrawMapGrid(gameTime);
             DrawPlayerHealthBar(Globals.playerIndex);
-
-            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
-            {
-                if (ClientTCP.IsPlaying(i))
-                {
-                    if (Types.Player[i].Map == Types.Player[Globals.playerIndex].Map)
-                    {
-                        DrawPlayerName(i);
-                        DrawPlayer(i, gameTime);
-                    }
-                }
-            }
 
             Game1.spriteBatch.End();
         }
@@ -229,20 +217,34 @@ namespace YnamarClient
             Game1.spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
         }
 
-        private static void DrawMapGrid()
+        private static void DrawMapGrid(GameTime gameTime)
         {
             int maxMapLayer = Globals.PlayerMap.Layer.Length;
 
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
-                if (Globals.PlayerMap.Layer[layer].Tile == null) continue;
 
-                for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
-                {
-                    for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
+
+                if (Globals.PlayerMap.Layer[layer].Tile != null) {
+                    for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
                     {
-                        DrawTile(x * 32, y * 32, x, y, layer);
+                        for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
+                        {
+                            DrawTile(x * 32, y * 32, x, y, layer);
+                        }
+                    }
+                };
+
+                for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+                {
+                    if (ClientTCP.IsPlaying(i))
+                    {
+                        if ((Types.Player[i].Map == Types.Player[Globals.playerIndex].Map) && layer == 0)
+                        {
+                            DrawPlayerName(i);
+                            DrawPlayer(i, gameTime);
+                        }
                     }
                 }
 

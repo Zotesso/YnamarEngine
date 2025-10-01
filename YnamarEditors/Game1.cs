@@ -62,31 +62,33 @@ public class Game1 : Game
                 LayerLevel = (byte)l,
                 TileMatrix = new Tile[maxMapX, maxMapY],
             });
-        }
 
-        for (int x = 0; x < maxMapX; x++)
-        {
-            for (int y = 0; y < maxMapY; y++)
+
+            for (int x = 0; x < maxMapX; x++)
             {
-
-                Tile tile = new Tile
+                for (int y = 0; y < maxMapY; y++)
                 {
-                    TilesetNumber = 0,
-                    Type = 0,
-                    Moral = 0,
-                    Data1 = 0,
-                    Data2 = 0,
-                    Data3 = 0,
-                    X = x,
-                    Y = y,
-                    TileX = 0,
-                    TileY = 0,
-                };
 
-                Types.Maps[mapIndex].Layer.ElementAt(0).Tile.Add(tile);
-                Types.Maps[mapIndex].Layer.ElementAt(0).TileMatrix[x, y] = tile;
+                    Tile tile = new Tile
+                    {
+                        TilesetNumber = 0,
+                        Type = 0,
+                        Moral = 0,
+                        Data1 = 0,
+                        Data2 = 0,
+                        Data3 = 0,
+                        X = x,
+                        Y = y,
+                        TileX = 0,
+                        TileY = 0,
+                    };
+
+                    Types.Maps[mapIndex].Layer.ElementAt(l).Tile.Add(tile);
+                    Types.Maps[mapIndex].Layer.ElementAt(l).TileMatrix[x, y] = tile;
+                }
             }
         }
+
         Graphics.InitializeGraphics(Content);
 
         gumProject = Gum.Initialize(this, "GumUI/ynamarEditorsProject.gumx");
@@ -157,8 +159,8 @@ public class Game1 : Game
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
                         // SetTile Tileset
-                        Types.Maps[0].Layer.ElementAt(0).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                        Types.Maps[0].Layer.ElementAt(0).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+                        Types.Maps[0].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
+                        Types.Maps[0].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
 
                     }
 

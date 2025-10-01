@@ -62,10 +62,35 @@ namespace YnamarEditors
 
                 case "MapEditor":
                     var editor = (MapEditorRuntime)screenRuntime;
+                    editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+
                     editor.SaveMapButton.Click += (_, __) =>
                     {
                         MapEditorService.SaveMap();
                     };
+
+                    editor.LayerUpControl.Click += (_, __) =>
+                    {
+                        int nextLayer = Globals.SelectedLayer + 1;
+
+                        if (!(nextLayer > Globals.MAX_LAYERS))
+                        {
+                            Globals.SelectedLayer = nextLayer;
+                            editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+                        }
+                    };
+
+                    editor.LayerDownControl.Click += (_, __) =>
+                    {
+                        int downLayer = Globals.SelectedLayer - 1;
+
+                        if (!(downLayer < Globals.MIN_LAYERS))
+                        {
+                            Globals.SelectedLayer = downLayer;
+                            editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+                        }
+                    };
+
                     Graphics.LoadGumTilesetResourcePanel(this);
                     break;
             }
