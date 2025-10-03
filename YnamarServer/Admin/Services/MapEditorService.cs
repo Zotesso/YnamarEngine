@@ -8,6 +8,7 @@ using YnamarServer.Database.Models;
 using YnamarServer.Database;
 using YnamarServer.Network;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace YnamarServer.Admin.Services
 {
@@ -20,7 +21,7 @@ namespace YnamarServer.Admin.Services
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<int> SaveMap(Map editedMap)
+        public async Task<int> SaveMapAsync(Map editedMap)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
@@ -28,20 +29,49 @@ namespace YnamarServer.Admin.Services
 
                 using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-                var existing = await dbContext.Maps
-                    .FirstOrDefaultAsync(m => m.Id == editedMap.Id);
+                var existing = await dbContext.Maps.Include(m => m.Layer).ThenInclude(l => l.Tile).FirstOrDefaultAsync(m => m.Id == editedMap.Id);
 
-                if (existing is not null)
+                if (existing is null)
                 {
-                    dbContext.Maps.Remove(existing);
-                    await dbContext.SaveChangesAsync();
+                    dbContext.Maps.Add(editedMap);
+                } else
+                {
+                    dbContext.Entry(existing).CurrentValues.SetValues(editedMap);
+                    foreach(var layer in editedMap.Layer) 
+                    {
+                        var targetLayer = existing.Layer.FirstOrDefault(l => l.LayerLevel == layer.LayerLevel);
+                        if (targetLayer == null)
+                        { 
+                            existing.Layer.Add(layer); 
+                        } 
+                        else 
+                        {
+                            dbContext.Entry(targetLayer).CurrentValues.SetValues(layer); 
+                        } 
+                    }
+
                 }
 
-                dbContext.Maps.Add(editedMap);
                 var rows = await dbContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();
                 return rows;
+            };
+        }
+
+        public async Task<Map?> GetMapAsync(int mapNum)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                return await dbContext.Maps.Where(m => m.Id == mapNum)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.Tile)
+                    .Include(p => p.Layer)
+                        .ThenInclude(x => x.MapNpc)
+                            .ThenInclude(mapNpc => mapNpc.Npc)
+                    .FirstOrDefaultAsync();
             };
         }
     }

@@ -9,6 +9,8 @@ using RenderingLibrary.Graphics;
 using MonoGameGum;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
+using YnamarEditors.Components.Behavior;
+using MonoGameGum.GueDeriving;
 
 namespace YnamarEditors
 {
@@ -62,10 +64,53 @@ namespace YnamarEditors
 
                 case "MapEditor":
                     var editor = (MapEditorRuntime)screenRuntime;
+                    editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+
+                    editor.MapNumTextBox.FormsControl.TextChanged += async(textObject, _) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+                        if (textBox.Text == "") return;
+                        if (NumericTextBoxBehavior.IsValidNumeric(textBox.Text)) 
+                        {
+                            Globals.isLoadingMap = true;
+                            int.TryParse(textBox.Text, out var numericTextBoxValue);
+                            Globals.SelectedMap = numericTextBoxValue;
+                            await MapEditorService.GetMap();
+                            Globals.isLoadingMap = false;
+                            return;
+                        } else
+                        {
+                            textBox.Text = Globals.SelectedMap.ToString();
+                        }
+                    };
+                    
                     editor.SaveMapButton.Click += (_, __) =>
                     {
                         MapEditorService.SaveMap();
                     };
+
+                    editor.LayerUpControl.Click += (_, __) =>
+                    {
+                        int nextLayer = Globals.SelectedLayer + 1;
+
+                        if (!(nextLayer > Globals.MAX_LAYERS))
+                        {
+                            Globals.SelectedLayer = nextLayer;
+                            editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+                        }
+                    };
+
+                    editor.LayerDownControl.Click += (_, __) =>
+                    {
+                        int downLayer = Globals.SelectedLayer - 1;
+
+                        if (!(downLayer < Globals.MIN_LAYERS))
+                        {
+                            Globals.SelectedLayer = downLayer;
+                            editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
+                        }
+                    };
+
                     Graphics.LoadGumTilesetResourcePanel(this);
                     break;
             }

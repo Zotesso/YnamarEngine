@@ -89,13 +89,16 @@ namespace YnamarEditors
 
         public static void RenderGraphics(GraphicsDevice graphicsDevice)
         {
-            pixel = new Texture2D(graphicsDevice, 1, 1);
-            pixel.SetData(new[] { Color.White });
+            if (Types.Maps[Globals.SelectedMap] != null && !Globals.isLoadingMap)
+            {
+                pixel = new Texture2D(graphicsDevice, 1, 1);
+                pixel.SetData(new[] { Color.White });
 
-            Game1._spriteBatch.Begin();
-            DrawMapGrid();
+                Game1._spriteBatch.Begin();
+                DrawMapGrid();
 
-            Game1._spriteBatch.End();
+                Game1._spriteBatch.End();
+            }
         }
 
         public static int ConvertMapX(int x)
@@ -122,15 +125,13 @@ namespace YnamarEditors
         
         private static void DrawMapGrid()
         {
-            int maxMapLayer = 1;
-            Types.Maps[0].MaxMapX = 50;
-            Types.Maps[0].MaxMapY = 50;
+            int maxMapLayer = 2;
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
-                for (int x = 0; x < Types.Maps[0].MaxMapX; x++)
+                for (int x = 0; x < Types.Maps[Globals.SelectedMap].MaxMapX; x++)
                 {
-                    for (int y = 0; y < Types.Maps[0].MaxMapY; y++)
+                    for (int y = 0; y < Types.Maps[Globals.SelectedMap].MaxMapY; y++)
                     {
                         DrawTileGrid((resourcePanelBoundariesX + 30) + (x * 32), y * 32, x, y, layer);
                     }
@@ -140,6 +141,10 @@ namespace YnamarEditors
 
         private static void DrawTileGrid(int mapX, int mapY, int x, int y, int layerNum)
         {
+            int TilesetX = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
+            int TilesetY = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
+
+
             Rectangle srcrec;
             //int tilesetnum = 0;
             int tileSize = 32;
@@ -149,11 +154,7 @@ namespace YnamarEditors
             MapX = ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
-            int TilesetX = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
-            int TilesetY = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
 
-            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
-            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
 
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY, tileSize, thickness), Color.White);
             // Left line
@@ -162,6 +163,11 @@ namespace YnamarEditors
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX + tileSize - thickness, MapY, thickness, tileSize), Color.White);
             // Bottom line
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY + tileSize - thickness, tileSize, thickness), Color.White);
+
+            if (TilesetX == 0 && TilesetY == 0) return;
+
+            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
+            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
 
         }
     }

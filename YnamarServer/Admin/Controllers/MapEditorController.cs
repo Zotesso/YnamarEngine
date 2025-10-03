@@ -11,7 +11,7 @@ namespace YnamarServer.Admin.Controllers
         [Consumes("application/x-protobuf")]
         public async Task<IActionResult> SaveMap([FromBody] Map map)
         {
-            int affectedRows = await Program.mapEditorService.SaveMap(map);
+            int affectedRows = await Program.mapEditorService.SaveMapAsync(map);
 
             if (affectedRows > 0)
             {
@@ -23,10 +23,18 @@ namespace YnamarServer.Admin.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetMap()
+        [HttpGet("{id}")]
+        [Consumes("application/x-protobuf")]
+        [Produces("application/x-protobuf")]
+        public async Task<IActionResult> GetMap(int id)
         {
-            return Ok();
+            Map? requestedMap = await Program.mapEditorService.GetMapAsync(id);
+
+            if (requestedMap == null) return NotFound();
+
+            using var ms = new MemoryStream();
+            ProtoBuf.Serializer.Serialize(ms, requestedMap);
+            return File(ms.ToArray(), "application/x-protobuf");
         }
     }
 }
