@@ -89,13 +89,16 @@ namespace YnamarEditors
 
         public static void RenderGraphics(GraphicsDevice graphicsDevice)
         {
-            pixel = new Texture2D(graphicsDevice, 1, 1);
-            pixel.SetData(new[] { Color.White });
+            if (Types.Maps[Globals.SelectedMap] != null && !Globals.isLoadingMap)
+            {
+                pixel = new Texture2D(graphicsDevice, 1, 1);
+                pixel.SetData(new[] { Color.White });
 
-            Game1._spriteBatch.Begin();
-            DrawMapGrid();
+                Game1._spriteBatch.Begin();
+                DrawMapGrid();
 
-            Game1._spriteBatch.End();
+                Game1._spriteBatch.End();
+            }
         }
 
         public static int ConvertMapX(int x)
@@ -123,14 +126,12 @@ namespace YnamarEditors
         private static void DrawMapGrid()
         {
             int maxMapLayer = 2;
-            Types.Maps[0].MaxMapX = 50;
-            Types.Maps[0].MaxMapY = 50;
 
             for (int layer = 0; layer < maxMapLayer; layer++)
             {
-                for (int x = 0; x < Types.Maps[0].MaxMapX; x++)
+                for (int x = 0; x < Types.Maps[Globals.SelectedMap].MaxMapX; x++)
                 {
-                    for (int y = 0; y < Types.Maps[0].MaxMapY; y++)
+                    for (int y = 0; y < Types.Maps[Globals.SelectedMap].MaxMapY; y++)
                     {
                         DrawTileGrid((resourcePanelBoundariesX + 30) + (x * 32), y * 32, x, y, layer);
                     }
@@ -140,8 +141,8 @@ namespace YnamarEditors
 
         private static void DrawTileGrid(int mapX, int mapY, int x, int y, int layerNum)
         {
-            int TilesetX = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
-            int TilesetY = Types.Maps[0].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
+            int TilesetX = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
+            int TilesetY = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
 
 
             Rectangle srcrec;

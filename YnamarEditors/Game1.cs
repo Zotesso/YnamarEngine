@@ -37,58 +37,6 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
-        int mapIndex = 0;
-        int maxLayers = 2;
-        int maxMapX = 50;
-        int maxMapY = 50;
-
-        if (Types.Maps[mapIndex] == null)
-        {
-            Types.Maps[mapIndex] = new Map
-            {
-                Id = mapIndex,
-                Name = $"Map {mapIndex}",
-                MaxMapX = maxMapX,
-                MaxMapY = maxMapY
-            };
-        }
-
-
-        for (int l = 0; l < maxLayers; l++)
-        {
-            Types.Maps[mapIndex].Layer.Add(new MapLayer
-            {
-                MapId = mapIndex,
-                LayerLevel = (byte)l,
-                TileMatrix = new Tile[maxMapX, maxMapY],
-            });
-
-
-            for (int x = 0; x < maxMapX; x++)
-            {
-                for (int y = 0; y < maxMapY; y++)
-                {
-
-                    Tile tile = new Tile
-                    {
-                        TilesetNumber = 0,
-                        Type = 0,
-                        Moral = 0,
-                        Data1 = 0,
-                        Data2 = 0,
-                        Data3 = 0,
-                        X = x,
-                        Y = y,
-                        TileX = 0,
-                        TileY = 0,
-                    };
-
-                    Types.Maps[mapIndex].Layer.ElementAt(l).Tile.Add(tile);
-                    Types.Maps[mapIndex].Layer.ElementAt(l).TileMatrix[x, y] = tile;
-                }
-            }
-        }
-
         Graphics.InitializeGraphics(Content);
 
         gumProject = Gum.Initialize(this, "GumUI/ynamarEditorsProject.gumx");
@@ -101,9 +49,11 @@ public class Game1 : Game
 
     }
 
-    protected override void LoadContent()
+    protected override async void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        await MapEditorService.GetMap();
+
         // TODO: use this.Content to load your game content here
     }
 
@@ -159,8 +109,8 @@ public class Game1 : Game
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
                         // SetTile Tileset
-                        Types.Maps[0].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                        Types.Maps[0].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
+                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
 
                     }
 

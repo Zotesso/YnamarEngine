@@ -13,8 +13,12 @@ namespace YnamarEditors
         public const int MIN_LAYERS = 0;
 
         // Variables
+        public static bool isLoadingMap = false;
         private static int selectedLayer = 0;
+        private static int selectedMap = 0;
 
         public static int SelectedLayer { get => selectedLayer; set => selectedLayer = value; }
+        public static int SelectedMap { get => selectedMap; set => selectedMap = value; }
+
     }
 }
