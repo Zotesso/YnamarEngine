@@ -2,62 +2,6 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "MapEditor.SpriteInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-19T00:58:45.2289021Z"
-      },
-      {
-        "NewName": "MapEditor.RectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-19T00:58:49.7108522Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "MapEditor.Sprite SpriteInstance in MapEditor",
-        "ElementType": "Screens",
-        "EventType": 6,
-        "TimestampUtc": "2025-09-19T01:02:13.750778Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "MapEditor.Rectangle RectangleInstance in MapEditor",
-        "ElementType": "Screens",
-        "EventType": 6,
-        "TimestampUtc": "2025-09-19T01:02:19.3539408Z"
-      },
-      {
-        "NewName": "Controls/ScrollViewer (Container).SpriteInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-19T01:02:23.813309Z"
-      },
-      {
-        "NewName": "Controls/ScrollViewer (Container).RectangleInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-19T01:02:36.2247973Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "Controls/ScrollViewer (Container).Sprite SpriteInstance in Controls/ScrollViewer (Container)",
-        "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2025-09-19T01:06:05.0489408Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "Controls/ScrollViewer (Container).Rectangle RectangleInstance in Controls/ScrollViewer (Container)",
-        "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2025-09-19T01:06:08.3778795Z"
-      },
-      {
         "NewName": "MapEditor.ColoredRectangleInstance",
         "OldName": null,
         "ElementType": "Screens",

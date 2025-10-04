@@ -101,7 +101,7 @@ public class Game1 : Game
                 {
                     RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
 
-                    float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).ResourcePanel.Width + 30);
+                    float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).EditorSection.GetAbsoluteWidth());
                         
                     int mapTileX = ((int)mapLocalX / 32) + (int)Graphics.horizontalScrollbar.FormsControl.Value;
                     int mapTileY = ((int)screenY / 32) + (int)Graphics.verticalScrollbar.FormsControl.Value;

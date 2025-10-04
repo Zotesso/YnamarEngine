@@ -34,7 +34,7 @@ namespace YnamarEditors
 
             int tileSize = 32;
             float viewportHeight = 30;
-            float maxScroll = (55) - viewportHeight;
+            float maxScroll = (65) - viewportHeight;
 
             verticalScrollbar.FormsControl.Minimum = 0;
             verticalScrollbar.FormsControl.Maximum = maxScroll;
@@ -45,7 +45,7 @@ namespace YnamarEditors
             horizontalScrollbar.FormsControl.ViewportSize = viewportHeight;
 
             var resourcePanel = mapEditorScreen.ResourcePanel;
-            resourcePanelBoundariesX = (int)resourcePanel.Width;
+            resourcePanelBoundariesX = (int)mapEditorScreen.EditorSection.GetAbsoluteWidth();
             var tilesetSprite = new SpriteRuntime
             {
                 Texture = Tilesets[0],
@@ -133,7 +133,7 @@ namespace YnamarEditors
                 {
                     for (int y = 0; y < Types.Maps[Globals.SelectedMap].MaxMapY; y++)
                     {
-                        DrawTileGrid((resourcePanelBoundariesX + 30) + (x * 32), y * 32, x, y, layer);
+                        DrawTileGrid(x * 32, y * 32, x, y, layer);
                     }
                 }
             }
@@ -151,7 +151,7 @@ namespace YnamarEditors
             int thickness = 1;
 
             int MapX, MapY;
-            MapX = ConvertMapX(mapX);
+            MapX = (resourcePanelBoundariesX) + ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
 
 
