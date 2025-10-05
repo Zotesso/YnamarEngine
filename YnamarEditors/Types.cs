@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,37 +13,18 @@ namespace YnamarEditors
     {
         public static Map[] Maps = new Map[100];
 
-        /*
-        [Serializable]
-        public struct MapStruct
+        public static TileEventStruct[] TileEvents = new TileEventStruct[2];
+
+        public struct TileEventStruct
         {
+            public string mapAcronym;
+            public Color mapAcronymColor;
             public string Name;
-            public int MaxMapX;
-            public int MaxMapY;
-
-            public MapLayerStruct[] Layer;
-        }
-
-        [Serializable]
-        public struct MapLayerStruct
-        {
-            public byte Index;
-            public TileStruct[,] Tile;
-            //public MapNpc[] MapNpc;
-        }
-
-        [Serializable]
-        public struct TileStruct
-        {
-            public int TilesetNumber;
-            public int TileX;
-            public int TileY;
             public byte Type;
             public byte Moral;
             public int Data1;
             public int Data2;
             public int Data3;
         }
-        */
     }
 }

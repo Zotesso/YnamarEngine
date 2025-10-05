@@ -11,6 +11,7 @@ using YnamarEditors.Components;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
+using static YnamarEditors.Types;
 
 namespace YnamarEditors;
 
@@ -79,12 +80,12 @@ public class Game1 : Game
                 float localY = screenY - (float)contentPanel.GetAbsoluteY();
 
                 if (localX >= 0 && localY >= 0 &&
-                    localX < Graphics.Tilesets[0].Width &&
-                    localY < Graphics.Tilesets[0].Height)
+                    localX < Graphics.Tilesets[Globals.SelectedTileset].Width &&
+                    localY < Graphics.Tilesets[Globals.SelectedTileset].Height)
                 {
                     int tileX = (int)localX / 32;
                     int tileY = (int)localY / 32;
-                    int columns = Graphics.Tilesets[0].Width / 32;
+                    int columns = Graphics.Tilesets[Globals.SelectedTileset].Width / 32;
 
                     //CurrentSelectedTileIndex = tileY * columns + tileX;
                     RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
@@ -101,17 +102,29 @@ public class Game1 : Game
                 {
                     RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
 
-                    float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).ResourcePanel.Width + 30);
+                    float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).EditorSection.GetAbsoluteWidth());
                         
                     int mapTileX = ((int)mapLocalX / 32) + (int)Graphics.horizontalScrollbar.FormsControl.Value;
                     int mapTileY = ((int)screenY / 32) + (int)Graphics.verticalScrollbar.FormsControl.Value;
 
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
-                        // SetTile Tileset
-                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
+                        Tile selectedTile = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY];
+                        
+                        if (Globals.SelectedEventIndex is not null)
+                        {
+                            TileEventStruct selectedEvent = Types.TileEvents[(int)Globals.SelectedEventIndex];
+                            selectedTile.Type = selectedEvent.Type;
+                            selectedTile.Moral = selectedEvent.Moral;
+                            selectedTile.Data1 = selectedEvent.Data1;
+                            selectedTile.Data2 = selectedEvent.Data2;
+                            selectedTile.Data3 = selectedEvent.Data3;
+                            return;
+                        }
 
+                        selectedTile.TileY = (int)selectionBox.Y;
+                        selectedTile.TileX = (int)selectionBox.X;
+                        selectedTile.TilesetNumber = Globals.SelectedTileset;
                     }
 
                 }

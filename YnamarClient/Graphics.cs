@@ -13,7 +13,7 @@ namespace YnamarClient
     {
 
         public static Texture2D[] Characters = new Texture2D[3];
-        public static Texture2D[] Tilesets = new Texture2D[1];
+        public static Texture2D[] Tilesets = new Texture2D[2];
         public static Texture2D[] Items = new Texture2D[1];
         private static SpriteFont font;
 

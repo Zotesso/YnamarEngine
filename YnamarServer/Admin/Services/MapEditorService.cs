@@ -40,14 +40,13 @@ namespace YnamarServer.Admin.Services
                     foreach(var layer in editedMap.Layer) 
                     {
                         var targetLayer = existing.Layer.FirstOrDefault(l => l.LayerLevel == layer.LayerLevel);
-                        if (targetLayer == null)
-                        { 
-                            existing.Layer.Add(layer); 
-                        } 
-                        else 
+                        if (targetLayer is not null)
                         {
-                            dbContext.Entry(targetLayer).CurrentValues.SetValues(layer); 
-                        } 
+                            existing.Layer.Remove(targetLayer);
+                            await dbContext.SaveChangesAsync();
+                        }
+
+                        existing.Layer.Add(layer);
                     }
 
                 }
