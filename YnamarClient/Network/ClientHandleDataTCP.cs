@@ -91,25 +91,21 @@ namespace YnamarClient.Network
 
             Types.Player[targetIndex].XOffset = 0;
             Types.Player[targetIndex].YOffset = 0;
-            Types.Player[targetIndex].Moving = targetMoving;
+            Types.Player[targetIndex].Moving = 1;
 
             switch (Types.Player[targetIndex].Dir)
             {
                 case Constants.DIR_UP:
                     Types.Player[targetIndex].YOffset = 32;
-                    Types.Player[targetIndex].Y -= 1;
                     break;
                 case Constants.DIR_DOWN:
                     Types.Player[targetIndex].YOffset = 32 * -1;
-                    Types.Player[targetIndex].Y += 1;
                     break;
                 case Constants.DIR_LEFT:
                     Types.Player[targetIndex].XOffset = 32;
-                    Types.Player[targetIndex].X -= 1;
                     break;
                 case Constants.DIR_RIGHT:
                     Types.Player[targetIndex].XOffset = 32 * -1;
-                    Types.Player[targetIndex].X += 1;
                     break;
             }
 

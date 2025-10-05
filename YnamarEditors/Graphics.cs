@@ -12,6 +12,8 @@ using System.Reflection.Metadata;
 using RenderingLibrary.Graphics;
 using MonoGameGum.GueDeriving;
 using YnamarEditors.Models;
+using System.Reflection;
+using static YnamarEditors.Types;
 
 namespace YnamarEditors
 {
@@ -20,11 +22,13 @@ namespace YnamarEditors
         public static Texture2D[] Tilesets = new Texture2D[2];
         public static ScrollBarRuntime verticalScrollbar;
         public static ScrollBarRuntime horizontalScrollbar;
+        private static SpriteFont font;
 
         private static Texture2D pixel;
         private static int resourcePanelBoundariesX = 0;
         public static void InitializeGraphics(ContentManager manager)
         {
+            LoadFonts(manager);
             LoadTilesets(manager);
         }
         public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
@@ -99,6 +103,8 @@ namespace YnamarEditors
             {
                 if (Types.TileEvents[i].Name is not null)
                 {
+                    int index = i;
+
                     ButtonStandardRuntime eventButton = new ButtonStandardRuntime
                     {
                         Name = Types.TileEvents[i].Name,
@@ -107,6 +113,15 @@ namespace YnamarEditors
                         WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
                         HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
 
+                    };
+
+                    eventButton.Click += (_, _) =>
+                    {
+                        Color selectedButtonColor = eventButton.Background.Color;
+                        selectedButtonColor.A = 180;
+                        eventButton.Background.Color = selectedButtonColor;
+
+                        Globals.SelectedEventIndex = index;
                     };
 
                     eventButton.TextInstance.Text = Types.TileEvents[i].Name;
@@ -131,6 +146,10 @@ namespace YnamarEditors
             }
         }
 
+        private static void LoadFonts(ContentManager manager)
+        {
+            font = manager.Load<SpriteFont>("Font");
+        }
 
         public static void RenderGraphics(GraphicsDevice graphicsDevice)
         {
@@ -206,10 +225,24 @@ namespace YnamarEditors
             // Bottom line
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY + tileSize - thickness, tileSize, thickness), Color.White);
 
-            if (TilesetX == 0 && TilesetY == 0) return;
+            if (!(TilesetX == 0 && TilesetY == 0))
+            {
+                srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
+                Game1._spriteBatch.Draw(Tilesets[actualTile.TilesetNumber], new Vector2(MapX, MapY), srcrec, Color.White);
+            }
 
-            srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
-            Game1._spriteBatch.Draw(Tilesets[actualTile.TilesetNumber], new Vector2(MapX, MapY), srcrec, Color.White);
+            if (Globals.SelectedEventIndex is not null && actualTile.Type != 0)
+            {
+                DrawTileEventAcronym(MapX, MapY, Types.TileEvents[(int)Globals.SelectedEventIndex]);
+            }
+        }
+
+        private static void DrawTileEventAcronym(int mapX, int mapY, TileEventStruct tileEvent)
+        {
+            int x = mapX + 5;
+            int y = mapY + 5;
+
+            Game1._spriteBatch.DrawString(font, tileEvent.mapAcronym, new Vector2(x, y), tileEvent.mapAcronymColor);
         }
     }
     

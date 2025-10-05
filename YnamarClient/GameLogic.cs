@@ -98,28 +98,19 @@ namespace YnamarClient
             {
                 if (CanMove())
                 {
-                    Types.Player[Globals.playerIndex].Moving = 1;
                     switch (Types.Player[Globals.playerIndex].Dir)
                     {
                         case Constants.DIR_UP:
                             clienttcp.SendPlayerMove();
-                            Types.Player[Globals.playerIndex].YOffset = 32;
-                            Types.Player[Globals.playerIndex].Y -= 1;
                             break;
                         case Constants.DIR_DOWN:
                             clienttcp.SendPlayerMove();
-                            Types.Player[Globals.playerIndex].YOffset = (32 * -1);
-                            Types.Player[Globals.playerIndex].Y += 1;
                             break;
                         case Constants.DIR_LEFT:
                             clienttcp.SendPlayerMove();
-                            Types.Player[Globals.playerIndex].XOffset = 32;
-                            Types.Player[Globals.playerIndex].X -= 1;
                             break;
                         case Constants.DIR_RIGHT:
                             clienttcp.SendPlayerMove();
-                            Types.Player[Globals.playerIndex].XOffset = (32 * -1);
-                            Types.Player[Globals.playerIndex].X += 1;
                             break;
                     }
                 }

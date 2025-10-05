@@ -11,6 +11,7 @@ using YnamarEditors.Components;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
+using static YnamarEditors.Types;
 
 namespace YnamarEditors;
 
@@ -108,10 +109,22 @@ public class Game1 : Game
 
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
-                        // SetTile Tileset
-                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileY = (int)selectionBox.Y;
-                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TileX = (int)selectionBox.X;
-                        Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY].TilesetNumber = Globals.SelectedTileset;
+                        Tile selectedTile = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY];
+                        
+                        if (Globals.SelectedEventIndex is not null)
+                        {
+                            TileEventStruct selectedEvent = Types.TileEvents[(int)Globals.SelectedEventIndex];
+                            selectedTile.Type = selectedEvent.Type;
+                            selectedTile.Moral = selectedEvent.Moral;
+                            selectedTile.Data1 = selectedEvent.Data1;
+                            selectedTile.Data2 = selectedEvent.Data2;
+                            selectedTile.Data3 = selectedEvent.Data3;
+                            return;
+                        }
+
+                        selectedTile.TileY = (int)selectionBox.Y;
+                        selectedTile.TileX = (int)selectionBox.X;
+                        selectedTile.TilesetNumber = Globals.SelectedTileset;
                     }
 
                 }

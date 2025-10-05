@@ -7,6 +7,7 @@ using static YnamarServer.Network.NetworkPackets;
 using YnamarServer.Network;
 using YnamarServer.Database;
 using YnamarServer.Services;
+using YnamarServer.Database.Models;
 
 namespace YnamarServer.GameLogic
 {
@@ -20,9 +21,15 @@ namespace YnamarServer.GameLogic
 
             int x = DirToX(InMemoryDatabase.Player[index].X, dir);
             int y = DirToY(InMemoryDatabase.Player[index].Y, dir);
+            Map? playerMap = InMemoryDatabase.Maps.Where(map => map.Id == InMemoryDatabase.Player[index].Map).FirstOrDefault();
 
-            if (IsValidPosition(x, y))
+            if (playerMap is null) return;
+
+             if (IsValidPosition(x, y))
             {
+                // Check for blocked tile
+                if (playerMap.Layer.ElementAt(0).Tile.ElementAt(x + (x * 49) + y).Type == 1) return;
+
                 InMemoryDatabase.Player[index].X = x;
                 InMemoryDatabase.Player[index].Y = y;
 
@@ -34,7 +41,7 @@ namespace YnamarServer.GameLogic
                 buffer.AddByte(dir);
                 buffer.AddInteger(movement);
 
-                stcp.SendDataToMapBut(index, InMemoryDatabase.Player[index].Map, buffer.ToArray());
+                stcp.SendDataToMap(InMemoryDatabase.Player[index].Map, buffer.ToArray());
                 buffer.Dispose();
             }
         }

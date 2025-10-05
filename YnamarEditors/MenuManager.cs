@@ -94,6 +94,7 @@ namespace YnamarEditors
 
                             if (numericTextBoxValue < Graphics.Tilesets.Length && numericTextBoxValue >= 0)
                             {
+                                Globals.SelectedEventIndex = null;
                                 Globals.SelectedTileset = numericTextBoxValue;
                                 Graphics.UpdateTilesetPanel((SpriteRuntime)editor.ResourcePanel.InnerPanelInstance.GetChildByName("TilesetSprite"));
                                 return;
@@ -138,6 +139,7 @@ namespace YnamarEditors
 
                     editor.TilesetButton.Click += (_, _) =>
                     {
+                        Globals.SelectedEventIndex = null;
                         editor.ResourcePanel.Visible = true;
                         editor.EventsContainer.Visible = false;
                     };
