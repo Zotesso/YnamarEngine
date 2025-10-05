@@ -83,7 +83,26 @@ namespace YnamarEditors
                             textBox.Text = Globals.SelectedMap.ToString();
                         }
                     };
-                    
+
+                    editor.TilesetNumTextBox.FormsControl.TextChanged += async (textObject, _) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+                        if (textBox.Text == "") return;
+                        if (NumericTextBoxBehavior.IsValidNumeric(textBox.Text))
+                        {
+                            int.TryParse(textBox.Text, out var numericTextBoxValue);
+
+                            if (numericTextBoxValue < Graphics.Tilesets.Length && numericTextBoxValue >= 0)
+                            {
+                                Globals.SelectedTileset = numericTextBoxValue;
+                                Graphics.UpdateTilesetPanel((SpriteRuntime)editor.ResourcePanel.InnerPanelInstance.GetChildByName("TilesetSprite"));
+                                return;
+                            }
+                        }
+                        
+                        textBox.Text = Globals.SelectedTileset.ToString();
+                    };
+
                     editor.SaveMapButton.Click += (_, __) =>
                     {
                         MapEditorService.SaveMap();
@@ -109,6 +128,18 @@ namespace YnamarEditors
                             Globals.SelectedLayer = downLayer;
                             editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
                         }
+                    };
+
+                    editor.EventsButton.Click += (_, _) =>
+                    {
+                        editor.ResourcePanel.Visible = false;
+                        editor.EventsContainer.Visible = true;
+                    };
+
+                    editor.TilesetButton.Click += (_, _) =>
+                    {
+                        editor.ResourcePanel.Visible = true;
+                        editor.EventsContainer.Visible = false;
                     };
 
                     Graphics.LoadGumTilesetResourcePanel(this);

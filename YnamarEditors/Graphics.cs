@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using RenderingLibrary.Graphics;
 using MonoGameGum.GueDeriving;
+using YnamarEditors.Models;
 
 namespace YnamarEditors
 {
     internal class Graphics
     {
-        public static Texture2D[] Tilesets = new Texture2D[1];
+        public static Texture2D[] Tilesets = new Texture2D[2];
         public static ScrollBarRuntime verticalScrollbar;
         public static ScrollBarRuntime horizontalScrollbar;
 
@@ -48,9 +49,10 @@ namespace YnamarEditors
             resourcePanelBoundariesX = (int)mapEditorScreen.EditorSection.GetAbsoluteWidth();
             var tilesetSprite = new SpriteRuntime
             {
-                Texture = Tilesets[0],
-                Width = Tilesets[0].Width,
-                Height = Tilesets[0].Height,
+                Name = "TilesetSprite",
+                Texture = Tilesets[Globals.SelectedTileset],
+                Width = Tilesets[Globals.SelectedTileset].Width,
+                Height = Tilesets[Globals.SelectedTileset].Height,
                 WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
                 HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
                 X = 0,
@@ -76,6 +78,49 @@ namespace YnamarEditors
             resourcePanel.InnerPanelInstance.Children.Add(selectionBox);
             selectionBox.Z = tilesetSprite.Z + 1;
 
+            InitializeTileEvents(menuManager);
+        }
+
+        private static void InitializeTileEvents(MenuManager menuManager)
+        {
+            MapEditorRuntime mapEditorScreen = (MapEditorRuntime)menuManager.GetCurrentScreen();
+            ContainerRuntime eventsContainer = mapEditorScreen.EventsContainer;
+
+            Types.TileEvents[0].Name = "Block";
+            Types.TileEvents[0].Moral = 0;
+            Types.TileEvents[0].Type = 1;
+            Types.TileEvents[0].Data1 = 0;
+            Types.TileEvents[0].Data2 = 0;
+            Types.TileEvents[0].Data3 = 0;
+            Types.TileEvents[0].mapAcronym = "B";
+            Types.TileEvents[0].mapAcronymColor = Color.Red;
+
+            for (int i = 0; i < Types.TileEvents.Length; i++)
+            {
+                if (Types.TileEvents[i].Name is not null)
+                {
+                    ButtonStandardRuntime eventButton = new ButtonStandardRuntime
+                    {
+                        Name = Types.TileEvents[i].Name,
+                        Width = 120,
+                        Height = 60,                 
+                        WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                        HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+
+                    };
+
+                    eventButton.TextInstance.Text = Types.TileEvents[i].Name;
+                    eventsContainer.Children.Add(eventButton);
+                }
+            }
+
+        }
+
+        public static void UpdateTilesetPanel(SpriteRuntime tilesetToUpdate)
+        {
+            tilesetToUpdate.Texture = Tilesets[Globals.SelectedTileset];
+            tilesetToUpdate.Width = Tilesets[Globals.SelectedTileset].Width;
+            tilesetToUpdate.Height = Tilesets[Globals.SelectedTileset].Height;
         }
 
         private static void LoadTilesets(ContentManager manager)
@@ -141,20 +186,17 @@ namespace YnamarEditors
 
         private static void DrawTileGrid(int mapX, int mapY, int x, int y, int layerNum)
         {
-            int TilesetX = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileX;
-            int TilesetY = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y].TileY;
-
+            Tile actualTile = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layerNum).TileMatrix[x, y];
+            int TilesetX = actualTile.TileX;
+            int TilesetY = actualTile.TileY;
 
             Rectangle srcrec;
-            //int tilesetnum = 0;
             int tileSize = 32;
             int thickness = 1;
 
             int MapX, MapY;
             MapX = (resourcePanelBoundariesX) + ConvertMapX(mapX);
             MapY = ConvertMapY(mapY);
-
-
 
             Game1._spriteBatch.Draw(pixel, new Rectangle(MapX, MapY, tileSize, thickness), Color.White);
             // Left line
@@ -167,8 +209,7 @@ namespace YnamarEditors
             if (TilesetX == 0 && TilesetY == 0) return;
 
             srcrec = new Rectangle(TilesetX, TilesetY, 32, 32);
-            Game1._spriteBatch.Draw(Tilesets[0], new Vector2(MapX, MapY), srcrec, Color.White);
-
+            Game1._spriteBatch.Draw(Tilesets[actualTile.TilesetNumber], new Vector2(MapX, MapY), srcrec, Color.White);
         }
     }
     
