@@ -7,6 +7,7 @@ using MonoGameGum.GueDeriving;
 using RenderingLibrary;
 using System.Diagnostics;
 using System.Linq;
+using YnamarEditors.Commands;
 using YnamarEditors.Components;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
@@ -22,6 +23,7 @@ public class Game1 : Game
     GumService Gum => GumService.Default;
     public static GumProjectSave gumProject;
     private MenuManager _menuManager;
+    private CommandService _commandService;
 
     public Game1()
     {
@@ -45,6 +47,7 @@ public class Game1 : Game
         gumProject.DefaultCanvasHeight = 720;
         _menuManager = new MenuManager(gumProject);
         _menuManager.LoadScreen("EditorSelector");
+        _commandService = new CommandService();
 
         base.Initialize();
 
@@ -62,6 +65,16 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
+
+        if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.Z))
+        {
+            _commandService.UndoCommand();
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.Y))
+        {
+            _commandService.RedoCommand();
+        }
 
         var mouse = Microsoft.Xna.Framework.Input.Mouse.GetState();
 
@@ -114,17 +127,11 @@ public class Game1 : Game
                         if (Globals.SelectedEventIndex is not null)
                         {
                             TileEventStruct selectedEvent = Types.TileEvents[(int)Globals.SelectedEventIndex];
-                            selectedTile.Type = selectedEvent.Type;
-                            selectedTile.Moral = selectedEvent.Moral;
-                            selectedTile.Data1 = selectedEvent.Data1;
-                            selectedTile.Data2 = selectedEvent.Data2;
-                            selectedTile.Data3 = selectedEvent.Data3;
-                            return;
+                            _commandService.ExecuteCommand(new MapTileEventClick(selectedTile, selectedEvent));
                         }
 
-                        selectedTile.TileY = (int)selectionBox.Y;
-                        selectedTile.TileX = (int)selectionBox.X;
-                        selectedTile.TilesetNumber = Globals.SelectedTileset;
+                        int selectedTileset = Globals.SelectedTileset;
+                        _commandService.ExecuteCommand(new MapTileClick(selectedTile, (int)selectionBox.Y, (int)selectionBox.X), selectedTileset);
                     }
 
                 }
