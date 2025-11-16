@@ -32,15 +32,15 @@ namespace YnamarEditors.Commands
             _oldX = _selectedTile.TileX;
             _oldY = _selectedTile.TileY;
             _oldTilesetNumber = _selectedTile.TilesetNumber;
-            _selectedTile.TileX = _selectedX;
-            _selectedTile.TileY = _selectedY;
+            _selectedTile.TileX = _selectedX * 32;
+            _selectedTile.TileY = _selectedY * 32;
             _selectedTile.TilesetNumber = _selectedTileset;
         }
 
         public void Undo()
         {
-            _selectedTile.TileX = _oldX;
-            _selectedTile.TileY = _oldY;
+            _selectedTile.TileX = _oldX * 32;
+            _selectedTile.TileY = _oldY * 32;
             _selectedTile.TilesetNumber = _oldTilesetNumber;
         }
     }

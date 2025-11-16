@@ -138,8 +138,9 @@ public class Game1 : Game
                             if (selectedTiles.Count > 1)
                             {
                                 int selectedTileset = Globals.SelectedTileset;
-                                _commandService.ExecuteCommand(new MapMultipleTilesClick(mapTileX, mapTileY, selectedTiles, selectedTileset));
-
+                                int selectedMap = Globals.SelectedMap;
+                                int selectedLayer = Globals.SelectedLayer;
+                                _commandService.ExecuteCommand(new MapMultipleTilesClick(mapTileX, mapTileY, selectedTiles, selectedTileset, selectedMap, selectedLayer));
                             }
                             else
                             {
