@@ -9,7 +9,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using YnamarEditors.Models;
 
-namespace YnamarEditors.Services
+namespace YnamarEditors.Services.MapEditor
 {
     internal class MapEditorService
     {
@@ -37,7 +37,7 @@ namespace YnamarEditors.Services
             );
 
             HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:8080/api/mapeditor/{Globals.SelectedMap}");
-            
+
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 Globals.SelectedLayer = 0;
@@ -62,7 +62,8 @@ namespace YnamarEditors.Services
                             LayerLevel = (byte)l,
                             TileMatrix = new Tile[50, 50],
                         });
-                    } else
+                    }
+                    else
                     {
                         Types.Maps[Globals.SelectedMap].Layer.ElementAt(l).TileMatrix = new Tile[50, 50];
                     }
@@ -75,7 +76,7 @@ namespace YnamarEditors.Services
                                 .Layer.ElementAt(l)
                                     .TileMatrix[x, y] = Types.Maps[Globals.SelectedMap].Layer
                                                                 .ElementAt(l).Tile
-                                                                    .ElementAt(x + (x * 49) + y)
+                                                                    .ElementAt(x + x * 49 + y)
                             ?? new Tile
                             {
                                 TilesetNumber = 0,
