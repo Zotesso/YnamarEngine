@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using RenderingLibrary;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using YnamarEditors.Commands;
@@ -12,6 +13,7 @@ using YnamarEditors.Components;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
+using YnamarEditors.Services.MapEditor;
 using static YnamarEditors.Types;
 
 namespace YnamarEditors;
@@ -24,6 +26,7 @@ public class Game1 : Game
     public static GumProjectSave gumProject;
     private MenuManager _menuManager;
     private CommandService _commandService;
+    private ResourcePanelService _resourcePanelService;
 
     public Game1()
     {
@@ -48,6 +51,7 @@ public class Game1 : Game
         _menuManager = new MenuManager(gumProject);
         _menuManager.LoadScreen("EditorSelector");
         _commandService = new CommandService();
+        _resourcePanelService = new ResourcePanelService();
 
         base.Initialize();
 
@@ -96,25 +100,24 @@ public class Game1 : Game
                     localX < Graphics.Tilesets[Globals.SelectedTileset].Width &&
                     localY < Graphics.Tilesets[Globals.SelectedTileset].Height)
                 {
-                    int tileX = (int)localX / 32;
-                    int tileY = (int)localY / 32;
-                    int columns = Graphics.Tilesets[Globals.SelectedTileset].Width / 32;
+                    bool shift = Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift);
 
-                    //CurrentSelectedTileIndex = tileY * columns + tileX;
-                    RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
-                    // Move selection box
-                    selectionBox.X = tileX * 32;
-                    selectionBox.Y = tileY * 32;
-                    selectionBox.Z = 3;
-                    selectionBox.Visible = true;
+                    if (!shift)
+                    {
+                        _resourcePanelService.SelectedTileOnResourcePanel((MapEditorRuntime)currentScreen, (int)localX, (int)localY);
+                    } 
+                    else
+                    {
+                        _resourcePanelService.SelectedMultipleTilesOnResourcePanel((MapEditorRuntime)currentScreen, (int)localX, (int)localY);
+                    }
                 }
                 else if (
                     (screenX < (_graphics.PreferredBackBufferWidth - ((MapEditorRuntime)currentScreen).VerticalScrollbarSection.GetAbsoluteWidth() - 15))
                     && (screenY < (_graphics.PreferredBackBufferHeight - ((MapEditorRuntime)currentScreen).HorizontalScrollbarSection.GetAbsoluteHeight() - 15))
                     )
                 {
-                    RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
-
+                    //RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
+                    List<System.Drawing.Point> selectedTiles = _resourcePanelService.GetSelectedTiles();
                     float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).EditorSection.GetAbsoluteWidth());
                         
                     int mapTileX = ((int)mapLocalX / 32) + (int)Graphics.horizontalScrollbar.FormsControl.Value;
@@ -130,8 +133,20 @@ public class Game1 : Game
                             _commandService.ExecuteCommand(new MapTileEventClick(selectedTile, selectedEvent));
                         }
 
-                        int selectedTileset = Globals.SelectedTileset;
-                        _commandService.ExecuteCommand(new MapTileClick(selectedTile, (int)selectionBox.Y, (int)selectionBox.X), selectedTileset);
+                        if (selectedTiles.Count > 0)
+                        {
+                            if (selectedTiles.Count > 1)
+                            {
+                                int selectedTileset = Globals.SelectedTileset;
+                                _commandService.ExecuteCommand(new MapMultipleTilesClick(mapTileX, mapTileY, selectedTiles, selectedTileset));
+
+                            }
+                            else
+                            {
+                                int selectedTileset = Globals.SelectedTileset;
+                                _commandService.ExecuteCommand(new MapTileClick(selectedTile, selectedTiles.ElementAt(0).Y, selectedTiles.ElementAt(0).X, selectedTileset));
+                            }
+                        }
                     }
 
                 }
