@@ -2,221 +2,305 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "MapEditor.ButtonConfirmInstance",
+        "NewName": "NpcEditor",
         "OldName": null,
         "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-26T00:29:15.1057269Z"
-      },
-      {
-        "NewName": "FeedbackPanel",
-        "OldName": null,
-        "ElementType": "Components",
         "EventType": 0,
-        "TimestampUtc": "2025-09-26T00:34:18.2438941Z"
+        "TimestampUtc": "2025-11-17T01:01:58.6504644Z"
       },
       {
-        "NewName": "FeedbackPanel (Container).ColoredRectangleInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-26T00:34:32.1667183Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).TextInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-26T00:36:06.8587603Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).SpriteInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-26T00:38:14.706427Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).SpriteInstance1",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-09-26T00:39:05.9516375Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).SuccessIcon",
-        "OldName": "FeedbackPanel (Container).SpriteInstance",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-26T00:39:21.9732047Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).ErrorIcon",
-        "OldName": "FeedbackPanel (Container).SuccessIcon",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-26T00:39:46.9823347Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).SuccessIcon",
-        "OldName": "FeedbackPanel (Container).ErrorIcon",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-26T00:40:06.492281Z"
-      },
-      {
-        "NewName": "FeedbackPanel (Container).ErrorIcon",
-        "OldName": "FeedbackPanel (Container).SpriteInstance1",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-26T00:40:19.2657053Z"
-      },
-      {
-        "NewName": "MapEditor.SaveMapButton",
-        "OldName": "MapEditor.ButtonConfirmInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-26T00:42:13.402324Z"
-      },
-      {
-        "NewName": "MapEditor.ContainerInstance",
+        "NewName": "EditorSelector.ButtonStandardInstance1",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-09-30T02:43:49.8798206Z"
+        "TimestampUtc": "2025-11-17T01:02:32.335778Z"
       },
       {
-        "NewName": "MapEditor.LayerContainer",
-        "OldName": "MapEditor.ContainerInstance",
+        "NewName": "EditorSelector.NpcEditorButton",
+        "OldName": "EditorSelector.ButtonStandardInstance1",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-09-30T02:43:57.4025118Z"
+        "TimestampUtc": "2025-11-17T01:02:56.5696619Z"
       },
       {
-        "NewName": "MapEditor.ButtonIconInstance",
+        "NewName": "NpcEditor.ColoredRectangleInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-09-30T02:45:46.7014679Z"
+        "TimestampUtc": "2025-11-17T01:16:08.1735631Z"
       },
       {
-        "NewName": "MapEditor.ButtonIconInstance1",
+        "NewName": "NpcEditor.EditorSection",
+        "OldName": "NpcEditor.ColoredRectangleInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T01:16:21.3634013Z"
+      },
+      {
+        "NewName": "NpcEditor.SpriteInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-09-30T02:45:56.1349587Z"
+        "TimestampUtc": "2025-11-17T01:17:40.9520154Z"
       },
       {
-        "NewName": "MapEditor.UpLayer",
-        "OldName": "MapEditor.ButtonIconInstance",
+        "NewName": "NpcEditor.NpcSprite",
+        "OldName": "NpcEditor.SpriteInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-09-30T02:46:02.7417612Z"
+        "TimestampUtc": "2025-11-17T01:18:20.6984559Z"
       },
       {
-        "NewName": "MapEditor.LayerUpControl",
-        "OldName": "MapEditor.UpLayer",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-30T02:46:09.0968258Z"
-      },
-      {
-        "NewName": "MapEditor.LayerDownControl",
-        "OldName": "MapEditor.ButtonIconInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-09-30T02:46:17.8436536Z"
-      },
-      {
-        "NewName": "MapEditor.TextInstance",
+        "NewName": "NpcEditor.TextInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-09-30T02:46:28.0959199Z"
+        "TimestampUtc": "2025-11-17T01:48:23.6987718Z"
       },
       {
-        "NewName": "MapEditor.TextLayer",
-        "OldName": "MapEditor.TextInstance",
+        "NewName": "NpcEditor.NameText",
+        "OldName": "NpcEditor.TextInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-09-30T02:46:34.649948Z"
+        "TimestampUtc": "2025-11-17T01:48:40.2411007Z"
       },
       {
-        "NewName": "MapEditor.TextInstance",
+        "NewName": "NpcEditor.TextBoxInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-10-04T17:49:42.8201178Z"
+        "TimestampUtc": "2025-11-17T01:49:00.6678042Z"
       },
       {
-        "NewName": "MapEditor.TextBoxInstance",
+        "NewName": "NpcEditor.NameTextBox",
+        "OldName": "NpcEditor.TextBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T01:49:12.0254626Z"
+      },
+      {
+        "NewName": "NpcEditor.TextInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-10-04T17:51:08.2481061Z"
+        "TimestampUtc": "2025-11-17T02:13:27.0847397Z"
       },
       {
-        "NewName": "MapEditor.TilesetNumText",
-        "OldName": "MapEditor.TextBoxInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-10-04T17:51:18.6261338Z"
-      },
-      {
-        "NewName": "MapEditor.TilesetNumTextBox",
-        "OldName": "MapEditor.TilesetNumText",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-10-04T17:51:25.6910761Z"
-      },
-      {
-        "NewName": "MapEditor.TilesetNumText",
-        "OldName": "MapEditor.TextInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-10-04T17:51:32.3413656Z"
-      },
-      {
-        "NewName": "MapEditor.ButtonStandardInstance",
+        "NewName": "NpcEditor.TextInstance1",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-10-04T17:59:49.2107635Z"
+        "TimestampUtc": "2025-11-17T02:13:33.3845773Z"
       },
       {
-        "NewName": "MapEditor.ButtonStandardInstance1",
+        "NewName": "NpcEditor.TextInstance2",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-10-04T18:00:01.2040908Z"
+        "TimestampUtc": "2025-11-17T02:13:36.9002573Z"
       },
       {
-        "NewName": "MapEditor.TilesetButton",
-        "OldName": "MapEditor.ButtonStandardInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-10-04T18:00:31.1453945Z"
-      },
-      {
-        "NewName": "MapEditor.EventsButton",
-        "OldName": "MapEditor.ButtonStandardInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-10-04T18:02:41.9787744Z"
-      },
-      {
-        "NewName": "MapEditor.ContainerInstance",
+        "NewName": "NpcEditor.TextInstance3",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-10-04T18:04:11.5301077Z"
+        "TimestampUtc": "2025-11-17T02:13:44.7214355Z"
       },
       {
-        "NewName": "MapEditor.EventsContainer",
-        "OldName": "MapEditor.ContainerInstance",
+        "NewName": "NpcEditor.TextInstance4",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:13:49.2447902Z"
+      },
+      {
+        "NewName": "NpcEditor.TextInstance5",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:13:56.4133458Z"
+      },
+      {
+        "NewName": "NpcEditor.LevelText",
+        "OldName": "NpcEditor.TextInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-10-04T18:04:24.0988633Z"
+        "TimestampUtc": "2025-11-17T02:14:21.4014254Z"
+      },
+      {
+        "NewName": "NpcEditor.MaxHpText",
+        "OldName": "NpcEditor.TextInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:14:29.2919047Z"
+      },
+      {
+        "NewName": "NpcEditor.AtkText",
+        "OldName": "NpcEditor.TextInstance2",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:14:36.2926672Z"
+      },
+      {
+        "NewName": "NpcEditor.DefText",
+        "OldName": "NpcEditor.TextInstance3",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:14:41.0959919Z"
+      },
+      {
+        "NewName": "NpcEditor.BehaviorText",
+        "OldName": "NpcEditor.TextInstance4",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:14:47.8017808Z"
+      },
+      {
+        "NewName": "NpcEditor.RespawnTimeText",
+        "OldName": "NpcEditor.TextInstance5",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:14:57.2783424Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:18:16.5214059Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:18:25.0883651Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance2",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:18:29.4165901Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance3",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:18:34.6095467Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance4",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-17T02:18:46.6155781Z"
+      },
+      {
+        "NewName": "NpcEditor.LevelTextBox",
+        "OldName": "NpcEditor.TextBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:18:56.3221108Z"
+      },
+      {
+        "NewName": "NpcEditor.MaxHpTextBox",
+        "OldName": "NpcEditor.TextBoxInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:19:05.0536961Z"
+      },
+      {
+        "NewName": "NpcEditor.AtkTextBox",
+        "OldName": "NpcEditor.TextBoxInstance2",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:19:10.9456692Z"
+      },
+      {
+        "NewName": "NpcEditor.DefTextBox",
+        "OldName": "NpcEditor.TextBoxInstance3",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:19:17.9784776Z"
+      },
+      {
+        "NewName": "NpcEditor.RespawnTimeTextBox",
+        "OldName": "NpcEditor.TextBoxInstance4",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-17T02:19:26.5345047Z"
+      },
+      {
+        "NewName": "NpcEditor.ListBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-23T22:16:10.282866Z"
+      },
+      {
+        "NewName": "NpcEditor.ListBoxInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-23T22:17:14.3054347Z"
+      },
+      {
+        "NewName": "NpcEditor.BehaviorListBox",
+        "OldName": "NpcEditor.ListBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-23T22:23:47.7036451Z"
+      },
+      {
+        "NewName": "NpcEditor.NpcListBox",
+        "OldName": "NpcEditor.ListBoxInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-23T22:24:45.4663897Z"
+      },
+      {
+        "NewName": "NpcEditor.TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-23T22:26:04.8955858Z"
+      },
+      {
+        "NewName": "NpcEditor.SearchTextBox",
+        "OldName": "NpcEditor.TextBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-23T22:26:21.9761356Z"
+      },
+      {
+        "NewName": "NpcEditor.ButtonStandardInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-23T22:47:30.5809897Z"
+      },
+      {
+        "NewName": "NpcEditor.SaveButton",
+        "OldName": "NpcEditor.ButtonStandardInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-23T22:48:51.9576023Z"
+      },
+      {
+        "NewName": "NpcEditor.ButtonStandardInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2025-11-23T22:48:54.7547329Z"
+      },
+      {
+        "NewName": "NpcEditor.NewButton",
+        "OldName": "NpcEditor.ButtonStandardInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2025-11-23T22:49:07.6225457Z"
       }
     ]
   }

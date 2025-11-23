@@ -71,6 +71,43 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>NpcEditorButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Npc Editor
+</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcEditorButton.Height</Name>
+      <Value xsi:type="xsd:float">50</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>NpcEditorButton.Parent</Name>
+      <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcEditorButton.Width</Name>
+      <Value xsi:type="xsd:float">311</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcEditorButton.X</Name>
+      <Value xsi:type="xsd:float">65</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcEditorButton.Y</Name>
+      <Value xsi:type="xsd:float">196</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>TextInstance.FontSize</Name>
       <Value xsi:type="xsd:int">32</Value>
@@ -126,6 +163,11 @@
   </Instance>
   <Instance>
     <Name>ButtonStandardInstance</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>NpcEditorButton</Name>
     <BaseType>Controls/ButtonStandard</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>

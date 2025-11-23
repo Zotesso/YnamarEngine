@@ -60,6 +60,11 @@ namespace YnamarEditors
                     {
                         LoadScreen("MapEditor");
                     };
+
+                    selector.NpcEditorButton.Click += (_, __) =>
+                    {
+                        LoadScreen("NpcEditor");
+                    };
                     break;
 
                 case "MapEditor":
