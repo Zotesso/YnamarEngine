@@ -11,6 +11,10 @@ using YnamarEditors.Screens;
 using YnamarEditors.Components.Behavior;
 using MonoGameGum.GueDeriving;
 using YnamarEditors.Services.MapEditor;
+using YnamarEditors.Services.NpcEditor;
+using Gum.Forms.Controls;
+using MonoGameGum.Forms.Controls;
+using YnamarEditors.Models.Protos;
 
 namespace YnamarEditors
 {
@@ -45,12 +49,12 @@ namespace YnamarEditors
             screenRuntime.AddToRoot();
             _currentScreen = screenRuntime;
 
-            WireScreenEvents(screenName, screenRuntime);
+            WireScreenEventsAsync(screenName, screenRuntime);
 
             return _currentScreen;
         }
 
-        private void WireScreenEvents(string screenName, GraphicalUiElement screenRuntime)
+        private async Task WireScreenEventsAsync(string screenName, GraphicalUiElement screenRuntime)
         {
             switch (screenName)
             {
@@ -59,6 +63,11 @@ namespace YnamarEditors
                     selector.ButtonStandardInstance.Click += (_, __) =>
                     {
                         LoadScreen("MapEditor");
+                    };
+
+                    selector.NpcEditorButton.Click += (_, __) =>
+                    {
+                        LoadScreen("NpcEditor");
                     };
                     break;
 
@@ -145,6 +154,24 @@ namespace YnamarEditors
                     };
 
                     Graphics.LoadGumTilesetResourcePanel(this);
+                    break;
+
+                case "NpcEditor":
+                    NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
+                    NpcList npcList = await NpcEditorService.ListNpcs();
+
+                    foreach (NpcSummary npcSummary in npcList.NpcsSummary)
+                    {
+                        var npc = $"Name: {npcSummary.Name} Id: {npcSummary.Id}";
+                        npcEditor.NpcListBox.FormsControl.Items.Add(npc);
+
+                    }
+
+                    npcEditor.LevelTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+                        textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
+                    };
                     break;
             }
         }

@@ -25,6 +25,7 @@ internal class Program
     public static AccountService accountService;
     public static MapService mapService;
     public static MapEditorService mapEditorService;
+    public static NpcEditorService npcEditorService;
     public static NpcService npcService;
 
     private static async Task Main(string[] args)
@@ -41,7 +42,9 @@ internal class Program
             .ConfigureServices((context, services) =>
             {
                 database.ConfigureDatabase(context.Configuration, services);
-                services.AddControllers().AddProtoBufNet().AddApplicationPart(typeof(MapEditorController).Assembly);
+                services.AddControllers().AddProtoBufNet()
+                .AddApplicationPart(typeof(MapEditorController).Assembly)
+                .AddApplicationPart(typeof(NpcEditorController).Assembly);
             })
             .ConfigureWebHost(webBuilder =>
             {
@@ -70,6 +73,7 @@ internal class Program
         accountService = new AccountService(serviceScopeFactory);
         mapService = new MapService(serviceScopeFactory);
         mapEditorService = new MapEditorService(serviceScopeFactory);
+        npcEditorService = new NpcEditorService(serviceScopeFactory);
         npcService = new NpcService(serviceScopeFactory);
 
         Console.WriteLine("Initializing Server!");

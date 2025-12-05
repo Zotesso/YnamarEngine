@@ -23,6 +23,7 @@ namespace YnamarEditors.Screens
         public ColoredRectangleRuntime ColoredRectangleInstance { get; protected set; }
         public TextRuntime TextInstance { get; protected set; }
         public ButtonStandardRuntime ButtonStandardInstance { get; protected set; }
+        public ButtonStandardRuntime NpcEditorButton { get; protected set; }
 
         public EditorSelectorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -40,6 +41,7 @@ namespace YnamarEditors.Screens
             ColoredRectangleInstance = this.GetGraphicalUiElementByName("ColoredRectangleInstance") as ColoredRectangleRuntime;
             TextInstance = this.GetGraphicalUiElementByName("TextInstance") as TextRuntime;
             ButtonStandardInstance = this.GetGraphicalUiElementByName("ButtonStandardInstance") as ButtonStandardRuntime;
+            NpcEditorButton = this.GetGraphicalUiElementByName("NpcEditorButton") as ButtonStandardRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

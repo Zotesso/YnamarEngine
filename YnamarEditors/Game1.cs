@@ -145,7 +145,9 @@ public class Game1 : Game
                             else
                             {
                                 int selectedTileset = Globals.SelectedTileset;
-                                _commandService.ExecuteCommand(new MapTileClick(selectedTile, selectedTiles.ElementAt(0).Y, selectedTiles.ElementAt(0).X, selectedTileset));
+                                _commandService.ExecuteCommand(
+                                    new MapTileClick(selectedTile, selectedTiles.ElementAt(0).Y, selectedTiles.ElementAt(0).X, selectedTileset)
+                                );
                             }
                         }
                     }
