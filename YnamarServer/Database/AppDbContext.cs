@@ -14,6 +14,7 @@ namespace YnamarServer.Database
         public virtual DbSet<MapNpc> MapNpc { get; set; }
         public virtual DbSet<Npc> Npcs { get; set; }
         public virtual DbSet<NpcDrop> NpcDrops { get; set; }
+        public virtual DbSet<NpcBehavior> NpcBehaviors { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<InventorySlot> InventorySlots { get; set; }
         public virtual DbSet<Item> Items { get; set; }
@@ -42,6 +43,10 @@ namespace YnamarServer.Database
                 .WithMany()
                 .HasForeignKey(s => s.ItemId)
                 .IsRequired(false);
+
+            modelBuilder.Entity<Npc>()
+                .Property(n => n.Id)
+                .ValueGeneratedNever();
 
             modelBuilder.Entity<NpcDrop>()
                 .HasOne(d => d.Npc)

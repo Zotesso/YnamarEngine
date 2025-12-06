@@ -22,7 +22,7 @@ namespace YnamarEditors.Services.NpcEditor
                 new MediaTypeWithQualityHeaderValue("application/x-protobuf")
             );
 
-            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/npceditor/listnpcs");
+            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/npceditor/npcs/list");
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -33,6 +33,47 @@ namespace YnamarEditors.Services.NpcEditor
                 NpcList npcList = Serializer.Deserialize<NpcList>(responseStream);
                 
                 return npcList;
+        }
+        public static async Task<List<NpcBehavior>> ListNpcBehaviors()
+        {
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/x-protobuf")
+            );
+
+            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/npceditor/npcs/behavior/list");
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return [];
+            }
+
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            List<NpcBehavior> npcBehaviorList = Serializer.Deserialize<List<NpcBehavior>>(responseStream);
+
+            return npcBehaviorList;
+        }
+
+        public static async Task<Npc> GetNpcSummary(int npcId)
+        {
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/x-protobuf")
+            );
+
+            HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:8080/api/npceditor/npcs/summary/{npcId}");
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            Npc npc = Serializer.Deserialize<Npc>(responseStream);
+
+            return npc;
         }
     }
 }

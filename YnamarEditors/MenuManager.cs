@@ -15,6 +15,7 @@ using YnamarEditors.Services.NpcEditor;
 using Gum.Forms.Controls;
 using MonoGameGum.Forms.Controls;
 using YnamarEditors.Models.Protos;
+using YnamarEditors.Models;
 
 namespace YnamarEditors
 {
@@ -159,13 +160,24 @@ namespace YnamarEditors
                 case "NpcEditor":
                     NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
                     NpcList npcList = await NpcEditorService.ListNpcs();
+                    List<NpcBehavior> npcBehaviors = await NpcEditorService.ListNpcBehaviors();
 
                     foreach (NpcSummary npcSummary in npcList.NpcsSummary)
                     {
                         var npc = $"Name: {npcSummary.Name} Id: {npcSummary.Id}";
                         npcEditor.NpcListBox.FormsControl.Items.Add(npc);
-
                     }
+
+                    foreach (NpcBehavior npcBehavior in npcBehaviors)
+                    {
+                        var behavior = $"Name: {npcBehavior.Name}";
+                        npcEditor.BehaviorListBox.FormsControl.Items.Add(behavior);
+                    }
+
+                    npcEditor.NpcListBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleNpcSelected(npcEditor.NpcListBox.FormsControl.SelectedIndex, screenRuntime);
+                    };
 
                     npcEditor.LevelTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
                     {
@@ -180,5 +192,19 @@ namespace YnamarEditors
         /// Gets the currently active Gum screen.
         /// </summary>
         public GraphicalUiElement GetCurrentScreen() => _currentScreen;
+
+        private async Task handleNpcSelected(int npcId, GraphicalUiElement screenRuntime)
+        {
+            Npc npcSummary = await NpcEditorService.GetNpcSummary(npcId);
+            NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
+            npcEditor.NameTextBox.Text = npcSummary.Name;
+            npcEditor.LevelTextBox.Text = npcSummary.Level.ToString();
+            npcEditor.MaxHpTextBox.Text = npcSummary.MaxHp.ToString();
+            npcEditor.AtkTextBox.Text = npcSummary.Atk.ToString();
+            npcEditor.DefTextBox.Text = npcSummary.Def.ToString();
+            npcEditor.RespawnTimeTextBox.Text = npcSummary.RespawnTime.ToString();
+
+            npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
     }
 }
