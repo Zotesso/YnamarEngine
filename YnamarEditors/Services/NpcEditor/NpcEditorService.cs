@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ProtoBuf;
 using YnamarEditors.Models;
 using YnamarEditors.Models.Protos;
+using System.IO;
 
 namespace YnamarEditors.Services.NpcEditor
 {
@@ -74,6 +75,20 @@ namespace YnamarEditors.Services.NpcEditor
             Npc npc = Serializer.Deserialize<Npc>(responseStream);
 
             return npc;
+        }
+
+        public static async Task SaveNpc(Npc npc)
+        {
+            using HttpClient httpClient = new HttpClient();
+            using MemoryStream ms = new MemoryStream();
+            Serializer.Serialize(ms, npc);
+
+            ms.Position = 0;
+
+            var content = new ByteArrayContent(ms.ToArray());
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");
+            var response = await httpClient.PostAsync("http://localhost:8080/api/npceditor/npcs/save", content);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

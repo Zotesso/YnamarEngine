@@ -184,6 +184,42 @@ namespace YnamarEditors
                         MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
                         textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
                     };
+
+                    npcEditor.NewButton.Click += (_, _) =>
+                    {
+                        var npc = $"Name: ";
+                        npcEditor.NpcListBox.FormsControl.Items.Add(npc);
+                        Npc newNpc = new Npc
+                        {
+                            Name = "",
+                            Level = 0,
+                            MaxHp = 0,
+                            Atk = 0,
+                            Def = 0,
+                            RespawnTime = 0,
+                            Behavior = 0,
+                            Sprite = 0,
+                        };
+                        fillNpcSummary(newNpc);
+                    };
+
+                    npcEditor.SaveButton.Click += async (_, _) =>
+                    {
+                        Npc NpcToSave = new Npc
+                        {
+                            Name = npcEditor.NameTextBox.Text,
+                            Level = int.Parse(npcEditor.LevelTextBox.Text),
+                            MaxHp = int.Parse(npcEditor.MaxHpTextBox.Text),
+                            Atk = int.Parse(npcEditor.AtkTextBox.Text),
+                            Def = int.Parse(npcEditor.DefTextBox.Text),
+                            RespawnTime = int.Parse(npcEditor.RespawnTimeTextBox.Text),
+                            Behavior = (byte)npcEditor.BehaviorListBox.FormsControl.SelectedIndex,
+                            Sprite = 0,
+                        };
+
+                        await NpcEditorService.SaveNpc(NpcToSave);
+                    };
+
                     break;
             }
         }
@@ -196,7 +232,12 @@ namespace YnamarEditors
         private async Task handleNpcSelected(int npcId, GraphicalUiElement screenRuntime)
         {
             Npc npcSummary = await NpcEditorService.GetNpcSummary(npcId);
-            NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
+            fillNpcSummary(npcSummary);
+        }
+
+        private void fillNpcSummary(Npc npcSummary)
+        {
+            NpcEditorRuntime npcEditor = (NpcEditorRuntime)_currentScreen;
             npcEditor.NameTextBox.Text = npcSummary.Name;
             npcEditor.LevelTextBox.Text = npcSummary.Level.ToString();
             npcEditor.MaxHpTextBox.Text = npcSummary.MaxHp.ToString();
