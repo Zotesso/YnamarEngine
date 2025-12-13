@@ -2,74 +2,32 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "NpcEditor.ListBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-11-23T22:16:10.282866Z"
-      },
-      {
-        "NewName": "NpcEditor.ListBoxInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-11-23T22:17:14.3054347Z"
-      },
-      {
-        "NewName": "NpcEditor.BehaviorListBox",
-        "OldName": "NpcEditor.ListBoxInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-11-23T22:23:47.7036451Z"
-      },
-      {
-        "NewName": "NpcEditor.NpcListBox",
-        "OldName": "NpcEditor.ListBoxInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-11-23T22:24:45.4663897Z"
-      },
-      {
         "NewName": "NpcEditor.TextBoxInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-11-23T22:26:04.8955858Z"
+        "TimestampUtc": "2025-12-13T18:45:16.4402516Z"
       },
       {
-        "NewName": "NpcEditor.SearchTextBox",
+        "NewName": "NpcEditor.NpcSpriteTextBox",
         "OldName": "NpcEditor.TextBoxInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-11-23T22:26:21.9761356Z"
+        "TimestampUtc": "2025-12-13T18:45:42.6613678Z"
       },
       {
-        "NewName": "NpcEditor.ButtonStandardInstance",
+        "NewName": "NpcEditor.TextInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-11-23T22:47:30.5809897Z"
+        "TimestampUtc": "2025-12-13T18:47:28.4749987Z"
       },
       {
-        "NewName": "NpcEditor.SaveButton",
-        "OldName": "NpcEditor.ButtonStandardInstance",
+        "NewName": "NpcEditor.NpcSpriteText",
+        "OldName": "NpcEditor.TextInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-11-23T22:48:51.9576023Z"
-      },
-      {
-        "NewName": "NpcEditor.ButtonStandardInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2025-11-23T22:48:54.7547329Z"
-      },
-      {
-        "NewName": "NpcEditor.NewButton",
-        "OldName": "NpcEditor.ButtonStandardInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-11-23T22:49:07.6225457Z"
+        "TimestampUtc": "2025-12-13T18:48:59.0502693Z"
       }
     ]
   }

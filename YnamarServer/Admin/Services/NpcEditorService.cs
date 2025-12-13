@@ -67,11 +67,19 @@ namespace YnamarServer.Admin.Services
 
                 using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-                editedNpc.Id = await GetNextFreeNpcIdAsync();
-                dbContext.Npcs.Add(editedNpc);
+                var existing = await dbContext.Npcs.Include(m => m.Drops).FirstOrDefaultAsync(n => n.Id == editedNpc.Id);
+
+                if (existing is null)
+                {
+                    editedNpc.Id = await GetNextFreeNpcIdAsync();
+                    dbContext.Npcs.Add(editedNpc);
+                }
+                else
+                {
+                    dbContext.Entry(existing).CurrentValues.SetValues(editedNpc);
+                }
 
                 var rows = await dbContext.SaveChangesAsync();
-
                 await transaction.CommitAsync();
                 return rows;
             };

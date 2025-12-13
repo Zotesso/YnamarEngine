@@ -20,6 +20,8 @@ namespace YnamarEditors
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[2];
+        public static Texture2D[] Characters = new Texture2D[Globals.MAX_SPRITES];
+
         public static ScrollBarRuntime verticalScrollbar;
         public static ScrollBarRuntime horizontalScrollbar;
         private static SpriteFont font;
@@ -30,6 +32,7 @@ namespace YnamarEditors
         {
             LoadFonts(manager);
             LoadTilesets(manager);
+            LoadCharacters(manager);
         }
         public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
         {
@@ -143,6 +146,14 @@ namespace YnamarEditors
             for (int i = 0; i < Tilesets.Length; i++)
             {
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
+            }
+        }
+
+        private static void LoadCharacters(ContentManager manager)
+        {
+            for (int i = 0; i < Characters.Length; i++)
+            {
+                Characters[i] = manager.Load<Texture2D>("Characters/" + i.ToString());
             }
         }
 

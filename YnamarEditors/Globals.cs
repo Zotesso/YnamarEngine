@@ -11,6 +11,7 @@ namespace YnamarEditors
         // Constants
         public const int MAX_LAYERS = 3;
         public const int MIN_LAYERS = 0;
+        public const int MAX_SPRITES = 3;
 
         // Variables
         public static bool isLoadingMap = false;

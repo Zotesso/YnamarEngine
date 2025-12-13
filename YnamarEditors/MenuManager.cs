@@ -16,6 +16,7 @@ using Gum.Forms.Controls;
 using MonoGameGum.Forms.Controls;
 using YnamarEditors.Models.Protos;
 using YnamarEditors.Models;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace YnamarEditors
 {
@@ -185,6 +186,26 @@ namespace YnamarEditors
                         textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
                     };
 
+                    npcEditor.NpcSpriteTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+
+                        textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
+                        if (textBox.Text == "") return;
+
+                        int npcSpriteNum = int.Parse(textBox.Text);
+
+                        if (npcSpriteNum < 0 || npcSpriteNum > Globals.MAX_SPRITES) {
+                            textBox.Text = "0";
+                            npcSpriteNum = 0;
+                        }
+
+                        Texture2D npcSprite = Graphics.Characters[npcSpriteNum];
+                        npcEditor.NpcSprite.Texture = npcSprite;
+                        npcEditor.NpcSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+                        npcEditor.NpcSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 32, 32, 32);
+                    };
+
                     npcEditor.NewButton.Click += (_, _) =>
                     {
                         var npc = $"Name: ";
@@ -214,7 +235,7 @@ namespace YnamarEditors
                             Def = int.Parse(npcEditor.DefTextBox.Text),
                             RespawnTime = int.Parse(npcEditor.RespawnTimeTextBox.Text),
                             Behavior = (byte)npcEditor.BehaviorListBox.FormsControl.SelectedIndex,
-                            Sprite = 0,
+                            Sprite = int.Parse(npcEditor.NpcSpriteTextBox.Text),
                         };
 
                         await NpcEditorService.SaveNpc(NpcToSave);
@@ -244,6 +265,7 @@ namespace YnamarEditors
             npcEditor.AtkTextBox.Text = npcSummary.Atk.ToString();
             npcEditor.DefTextBox.Text = npcSummary.Def.ToString();
             npcEditor.RespawnTimeTextBox.Text = npcSummary.RespawnTime.ToString();
+            npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
         }
