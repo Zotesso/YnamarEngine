@@ -10,10 +10,12 @@ using System.Diagnostics;
 using System.Linq;
 using YnamarEditors.Commands;
 using YnamarEditors.Components;
+using YnamarEditors.Interfaces;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
 using YnamarEditors.Services.MapEditor;
+using static YnamarEditors.Globals;
 using static YnamarEditors.Types;
 
 namespace YnamarEditors;
@@ -125,12 +127,24 @@ public class Game1 : Game
 
                     if (mapTileX >= 0 && mapTileY >= 0 && mapTileX < 50 && mapTileY < 50)
                     {
-                        Tile selectedTile = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).TileMatrix[mapTileX, mapTileY];
+                        MapLayer selectedMapLayer = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer);
+                        Tile selectedTile = selectedMapLayer.TileMatrix[mapTileX, mapTileY];
                         
                         if (Globals.SelectedEventIndex is not null)
                         {
                             TileEventStruct selectedEvent = Types.TileEvents[(int)Globals.SelectedEventIndex];
-                            _commandService.ExecuteCommand(new MapTileEventClick(selectedTile, selectedEvent));
+                            ICommand commandToExecute;
+                            if (selectedEvent.Type == (byte)TileEventsTypes.Npc)
+                            {
+                                if (Globals.SelectedNpc is not null)
+                                {
+                                    _commandService.ExecuteCommand(new MapNpcSelectionClick(selectedMapLayer, Globals.SelectedNpc, new System.Drawing.Point(mapTileX, mapTileY)));
+                                };
+                            }
+                            else
+                            {
+                                _commandService.ExecuteCommand(new MapTileEventClick(selectedTile, selectedEvent));
+                            };
                         }
 
                         if (selectedTiles.Count > 0)

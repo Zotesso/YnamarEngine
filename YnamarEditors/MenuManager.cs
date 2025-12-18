@@ -17,6 +17,7 @@ using MonoGameGum.Forms.Controls;
 using YnamarEditors.Models.Protos;
 using YnamarEditors.Models;
 using Microsoft.Xna.Framework.Graphics;
+using YnamarEditors.Components;
 
 namespace YnamarEditors
 {
@@ -144,6 +145,7 @@ namespace YnamarEditors
 
                     editor.EventsButton.Click += (_, _) =>
                     {
+                        Globals.SelectedNpc = null;
                         editor.ResourcePanel.Visible = false;
                         editor.EventsContainer.Visible = true;
                     };
@@ -151,6 +153,7 @@ namespace YnamarEditors
                     editor.TilesetButton.Click += (_, _) =>
                     {
                         Globals.SelectedEventIndex = null;
+                        Globals.SelectedNpc = null;
                         editor.ResourcePanel.Visible = true;
                         editor.EventsContainer.Visible = false;
                     };
@@ -268,6 +271,44 @@ namespace YnamarEditors
             npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
+
+        public async Task openNpcSelection()
+        {
+            MapNpcSelectPanelRuntime mapNpcSelectPanel = new MapNpcSelectPanelRuntime();
+            mapNpcSelectPanel.Z = 10;
+            mapNpcSelectPanel.ButtonSelectNpc.Z = 11;
+            mapNpcSelectPanel.ButtonCloseNpcSelection.Z = 11;
+
+            NpcList npcList = await NpcEditorService.ListNpcs();
+            mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = false;
+
+            mapNpcSelectPanel.AddToManagers();
+            _currentScreen.Children.Add(mapNpcSelectPanel);
+
+            foreach (NpcSummary npcSummary in npcList.NpcsSummary)
+            {
+                var npc = $"Name: {npcSummary.Name} Id: {npcSummary.Id}";
+                mapNpcSelectPanel.ListBoxInstance.FormsControl.Items.Add(npc);
+            }
+
+            mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectionChanged += (sender, args) =>
+            {
+                mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = true;
+            };
+
+            mapNpcSelectPanel.ButtonSelectNpc.Click += async (_, _) =>
+            {
+                Globals.SelectedNpc = await NpcEditorService.GetNpcSummary(mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectedIndex);
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
+
+            mapNpcSelectPanel.ButtonCloseNpcSelection.Click += (_, _) =>
+            {
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
         }
     }
 }

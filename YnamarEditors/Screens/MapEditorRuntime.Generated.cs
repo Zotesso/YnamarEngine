@@ -9,6 +9,7 @@ using Gum.Wireframe;
 using RenderingLibrary.Graphics;
 
 using System.Linq;
+using MonoGameGum.GueDeriving;
 
 namespace YnamarEditors.Screens
 {
