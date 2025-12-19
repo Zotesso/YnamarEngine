@@ -227,13 +227,14 @@ namespace YnamarEditors
                         DrawTileGrid(x * 32, y * 32, x, y, layer);
                     }
                 }
+                if (Globals.SelectedEventIndex is null) continue;
 
-                if (Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).MapNpc == null || Globals.SelectedEventIndex != (byte)TileEventsTypes.Npc) continue;
+                if (Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc == null || Types.TileEvents[(int)Globals.SelectedEventIndex].Type != (byte)TileEventsTypes.Npc) continue;
 
-                for (int x = 0; x < Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).MapNpc.Count; x++)
+                for (int x = 0; x < Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc.Count; x++)
                 {
 
-                    var npc = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer).MapNpc.ElementAt(x);
+                    var npc = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc.ElementAt(x);
                     if (npc != null)
                     {
                         DrawMapNpc(npc);
@@ -306,7 +307,7 @@ namespace YnamarEditors
         private static void DrawSprite(int sprite, int x2, int y2, Rectangle srcrec)
         {
             int X, Y;
-            X = ConvertMapX(x2);
+            X = (resourcePanelBoundariesX) + ConvertMapX(x2);
             Y = ConvertMapY(y2);
 
             Game1._spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);

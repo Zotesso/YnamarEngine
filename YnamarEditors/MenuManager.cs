@@ -18,6 +18,8 @@ using YnamarEditors.Models.Protos;
 using YnamarEditors.Models;
 using Microsoft.Xna.Framework.Graphics;
 using YnamarEditors.Components;
+using static YnamarEditors.Globals;
+using System.Reflection;
 
 namespace YnamarEditors
 {
@@ -277,8 +279,12 @@ namespace YnamarEditors
         {
             MapNpcSelectPanelRuntime mapNpcSelectPanel = new MapNpcSelectPanelRuntime();
             mapNpcSelectPanel.Z = 10;
-            mapNpcSelectPanel.ButtonSelectNpc.Z = 11;
-            mapNpcSelectPanel.ButtonCloseNpcSelection.Z = 11;
+            mapNpcSelectPanel.HasEvents = true;
+            mapNpcSelectPanel.ColoredRectangleInstance.Z = 11;
+            mapNpcSelectPanel.ButtonCloseNpcSelection.HasEvents = true;
+            mapNpcSelectPanel.ButtonSelectNpc.HasEvents = true;
+            mapNpcSelectPanel.ButtonSelectNpc.Z = 12;
+            mapNpcSelectPanel.ButtonCloseNpcSelection.Z = 12;
 
             NpcList npcList = await NpcEditorService.ListNpcs();
             mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = false;
@@ -296,6 +302,26 @@ namespace YnamarEditors
             {
                 mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = true;
             };
+
+            ButtonStandardRuntime eventButton = new ButtonStandardRuntime
+            {
+                Name = "Teste",
+                Width = 120,
+                Height = 60,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+
+            };
+
+            eventButton.Click += async (_, _) =>
+            {
+                Globals.SelectedNpc = await NpcEditorService.GetNpcSummary(mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectedIndex);
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
+
+            eventButton.TextInstance.Text = "Teste";
+            mapNpcSelectPanel.Children.Add(eventButton);
 
             mapNpcSelectPanel.ButtonSelectNpc.Click += async (_, _) =>
             {
