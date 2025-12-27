@@ -19,9 +19,11 @@ namespace YnamarServer.GameLogic
 
             foreach (var (map, mapIndex) in InMemoryDatabase.Maps.Select((value, i) => (value, i)))
             {
+                if (map == null) continue;
                 foreach (var (layer, layerIndex) in map.Layer.Select((value, i) => (value, i)))
                 {
-                    foreach (MapNpc mapNpc in layer.MapNpc)
+                    if (layer == null) continue;
+                    foreach (var (mapNpc, mapNpcIndex) in layer.MapNpc.Select((value, i) => (value, i)))
                     {
                         if (mapNpc != null && mapNpc.RespawnWait == 0)
                         {
@@ -37,8 +39,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_UP);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -47,8 +49,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_DOWN);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -57,8 +59,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_LEFT);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -67,8 +69,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_RIGHT);
+                                            //didWalk = true;
                                         }
                                     }
                                     break;
@@ -79,8 +81,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_RIGHT);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -89,8 +91,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_LEFT);
+                                           // didWalk = true;
                                         }
                                     }
 
@@ -99,8 +101,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_DOWN);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -109,8 +111,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_UP);
+                                            //didWalk = true;
                                         }
                                     }
                                     break;
@@ -121,8 +123,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_DOWN);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -131,8 +133,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_UP);
+                                           // didWalk = true;
                                         }
                                     }
 
@@ -141,8 +143,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_RIGHT);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -151,8 +153,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_LEFT);
+                                            //didWalk = true;
                                         }
                                     }
                                     break;
@@ -163,8 +165,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_LEFT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_LEFT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_LEFT);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -173,8 +175,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_RIGHT))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_RIGHT);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_RIGHT);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -183,8 +185,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_UP))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_UP);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_UP);
+                                            //didWalk = true;
                                         }
                                     }
 
@@ -193,8 +195,8 @@ namespace YnamarServer.GameLogic
                                     {
                                         if (NpcLogicHandler.CanNpcMove(map, mapNpc, Constants.DIR_DOWN))
                                         {
-                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpc, Constants.DIR_DOWN);
-                                            didWalk = true;
+                                            NpcLogicHandler.NpcMove(mapIndex, layerIndex, mapNpcIndex, mapNpc, Constants.DIR_DOWN);
+                                           // didWalk = true;
                                         }
                                     }
                                     break;

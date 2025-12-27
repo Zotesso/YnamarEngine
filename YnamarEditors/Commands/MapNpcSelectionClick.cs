@@ -30,6 +30,7 @@ namespace YnamarEditors.Commands
         {
             MapNpc newMapNpc = new MapNpc
             {
+                NpcId = _selectedNpc.Id,
                 Npc = _selectedNpc,
                 Hp = _selectedNpc.MaxHp,
                 RespawnWait = 0,

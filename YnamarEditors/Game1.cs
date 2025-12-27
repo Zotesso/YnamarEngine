@@ -29,6 +29,7 @@ public class Game1 : Game
     private MenuManager _menuManager;
     private CommandService _commandService;
     private ResourcePanelService _resourcePanelService;
+    bool wasLeftMouseDown;
 
     public Game1()
     {
@@ -83,7 +84,22 @@ public class Game1 : Game
         }
 
         var mouse = Microsoft.Xna.Framework.Input.Mouse.GetState();
+        bool isLeftMouseDown = mouse.LeftButton == ButtonState.Pressed;
 
+        if (isLeftMouseDown && !wasLeftMouseDown)
+        {
+            HandleLeftClick(mouse);
+        }
+
+        wasLeftMouseDown = isLeftMouseDown;
+
+        // TODO: Add your update logic here
+        Gum.Update(gameTime);
+        base.Update(gameTime);
+    }
+
+    private void HandleLeftClick(MouseState mouse)
+    {
         if (mouse.LeftButton == ButtonState.Pressed)
         {
             var currentScreen = _menuManager.GetCurrentScreen();
@@ -107,7 +123,7 @@ public class Game1 : Game
                     if (!shift)
                     {
                         _resourcePanelService.SelectedTileOnResourcePanel((MapEditorRuntime)currentScreen, (int)localX, (int)localY);
-                    } 
+                    }
                     else
                     {
                         _resourcePanelService.SelectedMultipleTilesOnResourcePanel((MapEditorRuntime)currentScreen, (int)localX, (int)localY);
@@ -120,8 +136,8 @@ public class Game1 : Game
                 {
                     //RectangleRuntime selectionBox = (RectangleRuntime)contentPanel.GetGraphicalUiElementByName("SelectionBox");
                     List<System.Drawing.Point> selectedTiles = _resourcePanelService.GetSelectedTiles();
-                    float mapLocalX = screenX -( ((MapEditorRuntime)currentScreen).EditorSection.GetAbsoluteWidth());
-                        
+                    float mapLocalX = screenX - (((MapEditorRuntime)currentScreen).EditorSection.GetAbsoluteWidth());
+
                     int mapTileX = ((int)mapLocalX / 32) + (int)Graphics.horizontalScrollbar.FormsControl.Value;
                     int mapTileY = ((int)screenY / 32) + (int)Graphics.verticalScrollbar.FormsControl.Value;
 
@@ -129,7 +145,7 @@ public class Game1 : Game
                     {
                         MapLayer selectedMapLayer = Types.Maps[Globals.SelectedMap].Layer.ElementAt(Globals.SelectedLayer);
                         Tile selectedTile = selectedMapLayer.TileMatrix[mapTileX, mapTileY];
-                        
+
                         if (Globals.SelectedEventIndex is not null)
                         {
                             TileEventStruct selectedEvent = Types.TileEvents[(int)Globals.SelectedEventIndex];
@@ -170,11 +186,7 @@ public class Game1 : Game
             }
 
         }
-        // TODO: Add your update logic here
-        Gum.Update(gameTime);
-        base.Update(gameTime);
     }
-
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);

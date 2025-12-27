@@ -21,7 +21,7 @@ namespace YnamarServer.GameLogic
 
             int x = DirToX(InMemoryDatabase.Player[index].X, dir);
             int y = DirToY(InMemoryDatabase.Player[index].Y, dir);
-            Map? playerMap = InMemoryDatabase.Maps.Where(map => map.Id == InMemoryDatabase.Player[index].Map).FirstOrDefault();
+            Map? playerMap = InMemoryDatabase.Maps[InMemoryDatabase.Player[index].Map];
 
             if (playerMap is null) return;
 

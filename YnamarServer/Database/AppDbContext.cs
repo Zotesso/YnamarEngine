@@ -44,6 +44,12 @@ namespace YnamarServer.Database
                 .HasForeignKey(s => s.ItemId)
                 .IsRequired(false);
 
+            modelBuilder.Entity<MapNpc>()
+                .HasOne(mn => mn.Npc)
+                .WithMany()
+                .HasForeignKey(mn => mn.NpcId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Npc>()
                 .Property(n => n.Id)
                 .ValueGeneratedNever();
