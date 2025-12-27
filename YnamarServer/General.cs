@@ -18,8 +18,15 @@ public class General
         MapService mapService = Program.mapService;
         NpcService npcService = Program.npcService;
 
-        InMemoryDatabase.Maps = (await mapService.LoadAllMaps()).ToArray();
+        var maps = await mapService.LoadAllMaps();
+
+        foreach (var map in maps)
+        {
+            InMemoryDatabase.Maps[map.Id] = map;
+        }
+
         InMemoryDatabase.Npcs = (await npcService.LoadAllNpcs()).ToArray();
+
     }
 
     public void initializeServer()

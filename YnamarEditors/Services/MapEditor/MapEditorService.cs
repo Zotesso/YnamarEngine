@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using YnamarEditors.Models;
+using YnamarEditors.Utils;
 
 namespace YnamarEditors.Services.MapEditor
 {
@@ -18,9 +19,24 @@ namespace YnamarEditors.Services.MapEditor
             Types.Maps[Globals.SelectedMap].LastUpdate = BitConverter.GetBytes(DateTime.UtcNow.Ticks);
             using HttpClient httpClient = new HttpClient();
             using MemoryStream ms = new MemoryStream();
-            Serializer.Serialize(ms, Types.Maps[Globals.SelectedMap]);
+
+            Map mapToSave = Types.Maps[Globals.SelectedMap].DeepClone();
+
+            foreach (MapLayer layer in mapToSave.Layer)
+            {
+                foreach (MapNpc mapNpc in layer.MapNpc)
+                {
+                    mapNpc.Npc = null;
+                }
+            }
+
+            Serializer.Serialize(ms, mapToSave);
 
             ms.Position = 0;
+            byte[] payload = ms.ToArray();
+
+            // Salva o arquivo para debug
+            File.WriteAllBytes("mapeditor_request.pb", payload);
 
             var content = new ByteArrayContent(ms.ToArray());
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");

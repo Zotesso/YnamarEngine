@@ -20,18 +20,23 @@ namespace YnamarEditors.Models
 
         [ProtoMember(2)]
         public int RespawnWait { get; set; }
+
+        [ProtoIgnore]
         public MapLayer Layer { get; set; } = null!;
 
         [ProtoMember(3)]
-        public Npc Npc { get; set; } = null!;
+        public int NpcId { get; set; }
 
         [ProtoMember(4)]
-        public int X { get; set; }
+        public Npc? Npc { get; set; } = null;
 
         [ProtoMember(5)]
-        public int Y { get; set; }
+        public int X { get; set; }
 
         [ProtoMember(6)]
+        public int Y { get; set; }
+
+        [ProtoMember(7)]
         public byte Dir { get; set; }
     }
 }

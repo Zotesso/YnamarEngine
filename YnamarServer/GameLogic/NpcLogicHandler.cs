@@ -106,7 +106,7 @@ namespace YnamarServer.GameLogic
             return canNpcMove;
         }
 
-        public static void NpcMove(int mapNum, int layerNum, MapNpc mapNpc, byte direction)
+        public static void NpcMove(int mapNum, int layerNum, int mapNpcIndex, MapNpc mapNpc, byte direction)
         {
             mapNpc.Dir = direction;
 
@@ -128,7 +128,7 @@ namespace YnamarServer.GameLogic
             }
 
             MapService mapService = Program.mapService;
-            mapService.SendMapNpcToMap(mapNum, layerNum, mapNpc);
+            mapService.SendMapNpcToMap(mapNum, layerNum, mapNpcIndex, mapNpc);
         }
 
         public static void NpcAttacked(int playerMapNum, int mapNpcIndex, int damage)

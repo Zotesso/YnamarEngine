@@ -86,13 +86,13 @@ namespace YnamarServer.Services
             bufferSend.Dispose();
         }
 
-        public void SendMapNpcToMap(int mapNum, int layerNum, MapNpc mapNpc)
+        public void SendMapNpcToMap(int mapNum, int layerNum, int mapNpcIndex, MapNpc mapNpc)
         {
             PacketBuffer bufferSend = new PacketBuffer();
             bufferSend.AddInteger((int)ServerPackets.SNpcMove);
             bufferSend.AddInteger(mapNum);
             bufferSend.AddInteger(layerNum);
-            bufferSend.AddInteger(mapNpc.Id);
+            bufferSend.AddInteger(mapNpcIndex);
 
             byte[] mapNpcProtoBuf = bufferSend.SerializeProto<MapNpc>(mapNpc);
             bufferSend.AddInteger(mapNpcProtoBuf.Length);

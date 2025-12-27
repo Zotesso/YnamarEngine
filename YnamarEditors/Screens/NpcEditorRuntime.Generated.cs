@@ -40,6 +40,8 @@ namespace YnamarEditors.Screens
         public TextBoxRuntime SearchTextBox { get; protected set; }
         public ButtonStandardRuntime SaveButton { get; protected set; }
         public ButtonStandardRuntime NewButton { get; protected set; }
+        public TextBoxRuntime NpcSpriteTextBox { get; protected set; }
+        public TextRuntime NpcSpriteText { get; protected set; }
 
         public NpcEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -74,6 +76,8 @@ namespace YnamarEditors.Screens
             SearchTextBox = this.GetGraphicalUiElementByName("SearchTextBox") as TextBoxRuntime;
             SaveButton = this.GetGraphicalUiElementByName("SaveButton") as ButtonStandardRuntime;
             NewButton = this.GetGraphicalUiElementByName("NewButton") as ButtonStandardRuntime;
+            NpcSpriteTextBox = this.GetGraphicalUiElementByName("NpcSpriteTextBox") as TextBoxRuntime;
+            NpcSpriteText = this.GetGraphicalUiElementByName("NpcSpriteText") as TextRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

@@ -14,12 +14,16 @@ using MonoGameGum.GueDeriving;
 using YnamarEditors.Models;
 using System.Reflection;
 using static YnamarEditors.Types;
+using static YnamarEditors.Globals;
+using Microsoft.VisualBasic;
 
 namespace YnamarEditors
 {
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[2];
+        public static Texture2D[] Characters = new Texture2D[Globals.MAX_SPRITES];
+
         public static ScrollBarRuntime verticalScrollbar;
         public static ScrollBarRuntime horizontalScrollbar;
         private static SpriteFont font;
@@ -30,6 +34,7 @@ namespace YnamarEditors
         {
             LoadFonts(manager);
             LoadTilesets(manager);
+            LoadCharacters(manager);
         }
         public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
         {
@@ -92,12 +97,21 @@ namespace YnamarEditors
 
             Types.TileEvents[0].Name = "Block";
             Types.TileEvents[0].Moral = 0;
-            Types.TileEvents[0].Type = 1;
+            Types.TileEvents[0].Type = (byte)TileEventsTypes.Block;
             Types.TileEvents[0].Data1 = 0;
             Types.TileEvents[0].Data2 = 0;
             Types.TileEvents[0].Data3 = 0;
             Types.TileEvents[0].mapAcronym = "B";
             Types.TileEvents[0].mapAcronymColor = Color.Red;
+
+            Types.TileEvents[1].Name = "Npc";
+            Types.TileEvents[1].Moral = 0;
+            Types.TileEvents[1].Type = (byte)TileEventsTypes.Npc;
+            Types.TileEvents[1].Data1 = 0;
+            Types.TileEvents[1].Data2 = 0;
+            Types.TileEvents[1].Data3 = 0;
+            Types.TileEvents[1].mapAcronym = "Npc";
+            Types.TileEvents[1].mapAcronymColor = Color.White;
 
             for (int i = 0; i < Types.TileEvents.Length; i++)
             {
@@ -122,6 +136,11 @@ namespace YnamarEditors
                         eventButton.Background.Color = selectedButtonColor;
 
                         Globals.SelectedEventIndex = index;
+
+                        if (Types.TileEvents[index].Type == (byte)TileEventsTypes.Npc)
+                        {
+                            menuManager.openNpcSelection();
+                        }
                     };
 
                     eventButton.TextInstance.Text = Types.TileEvents[i].Name;
@@ -143,6 +162,14 @@ namespace YnamarEditors
             for (int i = 0; i < Tilesets.Length; i++)
             {
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
+            }
+        }
+
+        private static void LoadCharacters(ContentManager manager)
+        {
+            for (int i = 0; i < Characters.Length; i++)
+            {
+                Characters[i] = manager.Load<Texture2D>("Characters/" + i.ToString());
             }
         }
 
@@ -186,7 +213,7 @@ namespace YnamarEditors
             return y - (tileViewTop * 32) - cameraTop;
         }
 
-        
+
         private static void DrawMapGrid()
         {
             int maxMapLayer = 2;
@@ -198,6 +225,19 @@ namespace YnamarEditors
                     for (int y = 0; y < Types.Maps[Globals.SelectedMap].MaxMapY; y++)
                     {
                         DrawTileGrid(x * 32, y * 32, x, y, layer);
+                    }
+                }
+                if (Globals.SelectedEventIndex is null) continue;
+
+                if (Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc == null || Types.TileEvents[(int)Globals.SelectedEventIndex].Type != (byte)TileEventsTypes.Npc) continue;
+
+                for (int x = 0; x < Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc.Count; x++)
+                {
+
+                    var npc = Types.Maps[Globals.SelectedMap].Layer.ElementAt(layer).MapNpc.ElementAt(x);
+                    if (npc != null)
+                    {
+                        DrawMapNpc(npc);
                     }
                 }
             }
@@ -231,7 +271,7 @@ namespace YnamarEditors
                 Game1._spriteBatch.Draw(Tilesets[actualTile.TilesetNumber], new Vector2(MapX, MapY), srcrec, Color.White);
             }
 
-            if (Globals.SelectedEventIndex is not null && actualTile.Type != 0)
+            if (Globals.SelectedEventIndex is not null && Types.TileEvents[(int)Globals.SelectedEventIndex].Type != (byte)TileEventsTypes.Npc && actualTile.Type != 0)
             {
                 DrawTileEventAcronym(MapX, MapY, Types.TileEvents[(int)Globals.SelectedEventIndex]);
             }
@@ -244,6 +284,33 @@ namespace YnamarEditors
 
             Game1._spriteBatch.DrawString(font, tileEvent.mapAcronym, new Vector2(x, y), tileEvent.mapAcronymColor);
         }
+
+        private static void DrawMapNpc(MapNpc mapNpc)
+        {
+            byte anim;
+            int X, Y;
+            Rectangle srcrec;
+            int SpriteNum;
+            int spriteLeft = 0;
+
+            SpriteNum = mapNpc.Npc.Sprite;
+
+            anim = 1;
+
+            srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 3), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 3, Characters[SpriteNum].Height / 4);
+            X = mapNpc.X * 32 - ((Characters[SpriteNum].Width / 4 - 32) / 2);
+            Y = mapNpc.Y * 32;
+
+            DrawSprite(SpriteNum, X, Y, srcrec);
+        }
+
+        private static void DrawSprite(int sprite, int x2, int y2, Rectangle srcrec)
+        {
+            int X, Y;
+            X = (resourcePanelBoundariesX) + ConvertMapX(x2);
+            Y = ConvertMapY(y2);
+
+            Game1._spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
+        }
     }
-    
 }

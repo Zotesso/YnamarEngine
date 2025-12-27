@@ -244,6 +244,11 @@
     <LinkType>ReferenceOriginal</LinkType>
   </ComponentReference>
   <ComponentReference>
+    <Name>MapNpcSelectPanel</Name>
+    <ElementType>Component</ElementType>
+    <LinkType>ReferenceOriginal</LinkType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>MapTextureTile</Name>
     <ElementType>Component</ElementType>
     <LinkType>ReferenceOriginal</LinkType>

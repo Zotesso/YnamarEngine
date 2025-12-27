@@ -15,6 +15,11 @@ using YnamarEditors.Services.NpcEditor;
 using Gum.Forms.Controls;
 using MonoGameGum.Forms.Controls;
 using YnamarEditors.Models.Protos;
+using YnamarEditors.Models;
+using Microsoft.Xna.Framework.Graphics;
+using YnamarEditors.Components;
+using static YnamarEditors.Globals;
+using System.Reflection;
 
 namespace YnamarEditors
 {
@@ -142,6 +147,7 @@ namespace YnamarEditors
 
                     editor.EventsButton.Click += (_, _) =>
                     {
+                        Globals.SelectedNpc = null;
                         editor.ResourcePanel.Visible = false;
                         editor.EventsContainer.Visible = true;
                     };
@@ -149,6 +155,7 @@ namespace YnamarEditors
                     editor.TilesetButton.Click += (_, _) =>
                     {
                         Globals.SelectedEventIndex = null;
+                        Globals.SelectedNpc = null;
                         editor.ResourcePanel.Visible = true;
                         editor.EventsContainer.Visible = false;
                     };
@@ -159,19 +166,86 @@ namespace YnamarEditors
                 case "NpcEditor":
                     NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
                     NpcList npcList = await NpcEditorService.ListNpcs();
+                    List<NpcBehavior> npcBehaviors = await NpcEditorService.ListNpcBehaviors();
 
                     foreach (NpcSummary npcSummary in npcList.NpcsSummary)
                     {
                         var npc = $"Name: {npcSummary.Name} Id: {npcSummary.Id}";
                         npcEditor.NpcListBox.FormsControl.Items.Add(npc);
-
                     }
+
+                    foreach (NpcBehavior npcBehavior in npcBehaviors)
+                    {
+                        var behavior = $"Name: {npcBehavior.Name}";
+                        npcEditor.BehaviorListBox.FormsControl.Items.Add(behavior);
+                    }
+
+                    npcEditor.NpcListBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleNpcSelected(npcEditor.NpcListBox.FormsControl.SelectedIndex, screenRuntime);
+                    };
 
                     npcEditor.LevelTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
                     {
                         MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
                         textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
                     };
+
+                    npcEditor.NpcSpriteTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+
+                        textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
+                        if (textBox.Text == "") return;
+
+                        int npcSpriteNum = int.Parse(textBox.Text);
+
+                        if (npcSpriteNum < 0 || npcSpriteNum > Globals.MAX_SPRITES) {
+                            textBox.Text = "0";
+                            npcSpriteNum = 0;
+                        }
+
+                        Texture2D npcSprite = Graphics.Characters[npcSpriteNum];
+                        npcEditor.NpcSprite.Texture = npcSprite;
+                        npcEditor.NpcSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+                        npcEditor.NpcSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 32, 32, 32);
+                    };
+
+                    npcEditor.NewButton.Click += (_, _) =>
+                    {
+                        var npc = $"Name: ";
+                        npcEditor.NpcListBox.FormsControl.Items.Add(npc);
+                        Npc newNpc = new Npc
+                        {
+                            Name = "",
+                            Level = 0,
+                            MaxHp = 0,
+                            Atk = 0,
+                            Def = 0,
+                            RespawnTime = 0,
+                            Behavior = 0,
+                            Sprite = 0,
+                        };
+                        fillNpcSummary(newNpc);
+                    };
+
+                    npcEditor.SaveButton.Click += async (_, _) =>
+                    {
+                        Npc NpcToSave = new Npc
+                        {
+                            Name = npcEditor.NameTextBox.Text,
+                            Level = int.Parse(npcEditor.LevelTextBox.Text),
+                            MaxHp = int.Parse(npcEditor.MaxHpTextBox.Text),
+                            Atk = int.Parse(npcEditor.AtkTextBox.Text),
+                            Def = int.Parse(npcEditor.DefTextBox.Text),
+                            RespawnTime = int.Parse(npcEditor.RespawnTimeTextBox.Text),
+                            Behavior = (byte)npcEditor.BehaviorListBox.FormsControl.SelectedIndex,
+                            Sprite = int.Parse(npcEditor.NpcSpriteTextBox.Text),
+                        };
+
+                        await NpcEditorService.SaveNpc(NpcToSave);
+                    };
+
                     break;
             }
         }
@@ -180,5 +254,87 @@ namespace YnamarEditors
         /// Gets the currently active Gum screen.
         /// </summary>
         public GraphicalUiElement GetCurrentScreen() => _currentScreen;
+
+        private async Task handleNpcSelected(int npcId, GraphicalUiElement screenRuntime)
+        {
+            Npc npcSummary = await NpcEditorService.GetNpcSummary(npcId);
+            fillNpcSummary(npcSummary);
+        }
+
+        private void fillNpcSummary(Npc npcSummary)
+        {
+            NpcEditorRuntime npcEditor = (NpcEditorRuntime)_currentScreen;
+            npcEditor.NameTextBox.Text = npcSummary.Name;
+            npcEditor.LevelTextBox.Text = npcSummary.Level.ToString();
+            npcEditor.MaxHpTextBox.Text = npcSummary.MaxHp.ToString();
+            npcEditor.AtkTextBox.Text = npcSummary.Atk.ToString();
+            npcEditor.DefTextBox.Text = npcSummary.Def.ToString();
+            npcEditor.RespawnTimeTextBox.Text = npcSummary.RespawnTime.ToString();
+            npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
+
+            npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
+
+        public async Task openNpcSelection()
+        {
+            MapNpcSelectPanelRuntime mapNpcSelectPanel = new MapNpcSelectPanelRuntime();
+            mapNpcSelectPanel.Z = 10;
+            mapNpcSelectPanel.HasEvents = true;
+            mapNpcSelectPanel.ColoredRectangleInstance.Z = 11;
+            mapNpcSelectPanel.ButtonCloseNpcSelection.HasEvents = true;
+            mapNpcSelectPanel.ButtonSelectNpc.HasEvents = true;
+            mapNpcSelectPanel.ButtonSelectNpc.Z = 12;
+            mapNpcSelectPanel.ButtonCloseNpcSelection.Z = 12;
+
+            NpcList npcList = await NpcEditorService.ListNpcs();
+            mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = false;
+
+            mapNpcSelectPanel.AddToManagers();
+            _currentScreen.Children.Add(mapNpcSelectPanel);
+
+            foreach (NpcSummary npcSummary in npcList.NpcsSummary)
+            {
+                var npc = $"Name: {npcSummary.Name} Id: {npcSummary.Id}";
+                mapNpcSelectPanel.ListBoxInstance.FormsControl.Items.Add(npc);
+            }
+
+            mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectionChanged += (sender, args) =>
+            {
+                mapNpcSelectPanel.ButtonSelectNpc.IsEnabled = true;
+            };
+
+            ButtonStandardRuntime eventButton = new ButtonStandardRuntime
+            {
+                Name = "Teste",
+                Width = 120,
+                Height = 60,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+
+            };
+
+            eventButton.Click += async (_, _) =>
+            {
+                Globals.SelectedNpc = await NpcEditorService.GetNpcSummary(mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectedIndex);
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
+
+            eventButton.TextInstance.Text = "Teste";
+            mapNpcSelectPanel.Children.Add(eventButton);
+
+            mapNpcSelectPanel.ButtonSelectNpc.Click += async (_, _) =>
+            {
+                Globals.SelectedNpc = await NpcEditorService.GetNpcSummary(mapNpcSelectPanel.ListBoxInstance.FormsControl.SelectedIndex);
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
+
+            mapNpcSelectPanel.ButtonCloseNpcSelection.Click += (_, _) =>
+            {
+                mapNpcSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(mapNpcSelectPanel);
+            };
+        }
     }
 }
