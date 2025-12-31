@@ -155,6 +155,30 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>ButtonBackScreen.FlipHorizontal</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconCategory</Type>
+      <Name>ButtonBackScreen.IconCategory</Name>
+      <Value xsi:type="xsd:string">Arrow2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ButtonBackScreen.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackScreen.Rotation</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>DefText.Parent</Name>
       <Value xsi:type="xsd:string">EditorSection</Value>
@@ -597,6 +621,42 @@
     </Variable>
     <Variable>
       <Type>string</Type>
+      <Name>NpcSpriteText.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>NpcSpriteText.Text</Name>
+      <Value xsi:type="xsd:string">SpriteNum:</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcSpriteText.X</Name>
+      <Value xsi:type="xsd:float">10</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>NpcSpriteText.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NpcSpriteText.Y</Name>
+      <Value xsi:type="xsd:float">11</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>NpcSpriteText.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
       <Name>NpcSpriteTextBox.Parent</Name>
       <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
@@ -776,42 +836,6 @@
       <Value xsi:type="xsd:int">3</Value>
       <SetsValue>true</SetsValue>
     </Variable>
-    <Variable>
-      <Type>string</Type>
-      <Name>NpcSpriteText.Parent</Name>
-      <Value xsi:type="xsd:string">EditorSection</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>string</Type>
-      <Name>NpcSpriteText.Text</Name>
-      <Value xsi:type="xsd:string">SpriteNum:</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NpcSpriteText.X</Name>
-      <Value xsi:type="xsd:float">10</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>NpcSpriteText.XUnits</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NpcSpriteText.Y</Name>
-      <Value xsi:type="xsd:float">11</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>NpcSpriteText.YUnits</Name>
-      <Value xsi:type="xsd:int">3</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
   </State>
   <Instance>
     <Name>EditorSection</Name>
@@ -921,6 +945,11 @@
   <Instance>
     <Name>NpcSpriteText</Name>
     <BaseType>Text</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ButtonBackScreen</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />

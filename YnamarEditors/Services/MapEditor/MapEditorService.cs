@@ -41,6 +41,8 @@ namespace YnamarEditors.Services.MapEditor
             var content = new ByteArrayContent(ms.ToArray());
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");
             var response = await httpClient.PostAsync("http://localhost:8080/api/mapeditor", content);
+
+           MenuManager.StopLoadingAsync(response.IsSuccessStatusCode);
             response.EnsureSuccessStatusCode();
         }
 

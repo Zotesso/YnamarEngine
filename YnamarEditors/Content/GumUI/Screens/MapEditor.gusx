@@ -4,6 +4,29 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <Type>bool</Type>
+      <Name>ButtonBackScreen.FlipHorizontal</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconCategory</Type>
+      <Name>ButtonBackScreen.IconCategory</Name>
+      <Value xsi:type="xsd:string">Arrow2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ButtonBackScreen.Parent</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackScreen.Rotation</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>EditorSection.Height</Name>
       <Value xsi:type="xsd:float">100</Value>
@@ -564,7 +587,7 @@
     <Variable>
       <Type>float</Type>
       <Name>ResourcePanel.Height</Name>
-      <Value xsi:type="xsd:float">80</Value>
+      <Value xsi:type="xsd:float">75</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -612,7 +635,7 @@
     <Variable>
       <Type>float</Type>
       <Name>ResourcePanel.Y</Name>
-      <Value xsi:type="xsd:float">11</Value>
+      <Value xsi:type="xsd:float">35</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -1012,6 +1035,11 @@
   <Instance>
     <Name>EventsContainer</Name>
     <BaseType>Container</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ButtonBackScreen</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />

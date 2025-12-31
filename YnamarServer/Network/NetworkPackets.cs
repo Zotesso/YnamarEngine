@@ -14,7 +14,6 @@ namespace YnamarServer.Network
             SPlayerData,
             SPlayerMove,
             SLoadMap,
-            SNpcMove,
             SNpcKilled,
         }
 
@@ -34,6 +33,7 @@ namespace YnamarServer.Network
         public enum ServerUdpPackets
         {
             UdpSNpcAttacked = 100,
+            UdpSNpcMove,
         }
     }
 }

@@ -14,7 +14,7 @@ namespace YnamarServer.GameLogic
     {
         public static bool CanNpcMove(Map map, MapNpc mapNpc, byte direction)
         {
-            if(map.Id < 0 || map.Id > Constants.MAX_MAPS || mapNpc.Id < 0 || mapNpc.Id > Constants.MAX_MAP_NPCS || direction < Constants.DIR_UP || direction > Constants.DIR_RIGHT)
+            if(map.Id < 0 || mapNpc.Id < 0 || direction > Constants.DIR_RIGHT)
                return false;
 
             int x = mapNpc.X;

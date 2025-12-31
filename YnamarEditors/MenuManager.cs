@@ -26,7 +26,7 @@ namespace YnamarEditors
     internal class MenuManager
     {
         private GumProjectSave _gumProject;
-        private GraphicalUiElement _currentScreen;
+        private static GraphicalUiElement _currentScreen;
 
         public MenuManager(GumProjectSave gumProject)
         {
@@ -78,6 +78,12 @@ namespace YnamarEditors
 
                 case "MapEditor":
                     var editor = (MapEditorRuntime)screenRuntime;
+                    editor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+
                     editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
 
                     editor.MapNumTextBox.FormsControl.TextChanged += async(textObject, _) =>
@@ -120,6 +126,7 @@ namespace YnamarEditors
 
                     editor.SaveMapButton.Click += (_, __) =>
                     {
+                        StartLoading();
                         MapEditorService.SaveMap();
                     };
 
@@ -165,6 +172,12 @@ namespace YnamarEditors
 
                 case "NpcEditor":
                     NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
+                    npcEditor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+
                     NpcList npcList = await NpcEditorService.ListNpcs();
                     List<NpcBehavior> npcBehaviors = await NpcEditorService.ListNpcBehaviors();
 
@@ -243,6 +256,7 @@ namespace YnamarEditors
                             Sprite = int.Parse(npcEditor.NpcSpriteTextBox.Text),
                         };
 
+                        StartLoading();
                         await NpcEditorService.SaveNpc(NpcToSave);
                     };
 
@@ -335,6 +349,32 @@ namespace YnamarEditors
                 mapNpcSelectPanel.RemoveFromManagers();
                 _currentScreen.Children.Remove(mapNpcSelectPanel);
             };
+        }
+    
+        public static void StartLoading()
+        {
+            FeedbackPanelRuntime feedbackPanel = new FeedbackPanelRuntime();
+            feedbackPanel.Name = "FeedbackPanel";
+            feedbackPanel.Z = 999;
+            _currentScreen.Children.Add(feedbackPanel);
+        }
+
+        public static async Task StopLoadingAsync(Boolean sucess)
+        {
+            FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
+
+            if (sucess)
+            {
+                feedbackPanel.SuccessIcon.Visible = true;
+                feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
+            } else
+            {
+                feedbackPanel.ErrorIcon.Visible = true;
+                feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
+            }
+
+            await Task.Delay(1500);
+            _currentScreen.Children.Remove(feedbackPanel);
         }
     }
 }

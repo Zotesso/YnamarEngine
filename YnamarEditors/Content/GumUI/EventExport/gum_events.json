@@ -2,102 +2,25 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "NpcEditor.TextBoxInstance",
+        "NewName": "NpcEditor.ButtonIconInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-12-13T18:45:16.4402516Z"
+        "TimestampUtc": "2025-12-31T02:29:21.2873591Z"
       },
       {
-        "NewName": "NpcEditor.NpcSpriteTextBox",
-        "OldName": "NpcEditor.TextBoxInstance",
+        "NewName": "NpcEditor.ButtonBackScreen",
+        "OldName": "NpcEditor.ButtonIconInstance",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2025-12-13T18:45:42.6613678Z"
+        "TimestampUtc": "2025-12-31T02:30:43.5058435Z"
       },
       {
-        "NewName": "NpcEditor.TextInstance",
+        "NewName": "MapEditor.ButtonBackScreen",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2025-12-13T18:47:28.4749987Z"
-      },
-      {
-        "NewName": "NpcEditor.NpcSpriteText",
-        "OldName": "NpcEditor.TextInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2025-12-13T18:48:59.0502693Z"
-      },
-      {
-        "NewName": "FeedbackPanel1",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 0,
-        "TimestampUtc": "2025-12-14T23:09:55.4459802Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel",
-        "OldName": "FeedbackPanel1",
-        "ElementType": "Components",
-        "EventType": 2,
-        "TimestampUtc": "2025-12-14T23:35:31.2191718Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "MapNpcSelectPanel (Container).Text TextInstance in MapNpcSelectPanel (Container)",
-        "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2025-12-14T23:35:51.712616Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "MapNpcSelectPanel (Container).Sprite SuccessIcon in MapNpcSelectPanel (Container)",
-        "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2025-12-14T23:35:53.6629063Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "MapNpcSelectPanel (Container).Sprite ErrorIcon in MapNpcSelectPanel (Container)",
-        "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2025-12-14T23:35:55.666771Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel (Container).ListBoxInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-12-14T23:42:21.82418Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel (Container).ButtonStandardInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-12-14T23:52:25.0679515Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel (Container).ButtonStandardInstance1",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-12-14T23:52:27.8357488Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel (Container).ButtonSelectNpc",
-        "OldName": "MapNpcSelectPanel (Container).ButtonStandardInstance1",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-12-14T23:52:42.13651Z"
-      },
-      {
-        "NewName": "MapNpcSelectPanel (Container).ButtonCloseNpcSelection",
-        "OldName": "MapNpcSelectPanel (Container).ButtonStandardInstance",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2025-12-14T23:52:49.0246424Z"
+        "TimestampUtc": "2025-12-31T02:30:50.0902335Z"
       }
     ]
   }

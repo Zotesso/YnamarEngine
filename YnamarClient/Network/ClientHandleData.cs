@@ -20,6 +20,7 @@ namespace YnamarClient.Network
             Packets = new Dictionary<int, Packet>();
 
             Packets.Add((int)ServerUdpPackets.UdpSNpcAttacked, HandleNpcAttacked);
+            Packets.Add((int)ServerUdpPackets.UdpSNpcMove, HandleNpcMove);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -51,6 +52,25 @@ namespace YnamarClient.Network
             int bufferLength = buffer.GetInteger();
             byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
+        }
+
+        private void HandleNpcMove(int index, byte[] data)
+        {
+            if (!Globals.InGame) return;
+
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int mapNum = buffer.GetInteger();
+            int layerNum = buffer.GetInteger();
+            int mapNpcNum = buffer.GetInteger();
+
+            int bufferLength = buffer.GetInteger();
+            byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
+            MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
+
+            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
         }
     }
 }
