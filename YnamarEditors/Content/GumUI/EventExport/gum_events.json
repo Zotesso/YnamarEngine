@@ -21,6 +21,209 @@
         "ElementType": "Screens",
         "EventType": 5,
         "TimestampUtc": "2025-12-31T02:30:50.0902335Z"
+      },
+      {
+        "NewName": "ItemEditor",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 0,
+        "TimestampUtc": "2026-01-04T21:54:10.0298732Z"
+      },
+      {
+        "NewName": "EditorSelector.NpcEditorButton1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:54:18.2815995Z"
+      },
+      {
+        "NewName": "EditorSelector.ItemEditorButton",
+        "OldName": "EditorSelector.NpcEditorButton1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-04T21:54:29.5407633Z"
+      },
+      {
+        "NewName": "ItemEditor.ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:55:26.0020066Z"
+      },
+      {
+        "NewName": "ItemEditor.Background",
+        "OldName": "ItemEditor.ColoredRectangleInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-04T21:55:39.1687476Z"
+      },
+      {
+        "NewName": "ItemEditor.ButtonBackScreen",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:56:11.0425225Z"
+      },
+      {
+        "NewName": "ItemEditor.NpcSprite",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:57:24.0008392Z"
+      },
+      {
+        "NewName": "ItemEditor.NpcSpriteTextBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:57:24.0528065Z"
+      },
+      {
+        "NewName": "ItemEditor.NpcSpriteText",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-04T21:57:24.0717959Z"
+      },
+      {
+        "NewName": "ItemEditor.NameText",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:19:18.2567831Z"
+      },
+      {
+        "NewName": "ItemEditor.NameTextBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:19:18.3189003Z"
+      },
+      {
+        "NewName": "ItemEditor.NameText1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:19:49.6159553Z"
+      },
+      {
+        "NewName": "ItemEditor.NameTextBox1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:19:51.1957423Z"
+      },
+      {
+        "NewName": "ItemEditor.NpcListBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:20:58.7213242Z"
+      },
+      {
+        "NewName": "ItemEditor.SearchTextBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:20:58.7513067Z"
+      },
+      {
+        "NewName": "ItemEditor.SaveButton",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:20:58.7995905Z"
+      },
+      {
+        "NewName": "ItemEditor.NewButton",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:20:58.8766061Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemSprite",
+        "OldName": "ItemEditor.NpcSprite",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:21:22.5428959Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemSpriteTextBox",
+        "OldName": "ItemEditor.NpcSpriteTextBox",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:21:30.2936564Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemSpriteText",
+        "OldName": "ItemEditor.NpcSpriteText",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:21:36.6457065Z"
+      },
+      {
+        "NewName": "ItemEditor.DescriptionText",
+        "OldName": "ItemEditor.NameText1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:21:49.5349148Z"
+      },
+      {
+        "NewName": "ItemEditor.DescriptionTextBox",
+        "OldName": "ItemEditor.NameTextBox1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:22:06.9499674Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemListBox",
+        "OldName": "ItemEditor.NpcListBox",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:27:38.4325587Z"
+      },
+      {
+        "NewName": "ItemEditor.NameText1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:28:28.567454Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemTypeText",
+        "OldName": "ItemEditor.NameText1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:28:38.8446624Z"
+      },
+      {
+        "NewName": "Controls/ComboBox1",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2026-01-10T01:30:22.7298427Z"
+      },
+      {
+        "NewName": "ItemEditor.ComboBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:30:35.4125967Z"
+      },
+      {
+        "NewName": "ItemEditor.CheckBoxInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-10T01:30:42.1531943Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemTypeComboBox",
+        "OldName": "ItemEditor.ComboBoxInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-10T01:31:05.7486807Z"
       }
     ]
   }
