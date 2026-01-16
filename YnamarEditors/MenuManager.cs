@@ -20,13 +20,14 @@ using Microsoft.Xna.Framework.Graphics;
 using YnamarEditors.Components;
 using static YnamarEditors.Globals;
 using System.Reflection;
+using YnamarEditors.Services.ItemEditor;
 
 namespace YnamarEditors
 {
     internal class MenuManager
     {
         private GumProjectSave _gumProject;
-        private GraphicalUiElement _currentScreen;
+        private static GraphicalUiElement _currentScreen;
 
         public MenuManager(GumProjectSave gumProject)
         {
@@ -74,10 +75,21 @@ namespace YnamarEditors
                     {
                         LoadScreen("NpcEditor");
                     };
+
+                    selector.ItemEditorButton.Click += (_, __) =>
+                    {
+                        LoadScreen("ItemEditor");
+                    };
                     break;
 
                 case "MapEditor":
                     var editor = (MapEditorRuntime)screenRuntime;
+                    editor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+
                     editor.TextLayer.Text = $"Layer: {Globals.SelectedLayer}";
 
                     editor.MapNumTextBox.FormsControl.TextChanged += async(textObject, _) =>
@@ -120,6 +132,7 @@ namespace YnamarEditors
 
                     editor.SaveMapButton.Click += (_, __) =>
                     {
+                        StartLoading();
                         MapEditorService.SaveMap();
                     };
 
@@ -165,6 +178,12 @@ namespace YnamarEditors
 
                 case "NpcEditor":
                     NpcEditorRuntime npcEditor = (NpcEditorRuntime)screenRuntime;
+                    npcEditor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+
                     NpcList npcList = await NpcEditorService.ListNpcs();
                     List<NpcBehavior> npcBehaviors = await NpcEditorService.ListNpcBehaviors();
 
@@ -243,9 +262,93 @@ namespace YnamarEditors
                             Sprite = int.Parse(npcEditor.NpcSpriteTextBox.Text),
                         };
 
+                        StartLoading();
                         await NpcEditorService.SaveNpc(NpcToSave);
                     };
 
+                    break;
+
+                case "ItemEditor":
+                    ItemEditorRuntime itemEditor = (ItemEditorRuntime)screenRuntime;
+                    itemEditor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+
+                    ItemList itemList = await ItemEditorService.ListItems();
+                    List<ItemType> itemTypeList = await ItemEditorService.ListItemType();
+
+                    foreach (ItemSummary itemSummary in itemList.ItemsSummary)
+                    {
+                        var item = $"Name: {itemSummary.Name} Id: {itemSummary.Id}";
+                        itemEditor.ItemListBox.FormsControl.Items.Add(item);
+                    }
+
+                    foreach (ItemType itemType in itemTypeList)
+                    {
+                        var type = $"Name: {itemType.Name}";
+                        itemEditor.ItemTypeComboBox.FormsControl.Items.Add(type);
+                    }
+
+                    itemEditor.ItemTypeComboBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleItemSelected(itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex, screenRuntime);
+                    };
+                    
+
+                    itemEditor.ItemSpriteTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+
+                        textBox.Text = new string(textBox.Text.Where(char.IsDigit).ToArray());
+                        if (textBox.Text == "") return;
+
+                        int itemSpriteNum = int.Parse(textBox.Text);
+
+                        if (itemSpriteNum < 0 || itemSpriteNum > Globals.MAX_ITEM_SPRITES)
+                        {
+                            textBox.Text = "0";
+                            itemSpriteNum = 0;
+                        }
+
+                        Texture2D itemSprite = Graphics.Characters[itemSpriteNum];
+                        itemEditor.ItemSprite.Texture = itemSprite;
+                        itemEditor.ItemSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+                        itemEditor.ItemSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 32, 32, 32);
+                    };
+
+                   itemEditor.NewButton.Click += (_, _) =>
+                    {
+                        var item = $"Name: ";
+                        itemEditor.ItemListBox.FormsControl.Items.Add(item);
+                        Item newItem = new Item
+                        {
+                            Name = "",
+                            Description = "",
+                            Stackable = false,
+                            Type = 0,
+                            Sprite = 0,
+                        };
+                        fillItemSummary(newItem);
+                    };
+                   
+
+                    itemEditor.SaveButton.Click += async (_, _) =>
+                    {
+                        Item ItemToSave = new Item
+                        {
+                            Name = itemEditor.NameTextBox.Text,
+                            Description = itemEditor.DescriptionText.Text,
+                            Type = (byte)itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex,
+                            Stackable = itemEditor.CheckBoxInstance.FormsControl.IsChecked ?? false,
+                            Sprite = int.Parse(itemEditor.ItemSpriteTextBox.Text),
+                        };
+
+                        StartLoading();
+                        await ItemEditorService.SaveItem(ItemToSave);
+                    };
+                   
                     break;
             }
         }
@@ -273,6 +376,23 @@ namespace YnamarEditors
             npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
+
+        private async Task handleItemSelected(int itemId, GraphicalUiElement screenRuntime)
+        {
+            Item itemSummary = await ItemEditorService.GetItemSummary(itemId);
+            fillItemSummary(itemSummary);
+        }
+
+        private void fillItemSummary(Item itemSummary)
+        {
+            ItemEditorRuntime itemEditor = (ItemEditorRuntime)_currentScreen;
+            itemEditor.NameTextBox.Text = itemSummary.Name;
+            itemEditor.DescriptionTextBox.Text = itemSummary.Description;
+            itemEditor.ItemSpriteTextBox.Text = itemSummary.Sprite.ToString();
+            itemEditor.CheckBoxInstance.FormsControl.IsChecked = itemSummary.Stackable;
+
+            itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex = itemSummary.Type;
         }
 
         public async Task openNpcSelection()
@@ -335,6 +455,32 @@ namespace YnamarEditors
                 mapNpcSelectPanel.RemoveFromManagers();
                 _currentScreen.Children.Remove(mapNpcSelectPanel);
             };
+        }
+    
+        public static void StartLoading()
+        {
+            FeedbackPanelRuntime feedbackPanel = new FeedbackPanelRuntime();
+            feedbackPanel.Name = "FeedbackPanel";
+            feedbackPanel.Z = 999;
+            _currentScreen.Children.Add(feedbackPanel);
+        }
+
+        public static async Task StopLoadingAsync(Boolean sucess)
+        {
+            FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
+
+            if (sucess)
+            {
+                feedbackPanel.SuccessIcon.Visible = true;
+                feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
+            } else
+            {
+                feedbackPanel.ErrorIcon.Visible = true;
+                feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
+            }
+
+            await Task.Delay(1500);
+            _currentScreen.Children.Remove(feedbackPanel);
         }
     }
 }

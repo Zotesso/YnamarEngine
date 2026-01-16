@@ -26,5 +26,7 @@ namespace YnamarEditors.Models
         [ProtoMember(4)]
         public int Type { get; set; }
 
+        [ProtoMember(5)]
+        public int Sprite { get; set; }
     }
 }

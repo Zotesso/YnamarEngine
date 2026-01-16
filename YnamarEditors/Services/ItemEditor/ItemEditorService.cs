@@ -11,11 +11,11 @@ using YnamarEditors.Models;
 using YnamarEditors.Models.Protos;
 using System.IO;
 
-namespace YnamarEditors.Services.NpcEditor
+namespace YnamarEditors.Services.ItemEditor
 {
-    internal class NpcEditorService
+    internal class ItemEditorService
     {
-        public static async Task<NpcList> ListNpcs()
+        public static async Task<ItemList> ListItems()
         {
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -23,19 +23,20 @@ namespace YnamarEditors.Services.NpcEditor
                 new MediaTypeWithQualityHeaderValue("application/x-protobuf")
             );
 
-            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/npceditor/npcs/list");
+            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/itemeditor/item/list");
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
 
-                await using var responseStream = await response.Content.ReadAsStreamAsync();
-                NpcList npcList = Serializer.Deserialize<NpcList>(responseStream);
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            ItemList itemList = Serializer.Deserialize<ItemList>(responseStream);
                 
-                return npcList;
+            return itemList;
         }
-        public static async Task<List<NpcBehavior>> ListNpcBehaviors()
+
+        public static async Task<List<ItemType>> ListItemType()
         {
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -43,7 +44,7 @@ namespace YnamarEditors.Services.NpcEditor
                 new MediaTypeWithQualityHeaderValue("application/x-protobuf")
             );
 
-            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/npceditor/npcs/behavior/list");
+            HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/itemeditor/item/type/list");
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -51,12 +52,12 @@ namespace YnamarEditors.Services.NpcEditor
             }
 
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            List<NpcBehavior> npcBehaviorList = Serializer.Deserialize<List<NpcBehavior>>(responseStream);
+            List<ItemType> itemTypeList = Serializer.Deserialize<List<ItemType>>(responseStream);
 
-            return npcBehaviorList;
+            return itemTypeList;
         }
 
-        public static async Task<Npc> GetNpcSummary(int npcId)
+        public static async Task<Item> GetItemSummary(int itemId)
         {
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -64,7 +65,7 @@ namespace YnamarEditors.Services.NpcEditor
                 new MediaTypeWithQualityHeaderValue("application/x-protobuf")
             );
 
-            HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:8080/api/npceditor/npcs/summary/{npcId}");
+            HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:8080/api/itemeditor/item/summary/{itemId}");
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -72,22 +73,22 @@ namespace YnamarEditors.Services.NpcEditor
             }
 
             await using var responseStream = await response.Content.ReadAsStreamAsync();
-            Npc npc = Serializer.Deserialize<Npc>(responseStream);
+            Item item = Serializer.Deserialize<Item>(responseStream);
 
-            return npc;
+            return item;
         }
 
-        public static async Task SaveNpc(Npc npc)
+        public static async Task SaveItem(Item item)
         {
             using HttpClient httpClient = new HttpClient();
             using MemoryStream ms = new MemoryStream();
-            Serializer.Serialize(ms, npc);
+            Serializer.Serialize(ms, item);
 
             ms.Position = 0;
 
             var content = new ByteArrayContent(ms.ToArray());
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");
-            var response = await httpClient.PostAsync("http://localhost:8080/api/npceditor/npcs/save", content);
+            var response = await httpClient.PostAsync("http://localhost:8080/api/itemeditor/item/save", content);
             MenuManager.StopLoadingAsync(response.IsSuccessStatusCode);
             response.EnsureSuccessStatusCode();
         }

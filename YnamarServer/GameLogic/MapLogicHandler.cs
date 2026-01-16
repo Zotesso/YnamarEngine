@@ -14,8 +14,6 @@ namespace YnamarServer.GameLogic
         {
             Random rnd = new Random();
             bool didWalk = false;
-            int targetY = rnd.Next(0, 5);
-            int targetX = rnd.Next(0, 5);
 
             foreach (var (map, mapIndex) in InMemoryDatabase.Maps.Select((value, i) => (value, i)))
             {
@@ -29,6 +27,8 @@ namespace YnamarServer.GameLogic
                         {
                             
                             int i = rnd.Next(0, 5); // Generates 0 to 4 inclusive
+                            int targetY = mapNpc.Y + rnd.Next(-1, 2);
+                            int targetX = mapNpc.X + rnd.Next(-1, 2);
 
                             // Let's move the NPC
                             switch (i)

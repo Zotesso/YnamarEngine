@@ -24,6 +24,7 @@ namespace YnamarEditors.Screens
         public TextRuntime TextInstance { get; protected set; }
         public ButtonStandardRuntime ButtonStandardInstance { get; protected set; }
         public ButtonStandardRuntime NpcEditorButton { get; protected set; }
+        public ButtonStandardRuntime ItemEditorButton { get; protected set; }
 
         public EditorSelectorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -42,6 +43,7 @@ namespace YnamarEditors.Screens
             TextInstance = this.GetGraphicalUiElementByName("TextInstance") as TextRuntime;
             ButtonStandardInstance = this.GetGraphicalUiElementByName("ButtonStandardInstance") as ButtonStandardRuntime;
             NpcEditorButton = this.GetGraphicalUiElementByName("NpcEditorButton") as ButtonStandardRuntime;
+            ItemEditorButton = this.GetGraphicalUiElementByName("ItemEditorButton") as ButtonStandardRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

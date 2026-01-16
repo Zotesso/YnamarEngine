@@ -26,7 +26,6 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SPlayerData, HandlePlayerData);
             Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
             Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
-            Packets.Add((int)ServerPackets.SNpcMove, HandleNpcMove);
             Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
         }
 
@@ -125,25 +124,6 @@ namespace YnamarClient.Network
             mapService.convertMapPayloadToClientMap(deserializedMap);
             MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
             GameLogic.InGame();
-        }
-
-        private void HandleNpcMove(int index, byte[] data)
-        {
-            if (!Globals.InGame) return;
-
-            PacketBuffer buffer = new PacketBuffer();
-            buffer.AddByteArray(data);
-            buffer.GetInteger();
-
-            int mapNum = buffer.GetInteger();
-            int layerNum = buffer.GetInteger();
-            int mapNpcNum = buffer.GetInteger();
-
-            int bufferLength = buffer.GetInteger();
-            byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
-            MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
-
-            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
         }
 
         private void HandleNpcKilled(int index, byte[] data)

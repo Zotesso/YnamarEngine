@@ -72,6 +72,43 @@
     </Variable>
     <Variable>
       <Type>string</Type>
+      <Name>ItemEditorButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Item Editor
+</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemEditorButton.Height</Name>
+      <Value xsi:type="xsd:float">50</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ItemEditorButton.Parent</Name>
+      <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemEditorButton.Width</Name>
+      <Value xsi:type="xsd:float">311</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemEditorButton.X</Name>
+      <Value xsi:type="xsd:float">65</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemEditorButton.Y</Name>
+      <Value xsi:type="xsd:float">265</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
       <Name>NpcEditorButton.ButtonDisplayText</Name>
       <Value xsi:type="xsd:string">Npc Editor
 </Value>
@@ -168,6 +205,11 @@
   </Instance>
   <Instance>
     <Name>NpcEditorButton</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ItemEditorButton</Name>
     <BaseType>Controls/ButtonStandard</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>

@@ -42,6 +42,7 @@ namespace YnamarEditors.Screens
         public ButtonStandardRuntime TilesetButton { get; protected set; }
         public ButtonStandardRuntime EventsButton { get; protected set; }
         public ContainerRuntime EventsContainer { get; protected set; }
+        public ButtonIconRuntime ButtonBackScreen { get; protected set; }
 
         public MapEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
         {
@@ -78,6 +79,7 @@ namespace YnamarEditors.Screens
             TilesetButton = this.GetGraphicalUiElementByName("TilesetButton") as ButtonStandardRuntime;
             EventsButton = this.GetGraphicalUiElementByName("EventsButton") as ButtonStandardRuntime;
             EventsContainer = this.GetGraphicalUiElementByName("EventsContainer") as ContainerRuntime;
+            ButtonBackScreen = this.GetGraphicalUiElementByName("ButtonBackScreen") as ButtonIconRuntime;
             CustomInitialize();
         }
         //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code
