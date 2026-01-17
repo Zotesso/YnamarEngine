@@ -80,6 +80,12 @@ namespace YnamarEditors
                     {
                         LoadScreen("ItemEditor");
                     };
+                    
+                    selector.AnimationEditorButton.Click += (_, __) =>
+                    {
+                        LoadScreen("AnimationEditor");
+                    };
+
                     break;
 
                 case "MapEditor":
@@ -122,7 +128,7 @@ namespace YnamarEditors
                             {
                                 Globals.SelectedEventIndex = null;
                                 Globals.SelectedTileset = numericTextBoxValue;
-                                Graphics.UpdateTilesetPanel((SpriteRuntime)editor.ResourcePanel.InnerPanelInstance.GetChildByName("TilesetSprite"));
+                                Graphics.UpdateTilesetPanel((SpriteRuntime)editor.ResourcePanel.InnerPanelInstance.GetChildByName("TilesetSprite"), Graphics.Tilesets[Globals.SelectedTileset]);
                                 return;
                             }
                         }
@@ -350,6 +356,36 @@ namespace YnamarEditors
                     };
                    
                     break;
+
+                case "AnimationEditor":
+                    AnimationEditorRuntime animationEditor = (AnimationEditorRuntime)screenRuntime;
+                    animationEditor.ButtonBackScreen.Click += (_, __) =>
+                    {
+                        LoadScreen("EditorSelector");
+                    };
+
+                    animationEditor.TextureTextBox.FormsControl.TextChanged += async (textObject, _) =>
+                    {
+                        MonoGameGum.Forms.Controls.TextBox textBox = (MonoGameGum.Forms.Controls.TextBox)textObject;
+                        if (textBox.Text == "") return;
+                        if (NumericTextBoxBehavior.IsValidNumeric(textBox.Text))
+                        {
+                            int.TryParse(textBox.Text, out var numericTextBoxValue);
+
+                            if (numericTextBoxValue < Graphics.Spritesheets.Length && numericTextBoxValue >= 0)
+                            {
+                                Globals.SelectedSpritesheet = numericTextBoxValue;
+                                Graphics.UpdateTilesetPanel((SpriteRuntime)animationEditor.ResourcePanel.InnerPanelInstance.GetChildByName("SpriteSheetSprite"), Graphics.Spritesheets[Globals.SelectedSpritesheet]);
+                                return;
+                            }
+                        }
+
+                        textBox.Text = Globals.SelectedSpritesheet.ToString();
+                    };
+
+                    Graphics.LoadGumSpriteSheetResourcePanel(this);
+                    break;
+
             }
         }
 
