@@ -32,6 +32,8 @@ public class Game1 : Game
     private CommandService _commandService;
     private ResourcePanelService _resourcePanelService;
     private AnimationResourcePanelService _animationResourcePanelService;
+    public static AnimationPlayerService animationPlayerService = new AnimationPlayerService();
+
     bool wasLeftMouseDown;
     private bool _isDragging;
     private int _mouseStartX;
@@ -239,6 +241,11 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         Graphics.RenderGraphics(GraphicsDevice);
+        if (animationPlayerService.IsPlaying)
+        {
+            animationPlayerService.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        }
+
         Gum.Draw();
 
         // TODO: Add your drawing code here

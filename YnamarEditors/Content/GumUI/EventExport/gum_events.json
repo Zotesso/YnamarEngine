@@ -273,6 +273,125 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2026-01-17T18:35:19.1239002Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2026-01-18T02:14:58.8854613Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).ColoredRectangleInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:17:01.4102467Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).TextInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:18:46.139941Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).TextInstance1",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:18:56.2253341Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:19:06.45219Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).FrameNumberText",
+        "OldName": "AnimationFrameListItem (Container).TextInstance",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-18T02:19:55.7327211Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).RectangleText",
+        "OldName": "AnimationFrameListItem (Container).TextInstance1",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-18T02:20:54.8243203Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).DurationTextBox",
+        "OldName": "AnimationFrameListItem (Container).TextBoxInstance",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-18T02:21:28.9840978Z"
+      },
+      {
+        "NewName": "AnimationEditor.ResourcePanel1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:23:17.9306225Z"
+      },
+      {
+        "NewName": "AnimationEditor.AnimationFrameList",
+        "OldName": "AnimationEditor.ResourcePanel1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-18T02:24:49.7626887Z"
+      },
+      {
+        "NewName": "AnimationEditor.AnimationFrameListItemInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-18T02:25:38.759517Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "AnimationFrameListItem (Container).Text RectangleText in AnimationFrameListItem (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2026-01-18T02:27:19.6719844Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "AnimationEditor.AnimationFrameListItem AnimationFrameListItemInstance in AnimationEditor",
+        "ElementType": "Screens",
+        "EventType": 6,
+        "TimestampUtc": "2026-01-18T02:32:49.8939466Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).ButtonIconInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-20T23:50:37.8753726Z"
+      },
+      {
+        "NewName": "AnimationFrameListItem (Container).RemoveFrameButton",
+        "OldName": "AnimationFrameListItem (Container).ButtonIconInstance",
+        "ElementType": "Components",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-20T23:51:29.527632Z"
+      },
+      {
+        "NewName": "AnimationEditor.SpriteInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-21T01:36:24.6635343Z"
+      },
+      {
+        "NewName": "AnimationEditor.AnimationPlayerSprite",
+        "OldName": "AnimationEditor.SpriteInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-21T01:36:38.5185377Z"
       }
     ]
   }

@@ -31,9 +31,11 @@ partial class AnimationEditorRuntime : Gum.Wireframe.BindableGue
     public TextBoxRuntime TextureTextBox { get; protected set; }
     public ButtonIconRuntime StartPlayerButton { get; protected set; }
     public ScrollViewerRuntime ResourcePanel { get; protected set; }
+    public ScrollViewerRuntime AnimationFrameList { get; protected set; }
     public TextBoxRuntime AnimationNameTextBox { get; protected set; }
     public ButtonIconRuntime AddFrameButton { get; protected set; }
     public ButtonIconRuntime RemoveFrameButton { get; protected set; }
+    public SpriteRuntime AnimationPlayerSprite { get; protected set; }
 
     public AnimationEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
     {
@@ -57,9 +59,11 @@ partial class AnimationEditorRuntime : Gum.Wireframe.BindableGue
         TextureTextBox = this.GetGraphicalUiElementByName("TextureTextBox") as YnamarEditors.Components.TextBoxRuntime;
         StartPlayerButton = this.GetGraphicalUiElementByName("StartPlayerButton") as YnamarEditors.Components.ButtonIconRuntime;
         ResourcePanel = this.GetGraphicalUiElementByName("ResourcePanel") as YnamarEditors.Components.ScrollViewerRuntime;
+        AnimationFrameList = this.GetGraphicalUiElementByName("AnimationFrameList") as YnamarEditors.Components.ScrollViewerRuntime;
         AnimationNameTextBox = this.GetGraphicalUiElementByName("AnimationNameTextBox") as YnamarEditors.Components.TextBoxRuntime;
         AddFrameButton = this.GetGraphicalUiElementByName("AddFrameButton") as YnamarEditors.Components.ButtonIconRuntime;
         RemoveFrameButton = this.GetGraphicalUiElementByName("RemoveFrameButton") as YnamarEditors.Components.ButtonIconRuntime;
+        AnimationPlayerSprite = this.GetGraphicalUiElementByName("AnimationPlayerSprite") as global::MonoGameGum.GueDeriving.SpriteRuntime;
         CustomInitialize();
     }
     //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

@@ -21,6 +21,10 @@ using YnamarEditors.Components;
 using static YnamarEditors.Globals;
 using System.Reflection;
 using YnamarEditors.Services.ItemEditor;
+using YnamarEditors.Services.AnimationEditor;
+using Microsoft.Xna.Framework;
+using Gum.Graphics.Animation;
+using YnamarEditors.Models.Animation;
 
 namespace YnamarEditors
 {
@@ -28,6 +32,7 @@ namespace YnamarEditors
     {
         private GumProjectSave _gumProject;
         private static GraphicalUiElement _currentScreen;
+        private AnimationEditorService _animationEditorService = new AnimationEditorService();
 
         public MenuManager(GumProjectSave gumProject)
         {
@@ -361,6 +366,7 @@ namespace YnamarEditors
                     AnimationEditorRuntime animationEditor = (AnimationEditorRuntime)screenRuntime;
                     animationEditor.ButtonBackScreen.Click += (_, __) =>
                     {
+                        Game1.animationPlayerService.Stop();
                         LoadScreen("EditorSelector");
                     };
 
@@ -383,6 +389,56 @@ namespace YnamarEditors
                         textBox.Text = Globals.SelectedSpritesheet.ToString();
                     };
 
+                    animationEditor.AddFrameButton.Click += (_, __) =>
+                    {
+                        RectangleRuntime selectionBox = (RectangleRuntime)animationEditor.ResourcePanel.InnerPanelInstance.GetGraphicalUiElementByName("SelectionBox");
+                        if (selectionBox is not null && selectionBox.Width > 1)
+                        {
+                            Rectangle selectedRectangle = new Rectangle
+                            {
+                                X = (int)selectionBox.X,
+                                Y = (int)selectionBox.Y,
+                                Width = (int)selectionBox.Width,
+                                Height = (int)selectionBox.Height,
+                            };
+
+                            Models.Animation.AnimationFrame animationFrame = _animationEditorService.CreateNewFrame(Globals.SelectedSpritesheet, selectedRectangle);
+                            _animationEditorService.AddFrame(animationFrame);
+                            addAnimationFrameToClipList(animationEditor);
+                        }
+                    };
+                    
+                    animationEditor.StartPlayerButton.Click += (_, __) =>
+                    {
+                        Game1.animationPlayerService.Play(_animationEditorService.CurrentAnimationClip);
+                    };
+
+                    animationEditor.StopPlayerButton.Click += (_, __) =>
+                    {
+                        Game1.animationPlayerService.Stop();
+                    };
+
+                    Game1.animationPlayerService.FrameChanged += frame =>
+                    {
+                        Texture2D texture =
+                            Graphics.Spritesheets[frame.TextureId];
+
+                        animationEditor.AnimationPlayerSprite.Texture = texture;
+                        animationEditor.AnimationPlayerSprite.TextureAddress =
+                            Gum.Managers.TextureAddress.Custom;
+
+                        animationEditor.AnimationPlayerSprite.SourceRectangle =
+                            frame.SourceRect;
+                    };
+
+                   /* if (Game1.animationPlayerService.IsPlaying)
+                    {
+                        Texture2D animationPlayerTexture = Graphics.Spritesheets[Game1.animationPlayerService.CurrentFrame.TextureId];
+                        animationEditor.AnimationPlayerSprite.Texture = animationPlayerTexture;
+                        animationEditor.AnimationPlayerSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+                        animationEditor.AnimationPlayerSprite.SourceRectangle = Game1.animationPlayerService.CurrentFrame.SourceRect;
+                    }
+                   */
                     Graphics.LoadGumSpriteSheetResourcePanel(this);
                     break;
 
@@ -493,6 +549,17 @@ namespace YnamarEditors
             };
         }
     
+        private void addAnimationFrameToClipList(AnimationEditorRuntime animationEditor)
+        {
+            AnimationFrameListItemRuntime animationFrameListItem = new AnimationFrameListItemRuntime();
+            animationEditor.AnimationFrameList.InnerPanelInstance.Children.Add(animationFrameListItem);
+            animationFrameListItem.FrameNumberText.Text = $"Frame: {animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count}";
+            animationFrameListItem.DurationTextBox.Text = "1000";
+            animationFrameListItem.frameNum = animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count - 1;
+            animationFrameListItem.Y = (animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count - 1) * 50;
+
+        }
+
         public static void StartLoading()
         {
             FeedbackPanelRuntime feedbackPanel = new FeedbackPanelRuntime();
