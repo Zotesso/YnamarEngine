@@ -30,8 +30,6 @@ namespace YnamarEditors.Services.AnimationEditor
 
         public void Play(AnimationClip clip)
         {
-            if (_clip == clip) return;
-
             _clip = clip;
             _frameIndex = 0;
             _timer = 0f;

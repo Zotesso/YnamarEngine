@@ -1,15 +1,17 @@
 ﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarEditors.Models.Animation
+namespace YnamarServer.Database.Models.Animation
 {
     [ProtoContract]
     public class AnimationClip
     {
+        [Key]
         [ProtoMember(1)]
         public int Id { get; set; }
 

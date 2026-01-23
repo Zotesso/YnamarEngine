@@ -392,6 +392,111 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2026-01-21T01:36:38.5185377Z"
+      },
+      {
+        "NewName": "AnimationEditor.ContainerInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:20:33.1128716Z"
+      },
+      {
+        "NewName": "AnimationEditor.EditorSection",
+        "OldName": "AnimationEditor.ContainerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-22T23:26:22.1969723Z"
+      },
+      {
+        "NewName": "AnimationEditor.ContainerInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:26:28.837208Z"
+      },
+      {
+        "NewName": "AnimationEditor.SelectorSection",
+        "OldName": "AnimationEditor.ContainerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-22T23:27:10.2472938Z"
+      },
+      {
+        "NewName": "AnimationEditor.Background1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:27:18.356697Z"
+      },
+      {
+        "NewName": "AnimationEditor.ButtonBackScreen1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:27:24.782487Z"
+      },
+      {
+        "NewName": "AnimationEditor.ButtonBackScreenSelector",
+        "OldName": "AnimationEditor.ButtonBackScreen1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-22T23:28:15.7954644Z"
+      },
+      {
+        "NewName": "AnimationEditor.BackgroundSelector",
+        "OldName": "AnimationEditor.Background1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-22T23:28:20.780285Z"
+      },
+      {
+        "NewName": "AnimationEditor.ItemListBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:28:58.879049Z"
+      },
+      {
+        "NewName": "AnimationEditor.SearchTextBox",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:28:58.9260487Z"
+      },
+      {
+        "NewName": "AnimationEditor.NewButton",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:28:58.954478Z"
+      },
+      {
+        "NewName": "AnimationEditor.NewButton1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-22T23:29:09.0986974Z"
+      },
+      {
+        "NewName": "AnimationEditor.SelectButton",
+        "OldName": "AnimationEditor.NewButton1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-22T23:29:15.703199Z"
+      },
+      {
+        "NewName": "AnimationEditor.NewButton1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-23T02:44:59.3537044Z"
+      },
+      {
+        "NewName": "AnimationEditor.SaveButton",
+        "OldName": "AnimationEditor.NewButton1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-23T02:45:13.8502322Z"
       }
     ]
   }

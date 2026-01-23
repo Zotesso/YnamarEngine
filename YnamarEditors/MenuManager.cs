@@ -364,10 +364,33 @@ namespace YnamarEditors
 
                 case "AnimationEditor":
                     AnimationEditorRuntime animationEditor = (AnimationEditorRuntime)screenRuntime;
+
+                    AnimationClipList animationClipList = await AnimationEditorService.ListAnimationClips();
+
+                    if (animationClipList is not null && animationClipList.AnimationClipSummaryList.Count > 0)
+                    {
+                        foreach (AnimationClipSummary clipSummary in animationClipList.AnimationClipSummaryList)
+                        {
+                            var clip = $"Clip Name: {clipSummary.Name} Id: {clipSummary.Id}";
+                            animationEditor.ItemListBox.FormsControl.Items.Add(clip);
+                        }
+
+                    }
                     animationEditor.ButtonBackScreen.Click += (_, __) =>
                     {
                         Game1.animationPlayerService.Stop();
+                        animationEditor.EditorSection.Visible = false;
+                        animationEditor.SelectorSection.Visible = true;
+                    };
+
+                    animationEditor.ButtonBackScreenSelector.Click += (_, __) =>
+                    {
                         LoadScreen("EditorSelector");
+                    };
+
+                    animationEditor.ItemListBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleAnimationSelected(animationEditor.ItemListBox.FormsControl.SelectedIndex, screenRuntime);
                     };
 
                     animationEditor.TextureTextBox.FormsControl.TextChanged += async (textObject, _) =>
@@ -431,14 +454,35 @@ namespace YnamarEditors
                             frame.SourceRect;
                     };
 
-                   /* if (Game1.animationPlayerService.IsPlaying)
+                    animationEditor.NewButton.Click += (_, _) =>
                     {
-                        Texture2D animationPlayerTexture = Graphics.Spritesheets[Game1.animationPlayerService.CurrentFrame.TextureId];
-                        animationEditor.AnimationPlayerSprite.Texture = animationPlayerTexture;
-                        animationEditor.AnimationPlayerSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
-                        animationEditor.AnimationPlayerSprite.SourceRectangle = Game1.animationPlayerService.CurrentFrame.SourceRect;
-                    }
-                   */
+                        var item = $"Name: ";
+                        animationEditor.ItemListBox.FormsControl.Items.Add(item);
+                        AnimationClip newAnimationClip = new AnimationClip
+                        {
+                            Name = "",
+                            Id = 0,
+                            Loop = false,
+                            Frames = new List<Models.Animation.AnimationFrame>(),
+                        };
+
+                        fillAnimationClip(newAnimationClip);
+                    };
+
+
+                    animationEditor.SaveButton.Click += async (_, _) =>
+                    {
+                        AnimationClip AnimationClipToSave = new AnimationClip
+                        {
+                            Name = animationEditor.AnimationNameTextBox.Text,
+                            Loop = animationEditor.IsLoopCheckBox.FormsControl.IsChecked ?? false,
+                            Frames = _animationEditorService.CurrentAnimationClip.Frames,
+                        };
+
+                        StartLoading();
+                        await AnimationEditorService.SaveAnimationClip(AnimationClipToSave);
+                    };
+
                     Graphics.LoadGumSpriteSheetResourcePanel(this);
                     break;
 
@@ -468,6 +512,28 @@ namespace YnamarEditors
             npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
+
+        private async Task handleAnimationSelected(int clipId, GraphicalUiElement screenRuntime)
+        {
+            StartLoading();
+            AnimationClip animationClip = await AnimationEditorService.GetAnimationClip(clipId);
+            fillAnimationClip(animationClip);
+        }
+
+        private void fillAnimationClip(AnimationClip animationClip)
+        {
+            AnimationEditorRuntime animationEditor = (AnimationEditorRuntime)_currentScreen;
+            animationEditor.EditorSection.Visible = true;
+            animationEditor.AnimationNameTextBox.Text = animationClip.Name;
+            animationEditor.TextureTextBox.Text = animationClip.Frames.Count > 0 ? animationClip.Frames[0].TextureId.ToString() : "0";
+            animationEditor.IsLoopCheckBox.FormsControl.IsChecked = animationClip.Loop;
+
+            animationClip.Frames.ForEach(frame =>
+            {
+                _animationEditorService.AddFrame(frame);
+                addAnimationFrameToClipList(animationEditor);
+            });
         }
 
         private async Task handleItemSelected(int itemId, GraphicalUiElement screenRuntime)
@@ -557,7 +623,18 @@ namespace YnamarEditors
             animationFrameListItem.DurationTextBox.Text = "1000";
             animationFrameListItem.frameNum = animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count - 1;
             animationFrameListItem.Y = (animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count - 1) * 50;
-
+            animationFrameListItem.RemoveFrameButton.Click += (_, __) =>
+            {
+                _animationEditorService.RemoveFrame(animationFrameListItem.frameNum);
+                animationEditor.AnimationFrameList.InnerPanelInstance.Children.Remove(animationFrameListItem);
+                for (int i = 0; i < animationEditor.AnimationFrameList.InnerPanelInstance.Children.Count; i++)
+                {
+                    var child = animationEditor.AnimationFrameList.InnerPanelInstance.Children[i] as AnimationFrameListItemRuntime;
+                    child.FrameNumberText.Text = $"Frame: {i}";
+                    child.frameNum = i - 1;
+                    child.Y = i * 50;
+                }
+            };
         }
 
         public static void StartLoading()
@@ -572,18 +649,31 @@ namespace YnamarEditors
         {
             FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
 
-            if (sucess)
+            if (feedbackPanel is not null)
             {
-                feedbackPanel.SuccessIcon.Visible = true;
-                feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
-            } else
-            {
-                feedbackPanel.ErrorIcon.Visible = true;
-                feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
-            }
+                if (sucess)
+                {
+                    feedbackPanel.SuccessIcon.Visible = true;
+                    feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
+                }
+                else
+                {
+                    feedbackPanel.ErrorIcon.Visible = true;
+                    feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
+                }
 
-            await Task.Delay(1500);
-            _currentScreen.Children.Remove(feedbackPanel);
+                await Task.Delay(1500);
+                _currentScreen.Children.Remove(feedbackPanel);
+            }
+        }
+
+        public static async Task StopLoadingRemoveFeedbackPanelAsync()
+        {
+            FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
+            if (feedbackPanel is not null)
+            {
+                _currentScreen.Children.Remove(feedbackPanel);
+            }
         }
     }
 }

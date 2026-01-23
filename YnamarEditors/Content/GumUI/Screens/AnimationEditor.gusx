@@ -10,6 +10,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>AddFrameButton.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>AddFrameButton.X</Name>
       <Value xsi:type="xsd:float">38.299995</Value>
@@ -78,6 +84,7 @@
     <Variable>
       <Type>string</Type>
       <Name>AnimationFrameList.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -130,6 +137,12 @@
     </Variable>
     <Variable>
       <Type>string</Type>
+      <Name>AnimationNameTextBox.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
       <Name>AnimationNameTextBox.PlaceholderText</Name>
       <Value xsi:type="xsd:string">Animation Name</Value>
       <SetsValue>true</SetsValue>
@@ -168,6 +181,12 @@
       <Type>DimensionUnitType</Type>
       <Name>AnimationPlayerSprite.HeightUnits</Name>
       <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>AnimationPlayerSprite.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -221,6 +240,7 @@
     <Variable>
       <Type>string</Type>
       <Name>Background.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -233,6 +253,42 @@
       <Type>DimensionUnitType</Type>
       <Name>Background.WidthUnits</Name>
       <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BackgroundSelector.Height</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>BackgroundSelector.HeightUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>BackgroundSelector.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BackgroundSelector.Width</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>BackgroundSelector.WidthUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>BackgroundSelector.Y</Name>
+      <Value xsi:type="xsd:float">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -250,6 +306,7 @@
     <Variable>
       <Type>string</Type>
       <Name>ButtonBackScreen.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -259,9 +316,75 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>ButtonBackScreenSelector.FlipHorizontal</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconCategory</Type>
+      <Name>ButtonBackScreenSelector.IconCategory</Name>
+      <Value xsi:type="xsd:string">Arrow2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ButtonBackScreenSelector.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackScreenSelector.Rotation</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>ChildrenLayout</Type>
+      <Name>EditorSection.ChildrenLayout</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>EditorSection.Height</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>EditorSection.HeightUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>EditorSection.Visible</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>EditorSection.Width</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>EditorSection.WidthUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>IsLoopCheckBox.CheckboxDisplayText</Name>
       <Value xsi:type="xsd:string">Is Loop?</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>IsLoopCheckBox.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -289,6 +412,84 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>ItemListBox.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemListBox.X</Name>
+      <Value xsi:type="xsd:float">12.557477</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ItemListBox.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ItemListBox.Y</Name>
+      <Value xsi:type="xsd:float">21.191568</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ItemListBox.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>NewButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">New</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>NewButton.HeightUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>NewButton.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>NewButton.WidthUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NewButton.X</Name>
+      <Value xsi:type="xsd:float">11.166664</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>NewButton.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>NewButton.Y</Name>
+      <Value xsi:type="xsd:float">69.444405</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>NewButton.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>PlayerRectangle.Blue</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -310,6 +511,12 @@
       <Type>DimensionUnitType</Type>
       <Name>PlayerRectangle.HeightUnits</Name>
       <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>PlayerRectangle.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -363,6 +570,7 @@
     <Variable>
       <Type>string</Type>
       <Name>RemoveFrameButton.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -434,6 +642,7 @@
     <Variable>
       <Type>string</Type>
       <Name>ResourcePanel.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -485,6 +694,162 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>SaveButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Save</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SaveButton.HeightUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SaveButton.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SaveButton.WidthUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SaveButton.X</Name>
+      <Value xsi:type="xsd:float">48.5238</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SaveButton.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SaveButton.Y</Name>
+      <Value xsi:type="xsd:float">49.25393</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SaveButton.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SearchTextBox.Height</Name>
+      <Value xsi:type="xsd:float">40</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SearchTextBox.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SearchTextBox.X</Name>
+      <Value xsi:type="xsd:float">12.701153</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SearchTextBox.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SearchTextBox.Y</Name>
+      <Value xsi:type="xsd:float">12.275864</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SearchTextBox.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SelectButton.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Select</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SelectButton.HeightUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SelectButton.Parent</Name>
+      <Value xsi:type="xsd:string">SelectorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SelectButton.WidthUnits</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectButton.X</Name>
+      <Value xsi:type="xsd:float">29.833338</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SelectButton.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectButton.Y</Name>
+      <Value xsi:type="xsd:float">69.33333</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SelectButton.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectorSection.Height</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SelectorSection.HeightUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectorSection.Width</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SelectorSection.WidthUnits</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>SpritesheetRectangle.Blue</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -506,6 +871,12 @@
       <Type>DimensionUnitType</Type>
       <Name>SpritesheetRectangle.HeightUnits</Name>
       <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SpritesheetRectangle.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -565,6 +936,7 @@
     <Variable>
       <Type>string</Type>
       <Name>StartPlayerButton.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -610,6 +982,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>StopPlayerButton.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>StopPlayerButton.Width</Name>
       <Value xsi:type="xsd:float">48</Value>
@@ -637,6 +1015,12 @@
       <Type>PositionUnitType</Type>
       <Name>StopPlayerButton.YUnits</Name>
       <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>TextureTextBox.Parent</Name>
+      <Value xsi:type="xsd:string">EditorSection</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -682,58 +1066,13 @@
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
-    <Name>ButtonBackScreen</Name>
-    <BaseType>Controls/ButtonIcon</BaseType>
+    <Name>SelectorSection</Name>
+    <BaseType>Container</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
-    <Name>SpritesheetRectangle</Name>
-    <BaseType>Rectangle</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>PlayerRectangle</Name>
-    <BaseType>Rectangle</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>StopPlayerButton</Name>
-    <BaseType>Controls/ButtonIcon</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>IsLoopCheckBox</Name>
-    <BaseType>Controls/CheckBox</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>TextureTextBox</Name>
-    <BaseType>Controls/TextBox</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>StartPlayerButton</Name>
-    <BaseType>Controls/ButtonIcon</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>ResourcePanel</Name>
-    <BaseType>Controls/ScrollViewer</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>AnimationFrameList</Name>
-    <BaseType>Controls/ScrollViewer</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>AnimationNameTextBox</Name>
-    <BaseType>Controls/TextBox</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>AddFrameButton</Name>
-    <BaseType>Controls/ButtonIcon</BaseType>
+    <Name>AnimationPlayerSprite</Name>
+    <BaseType>Sprite</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
@@ -742,8 +1081,98 @@
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
-    <Name>AnimationPlayerSprite</Name>
-    <BaseType>Sprite</BaseType>
+    <Name>AddFrameButton</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>AnimationNameTextBox</Name>
+    <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>AnimationFrameList</Name>
+    <BaseType>Controls/ScrollViewer</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ResourcePanel</Name>
+    <BaseType>Controls/ScrollViewer</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>StartPlayerButton</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>TextureTextBox</Name>
+    <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>IsLoopCheckBox</Name>
+    <BaseType>Controls/CheckBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>StopPlayerButton</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>PlayerRectangle</Name>
+    <BaseType>Rectangle</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>SpritesheetRectangle</Name>
+    <BaseType>Rectangle</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ButtonBackScreen</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>SaveButton</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>EditorSection</Name>
+    <BaseType>Container</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>BackgroundSelector</Name>
+    <BaseType>ColoredRectangle</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ButtonBackScreenSelector</Name>
+    <BaseType>Controls/ButtonIcon</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>ItemListBox</Name>
+    <BaseType>Controls/ListBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>SearchTextBox</Name>
+    <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>NewButton</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>SelectButton</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />
