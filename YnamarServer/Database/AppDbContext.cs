@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using YnamarServer.Database.Models;
+using YnamarServer.Database.Models.Animation;
 using YnamarServer.Database.Models.Items;
 
 namespace YnamarServer.Database
@@ -20,6 +21,9 @@ namespace YnamarServer.Database
         public virtual DbSet<InventorySlot> InventorySlots { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<ItemType> ItemTypes { get; set; }
+        public virtual DbSet<AnimationClip> AnimationClips { get; set; }
+        public virtual DbSet<AnimationFrame> AnimationFrames { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using RenderingLibrary;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +15,7 @@ using YnamarEditors.Interfaces;
 using YnamarEditors.Models;
 using YnamarEditors.Screens;
 using YnamarEditors.Services;
+using YnamarEditors.Services.AnimationEditor;
 using YnamarEditors.Services.MapEditor;
 using static YnamarEditors.Globals;
 using static YnamarEditors.Types;
@@ -29,7 +31,13 @@ public class Game1 : Game
     private MenuManager _menuManager;
     private CommandService _commandService;
     private ResourcePanelService _resourcePanelService;
+    private AnimationResourcePanelService _animationResourcePanelService;
+    public static AnimationPlayerService animationPlayerService = new AnimationPlayerService();
+
     bool wasLeftMouseDown;
+    private bool _isDragging;
+    private int _mouseStartX;
+    private int _mouseStartY;
 
     public Game1()
     {
@@ -55,6 +63,7 @@ public class Game1 : Game
         _menuManager.LoadScreen("EditorSelector");
         _commandService = new CommandService();
         _resourcePanelService = new ResourcePanelService();
+        _animationResourcePanelService = new AnimationResourcePanelService();
 
         base.Initialize();
 
@@ -86,9 +95,14 @@ public class Game1 : Game
         var mouse = Microsoft.Xna.Framework.Input.Mouse.GetState();
         bool isLeftMouseDown = mouse.LeftButton == ButtonState.Pressed;
 
-        if (isLeftMouseDown && !wasLeftMouseDown)
+        if (isLeftMouseDown )
         {
             HandleLeftClick(mouse);
+        }
+
+        if (_isDragging && mouse.LeftButton == ButtonState.Released)
+        {
+            _isDragging = false;
         }
 
         wasLeftMouseDown = isLeftMouseDown;
@@ -185,13 +199,53 @@ public class Game1 : Game
                 }
             }
 
+            if (currentScreen.Name == "AnimationEditor")
+            {
+                var contentPanel = ((AnimationEditorRuntime)currentScreen).ResourcePanel.InnerPanelInstance;
+                float currentX = mouse.X - (float)contentPanel.GetAbsoluteX();
+                float currentY = mouse.Y - (float)contentPanel.GetAbsoluteY();
+
+
+                if (currentX >= 0 && currentY >= 0 &&
+                   currentX < Graphics.Spritesheets[Globals.SelectedSpritesheet].Width &&
+                   currentY < Graphics.Spritesheets[Globals.SelectedSpritesheet].Height)
+                {
+                    if (!_isDragging)
+                    {
+                        _mouseStartX = (int)MathF.Floor(mouse.X - (float)contentPanel.GetAbsoluteX());
+                        _mouseStartY = (int)MathF.Floor(mouse.Y - (float)contentPanel.GetAbsoluteY());
+
+                        _isDragging = true;
+
+                        _animationResourcePanelService.SelectedTileOnResourcePanel(contentPanel, _mouseStartX, _mouseStartY);
+                        return;
+                    }
+                    else
+                    {
+                        int x = (int)MathF.Floor(MathF.Min(_mouseStartX, currentX));
+                        int y = (int)MathF.Floor(MathF.Min(_mouseStartY, currentY));
+
+                        int width = (int)MathF.Floor(MathF.Abs(currentX - _mouseStartX));
+                        int height = (int)MathF.Floor(MathF.Abs(currentY - _mouseStartY));
+
+                        _animationResourcePanelService.UpdateSelectionBox(contentPanel, new System.Drawing.Point(x, y), new System.Drawing.Point(width, height));
+                        return;
+                    }
+                }
+            }
         }
     }
+
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         Graphics.RenderGraphics(GraphicsDevice);
+        if (animationPlayerService.IsPlaying)
+        {
+            animationPlayerService.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        }
+
         Gum.Draw();
 
         // TODO: Add your drawing code here

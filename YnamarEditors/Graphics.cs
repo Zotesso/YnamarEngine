@@ -22,6 +22,7 @@ namespace YnamarEditors
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[2];
+        public static Texture2D[] Spritesheets = new Texture2D[Globals.MAX_SPRITE_SHEET];
         public static Texture2D[] Characters = new Texture2D[Globals.MAX_SPRITES];
 
         public static ScrollBarRuntime verticalScrollbar;
@@ -34,6 +35,7 @@ namespace YnamarEditors
         {
             LoadFonts(manager);
             LoadTilesets(manager);
+            LoadSpritesheets(manager);
             LoadCharacters(manager);
         }
         public static void LoadGumTilesetResourcePanel(MenuManager menuManager)
@@ -88,6 +90,46 @@ namespace YnamarEditors
             selectionBox.Z = tilesetSprite.Z + 1;
 
             InitializeTileEvents(menuManager);
+        }
+
+        public static void LoadGumSpriteSheetResourcePanel(MenuManager menuManager)
+        {
+            AnimationEditorRuntime animationEditorScreen = (AnimationEditorRuntime)menuManager.GetCurrentScreen();
+
+            var resourcePanel = animationEditorScreen.ResourcePanel;
+
+            var tilesetSprite = new SpriteRuntime
+            {
+                Name = "SpriteSheetSprite",
+                Texture = Spritesheets[Globals.SelectedSpritesheet],
+                Width = Spritesheets[Globals.SelectedSpritesheet].Width,
+                Height = Spritesheets[Globals.SelectedSpritesheet].Height,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                X = 0,
+                Y = 0
+            };
+
+            var selectionBox = new RectangleRuntime
+            {
+                Name = "SelectionBox",
+                Width = 0,
+                Height = 0,
+                Color = Microsoft.Xna.Framework.Color.White, // no fill
+                //OutlineColor = Microsoft.Xna.Framework.Color.Yellow,
+                OutlineThickness = 2,
+                XUnits = Gum.Converters.GeneralUnitType.PixelsFromSmall,
+                YUnits = Gum.Converters.GeneralUnitType.PixelsFromSmall,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                Visible = false
+            };
+
+            // Add to Gum screen
+            resourcePanel.InnerPanelInstance.ChildrenLayout = Gum.Managers.ChildrenLayout.Regular;
+            resourcePanel.InnerPanelInstance.Children.Add(tilesetSprite);
+            resourcePanel.InnerPanelInstance.Children.Add(selectionBox);
+            selectionBox.Z = tilesetSprite.Z + 1;
         }
 
         private static void InitializeTileEvents(MenuManager menuManager)
@@ -150,11 +192,11 @@ namespace YnamarEditors
 
         }
 
-        public static void UpdateTilesetPanel(SpriteRuntime tilesetToUpdate)
+        public static void UpdateTilesetPanel(SpriteRuntime tilesetToUpdate, Texture2D textureToUpdate)
         {
-            tilesetToUpdate.Texture = Tilesets[Globals.SelectedTileset];
-            tilesetToUpdate.Width = Tilesets[Globals.SelectedTileset].Width;
-            tilesetToUpdate.Height = Tilesets[Globals.SelectedTileset].Height;
+            tilesetToUpdate.Texture = textureToUpdate;
+            tilesetToUpdate.Width = textureToUpdate.Width;
+            tilesetToUpdate.Height = textureToUpdate.Height;
         }
 
         private static void LoadTilesets(ContentManager manager)
@@ -162,6 +204,13 @@ namespace YnamarEditors
             for (int i = 0; i < Tilesets.Length; i++)
             {
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
+            }
+        }
+        private static void LoadSpritesheets(ContentManager manager)
+        {
+            for (int i = 0; i < Spritesheets.Length; i++)
+            {
+                Spritesheets[i] = manager.Load<Texture2D>("Spritesheets/" + i.ToString());
             }
         }
 

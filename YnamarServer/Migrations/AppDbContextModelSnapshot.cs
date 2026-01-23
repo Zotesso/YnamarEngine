@@ -45,6 +45,62 @@ namespace YnamarServer.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("YnamarServer.Database.Models.Animation.AnimationClip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Loop")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnimationClips");
+                });
+
+            modelBuilder.Entity("YnamarServer.Database.Models.Animation.AnimationFrame", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnimationClipId")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("Duration")
+                        .HasColumnType("real");
+
+                    b.Property<int>("SourceHeight")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceWidth")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceX")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceY")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TextureId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimationClipId");
+
+                    b.ToTable("AnimationFrames");
+                });
+
             modelBuilder.Entity("YnamarServer.Database.Models.Character", b =>
                 {
                     b.Property<int>("Id")
@@ -395,6 +451,17 @@ namespace YnamarServer.Migrations
                     b.ToTable("Tile");
                 });
 
+            modelBuilder.Entity("YnamarServer.Database.Models.Animation.AnimationFrame", b =>
+                {
+                    b.HasOne("YnamarServer.Database.Models.Animation.AnimationClip", "AnimationClip")
+                        .WithMany("Frames")
+                        .HasForeignKey("AnimationClipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnimationClip");
+                });
+
             modelBuilder.Entity("YnamarServer.Database.Models.Character", b =>
                 {
                     b.HasOne("YnamarServer.Database.Models.Account", "Account")
@@ -495,6 +562,11 @@ namespace YnamarServer.Migrations
             modelBuilder.Entity("YnamarServer.Database.Models.Account", b =>
                 {
                     b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("YnamarServer.Database.Models.Animation.AnimationClip", b =>
+                {
+                    b.Navigation("Frames");
                 });
 
             modelBuilder.Entity("YnamarServer.Database.Models.Character", b =>
