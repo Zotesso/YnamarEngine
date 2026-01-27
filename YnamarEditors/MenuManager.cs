@@ -32,6 +32,7 @@ namespace YnamarEditors
     {
         private GumProjectSave _gumProject;
         private static GraphicalUiElement _currentScreen;
+        private static FeedbackPanelRuntime _feedbackPanel;
         private AnimationEditorService _animationEditorService = new AnimationEditorService();
 
         public MenuManager(GumProjectSave gumProject)
@@ -289,6 +290,7 @@ namespace YnamarEditors
 
                     ItemList itemList = await ItemEditorService.ListItems();
                     List<ItemType> itemTypeList = await ItemEditorService.ListItemType();
+                    AnimationClipList animationItemList = await AnimationEditorService.ListAnimationClips();
 
                     foreach (ItemSummary itemSummary in itemList.ItemsSummary)
                     {
@@ -302,11 +304,30 @@ namespace YnamarEditors
                         itemEditor.ItemTypeComboBox.FormsControl.Items.Add(type);
                     }
 
+                    itemEditor.AnimationComboBox.FormsControl.Items.Clear();
+
+
+                    foreach (var animationSummary in animationItemList.AnimationClipSummaryList)
+                    {
+                        itemEditor.AnimationComboBox.FormsControl.Items.Add(
+                            $"Animation: {animationSummary.Name} Id: {animationSummary.Id}"
+                        );
+                    }
+
+                    itemEditor.ItemListBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleItemSelected(itemEditor.ItemListBox.FormsControl.SelectedIndex, screenRuntime);
+                    };
+
                     itemEditor.ItemTypeComboBox.FormsControl.SelectionChanged += (sender, args) =>
                     {
-                        handleItemSelected(itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex, screenRuntime);
+                        itemEditor.AnimationContainer.Visible = itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex == 1;
                     };
-                    
+
+                    itemEditor.AnimationComboBox.FormsControl.SelectionChanged += (sender, args) =>
+                    {
+                        handleItemAnimationSelected(itemEditor.AnimationComboBox.FormsControl.SelectedIndex);
+                    };
 
                     itemEditor.ItemSpriteTextBox.FormsControl.TextChanged += async (textObject, textInput) =>
                     {
@@ -323,7 +344,7 @@ namespace YnamarEditors
                             itemSpriteNum = 0;
                         }
 
-                        Texture2D itemSprite = Graphics.Characters[itemSpriteNum];
+                        Texture2D itemSprite = Graphics.Items[itemSpriteNum];
                         itemEditor.ItemSprite.Texture = itemSprite;
                         itemEditor.ItemSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
                         itemEditor.ItemSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 32, 32, 32);
@@ -354,6 +375,7 @@ namespace YnamarEditors
                             Type = (byte)itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex,
                             Stackable = itemEditor.CheckBoxInstance.FormsControl.IsChecked ?? false,
                             Sprite = int.Parse(itemEditor.ItemSpriteTextBox.Text),
+                            AnimationClipId = itemEditor.AnimationContainer.Visible ? (int?)itemEditor.AnimationComboBox.FormsControl.SelectedIndex : null,
                         };
 
                         StartLoading();
@@ -536,6 +558,15 @@ namespace YnamarEditors
             });
         }
 
+        private async Task handleItemAnimationSelected(int animationId)
+        {
+            AnimationClip animationClip = await AnimationEditorService.GetAnimationClip(animationId);
+            ItemEditorRuntime itemEditor = (ItemEditorRuntime)_currentScreen;
+            itemEditor.AnimationSprite.Texture = Graphics.Spritesheets[animationClip.Frames[0].TextureId];
+            itemEditor.AnimationSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+            itemEditor.AnimationSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, 32, 32);
+        }
+
         private async Task handleItemSelected(int itemId, GraphicalUiElement screenRuntime)
         {
             Item itemSummary = await ItemEditorService.GetItemSummary(itemId);
@@ -639,40 +670,39 @@ namespace YnamarEditors
 
         public static void StartLoading()
         {
-            FeedbackPanelRuntime feedbackPanel = new FeedbackPanelRuntime();
-            feedbackPanel.Name = "FeedbackPanel";
-            feedbackPanel.Z = 999;
-            _currentScreen.Children.Add(feedbackPanel);
+            _feedbackPanel = new FeedbackPanelRuntime();
+            _feedbackPanel.Name = "FeedbackPanel";
+            _feedbackPanel.Z = 999;
+            _currentScreen.Children.Add(_feedbackPanel);
         }
 
         public static async Task StopLoadingAsync(Boolean sucess)
         {
-            FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
-
-            if (feedbackPanel is not null)
+            if (_feedbackPanel != null)
             {
                 if (sucess)
                 {
-                    feedbackPanel.SuccessIcon.Visible = true;
-                    feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
+                    _feedbackPanel.SuccessIcon.Visible = true;
+                    _feedbackPanel.TextInstance.Text = "Salvo com Sucesso - Successfully Saved";
                 }
                 else
                 {
-                    feedbackPanel.ErrorIcon.Visible = true;
-                    feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
+                    _feedbackPanel.ErrorIcon.Visible = true;
+                    _feedbackPanel.TextInstance.Text = "Erro ao Salvar - Error while saving";
                 }
 
                 await Task.Delay(1500);
-                _currentScreen.Children.Remove(feedbackPanel);
+                _currentScreen.Children.Remove(_feedbackPanel);
+                _feedbackPanel = null;
             }
         }
 
         public static async Task StopLoadingRemoveFeedbackPanelAsync()
         {
-            FeedbackPanelRuntime feedbackPanel = (FeedbackPanelRuntime)_currentScreen.GetGraphicalUiElementByName("FeedbackPanel");
-            if (feedbackPanel is not null)
+            if (_feedbackPanel != null)
             {
-                _currentScreen.Children.Remove(feedbackPanel);
+                _currentScreen.Children.Remove(_feedbackPanel);
+                _feedbackPanel = null;
             }
         }
     }

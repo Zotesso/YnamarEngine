@@ -14,7 +14,7 @@ namespace YnamarEditors
         public const int MIN_LAYERS = 0;
         public const int MAX_SPRITES = 3;
         public const int MAX_SPRITE_SHEET = 1;
-        public const int MAX_ITEM_SPRITES = 3;
+        public const int MAX_ITEM_SPRITES = 1;
 
         // Variables
         public static bool isLoadingMap = false;

@@ -497,6 +497,48 @@
         "ElementType": "Screens",
         "EventType": 7,
         "TimestampUtc": "2026-01-23T02:45:13.8502322Z"
+      },
+      {
+        "NewName": "ItemEditor.ContainerInstance",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-26T23:59:42.0108878Z"
+      },
+      {
+        "NewName": "ItemEditor.AnimationContainer",
+        "OldName": "ItemEditor.ContainerInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-26T23:59:47.808338Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemTypeComboBox1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-27T00:00:48.6559858Z"
+      },
+      {
+        "NewName": "ItemEditor.AnimationComboBox",
+        "OldName": "ItemEditor.ItemTypeComboBox1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-27T00:01:57.6861387Z"
+      },
+      {
+        "NewName": "ItemEditor.ItemSprite1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-01-27T00:02:03.4940926Z"
+      },
+      {
+        "NewName": "ItemEditor.AnimationSprite",
+        "OldName": "ItemEditor.ItemSprite1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-01-27T00:02:13.812683Z"
       }
     ]
   }
