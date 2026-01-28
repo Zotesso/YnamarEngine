@@ -38,9 +38,8 @@ partial class ItemEditorRuntime : Gum.Wireframe.BindableGue
     public TextRuntime ItemTypeText { get; protected set; }
     public ComboBoxRuntime ItemTypeComboBox { get; protected set; }
     public CheckBoxRuntime CheckBoxInstance { get; protected set; }
-    public ContainerRuntime AnimationContainer { get; protected set; }
-    public ComboBoxRuntime AnimationComboBox { get; protected set; }
     public SpriteRuntime AnimationSprite { get; protected set; }
+    public ComboBoxRuntime AnimationComboBox { get; protected set; }
 
     public ItemEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
     {
@@ -71,9 +70,8 @@ partial class ItemEditorRuntime : Gum.Wireframe.BindableGue
         ItemTypeText = this.GetGraphicalUiElementByName("ItemTypeText") as global::MonoGameGum.GueDeriving.TextRuntime;
         ItemTypeComboBox = this.GetGraphicalUiElementByName("ItemTypeComboBox") as YnamarEditors.Components.ComboBoxRuntime;
         CheckBoxInstance = this.GetGraphicalUiElementByName("CheckBoxInstance") as YnamarEditors.Components.CheckBoxRuntime;
-        AnimationContainer = this.GetGraphicalUiElementByName("AnimationContainer") as global::MonoGameGum.GueDeriving.ContainerRuntime;
-        AnimationComboBox = this.GetGraphicalUiElementByName("AnimationComboBox") as YnamarEditors.Components.ComboBoxRuntime;
         AnimationSprite = this.GetGraphicalUiElementByName("AnimationSprite") as global::MonoGameGum.GueDeriving.SpriteRuntime;
+        AnimationComboBox = this.GetGraphicalUiElementByName("AnimationComboBox") as YnamarEditors.Components.ComboBoxRuntime;
         CustomInitialize();
     }
     //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code

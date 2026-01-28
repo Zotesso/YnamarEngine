@@ -6,25 +6,24 @@
     <Variable>
       <Type>string</Type>
       <Name>AnimationComboBox.Parent</Name>
-      <Value xsi:type="xsd:string">AnimationContainer</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>AnimationComboBox.Width</Name>
-      <Value xsi:type="xsd:float">100</Value>
+      <Value xsi:type="xsd:float">196</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>DimensionUnitType</Type>
       <Name>AnimationComboBox.WidthUnits</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>AnimationComboBox.X</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Value xsi:type="xsd:float">37.125</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -36,48 +35,12 @@
     <Variable>
       <Type>float</Type>
       <Name>AnimationComboBox.Y</Name>
-      <Value xsi:type="xsd:float">40</Value>
+      <Value xsi:type="xsd:float">57.333317</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>AnimationComboBox.YUnits</Name>
-      <Value xsi:type="xsd:int">3</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>bool</Type>
-      <Name>AnimationContainer.Visible</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>AnimationContainer.Width</Name>
-      <Value xsi:type="xsd:float">245</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>AnimationContainer.X</Name>
-      <Value xsi:type="xsd:float">4.75</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>AnimationContainer.XUnits</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>AnimationContainer.Y</Name>
-      <Value xsi:type="xsd:float">66.166664</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>AnimationContainer.YUnits</Name>
       <Value xsi:type="xsd:int">3</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -96,7 +59,6 @@
     <Variable>
       <Type>string</Type>
       <Name>AnimationSprite.Parent</Name>
-      <Value xsi:type="xsd:string">AnimationContainer</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -126,7 +88,7 @@
     <Variable>
       <Type>float</Type>
       <Name>AnimationSprite.Y</Name>
-      <Value xsi:type="xsd:float">9</Value>
+      <Value xsi:type="xsd:float">70</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -774,18 +736,13 @@
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
-    <Name>AnimationContainer</Name>
-    <BaseType>Container</BaseType>
+    <Name>AnimationSprite</Name>
+    <BaseType>Sprite</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
     <Name>AnimationComboBox</Name>
     <BaseType>Controls/ComboBox</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>AnimationSprite</Name>
-    <BaseType>Sprite</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Behaviors />

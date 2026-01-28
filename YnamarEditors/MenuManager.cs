@@ -287,10 +287,28 @@ namespace YnamarEditors
                         LoadScreen("EditorSelector");
                     };
 
-
                     ItemList itemList = await ItemEditorService.ListItems();
                     List<ItemType> itemTypeList = await ItemEditorService.ListItemType();
                     AnimationClipList animationItemList = await AnimationEditorService.ListAnimationClips();
+
+                    itemEditor.AnimationComboBox.FormsControl.Items.Add(new
+                    {
+                        Text = "No animation selected",
+                        Id = 0
+                    });
+                    ;
+
+                    itemEditor.AnimationComboBox.FormsControl.SelectedIndex = 0;
+                    foreach (AnimationClipSummary animationSummary in animationItemList.AnimationClipSummaryList)
+                    {
+                        itemEditor.AnimationComboBox.FormsControl.Items.Add(new
+                        {
+                            Text = animationSummary.Name,
+                            Id = animationSummary.Id
+                        });
+                        ;
+
+                    }
 
                     foreach (ItemSummary itemSummary in itemList.ItemsSummary)
                     {
@@ -303,17 +321,7 @@ namespace YnamarEditors
                         var type = $"Name: {itemType.Name}";
                         itemEditor.ItemTypeComboBox.FormsControl.Items.Add(type);
                     }
-
-                    itemEditor.AnimationComboBox.FormsControl.Items.Clear();
-
-
-                    foreach (var animationSummary in animationItemList.AnimationClipSummaryList)
-                    {
-                        itemEditor.AnimationComboBox.FormsControl.Items.Add(
-                            $"Animation: {animationSummary.Name} Id: {animationSummary.Id}"
-                        );
-                    }
-
+                   
                     itemEditor.ItemListBox.FormsControl.SelectionChanged += (sender, args) =>
                     {
                         handleItemSelected(itemEditor.ItemListBox.FormsControl.SelectedIndex, screenRuntime);
@@ -321,7 +329,8 @@ namespace YnamarEditors
 
                     itemEditor.ItemTypeComboBox.FormsControl.SelectionChanged += (sender, args) =>
                     {
-                        itemEditor.AnimationContainer.Visible = itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex == 1;
+                        itemEditor.AnimationComboBox.Visible = itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex == 1;
+                        itemEditor.AnimationSprite.Visible = itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex == 1;
                     };
 
                     itemEditor.AnimationComboBox.FormsControl.SelectionChanged += (sender, args) =>
@@ -375,7 +384,7 @@ namespace YnamarEditors
                             Type = (byte)itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex,
                             Stackable = itemEditor.CheckBoxInstance.FormsControl.IsChecked ?? false,
                             Sprite = int.Parse(itemEditor.ItemSpriteTextBox.Text),
-                            AnimationClipId = itemEditor.AnimationContainer.Visible ? (int?)itemEditor.AnimationComboBox.FormsControl.SelectedIndex : null,
+                            AnimationClipId = itemEditor.AnimationComboBox.Visible ? (int?)itemEditor.AnimationComboBox.FormsControl.SelectedIndex : null,
                         };
 
                         StartLoading();
@@ -560,11 +569,14 @@ namespace YnamarEditors
 
         private async Task handleItemAnimationSelected(int animationId)
         {
-            AnimationClip animationClip = await AnimationEditorService.GetAnimationClip(animationId);
-            ItemEditorRuntime itemEditor = (ItemEditorRuntime)_currentScreen;
-            itemEditor.AnimationSprite.Texture = Graphics.Spritesheets[animationClip.Frames[0].TextureId];
-            itemEditor.AnimationSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
-            itemEditor.AnimationSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, 32, 32);
+            if (animationId > 0)
+            {
+                AnimationClip animationClip = await AnimationEditorService.GetAnimationClip(animationId);
+                ItemEditorRuntime itemEditor = (ItemEditorRuntime)_currentScreen;
+                itemEditor.AnimationSprite.Texture = Graphics.Spritesheets[animationClip.Frames[0].TextureId];
+                itemEditor.AnimationSprite.TextureAddress = Gum.Managers.TextureAddress.Custom;
+                itemEditor.AnimationSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, 32, 32);
+            }
         }
 
         private async Task handleItemSelected(int itemId, GraphicalUiElement screenRuntime)
@@ -582,6 +594,7 @@ namespace YnamarEditors
             itemEditor.CheckBoxInstance.FormsControl.IsChecked = itemSummary.Stackable;
 
             itemEditor.ItemTypeComboBox.FormsControl.SelectedIndex = itemSummary.Type;
+            itemEditor.AnimationComboBox.FormsControl.SelectedIndex = itemSummary.AnimationClipId ?? 0;
         }
 
         public async Task openNpcSelection()
