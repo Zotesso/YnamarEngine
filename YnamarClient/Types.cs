@@ -65,6 +65,9 @@ namespace YnamarClient
             [ProtoMember(14)]
             public Inventory Inventory;
 
+            [ProtoMember(15)]
+            public ICollection<PlayerEquipament> EquippedItems { get; set; }
+
             public int AttackCooldown;
             public bool Attacking;
         }

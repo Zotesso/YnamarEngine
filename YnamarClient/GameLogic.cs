@@ -125,6 +125,11 @@ namespace YnamarClient
                 {
                     if (!Types.Player[Globals.playerIndex].Attacking)
                     {
+                        if (Types.Player[Globals.playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip is not null)
+                        {
+                            Console.WriteLine("attaque");
+                        };
+
                         Types.Player[Globals.playerIndex].Attacking = true;
                         Types.Player[Globals.playerIndex].AttackCooldown = Tick;
                         NetworkManager.Client.SendPlayerAttack();

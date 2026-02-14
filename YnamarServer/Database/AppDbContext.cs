@@ -23,6 +23,7 @@ namespace YnamarServer.Database
         public virtual DbSet<ItemType> ItemTypes { get; set; }
         public virtual DbSet<AnimationClip> AnimationClips { get; set; }
         public virtual DbSet<AnimationFrame> AnimationFrames { get; set; }
+        public virtual DbSet<PlayerEquipament> PlayerEquipaments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,6 +73,15 @@ namespace YnamarServer.Database
                 .WithMany()   // one-way association
                 .HasForeignKey(d => d.ItemId)
                 .IsRequired(true);
+
+            modelBuilder.Entity<PlayerEquipament>()
+                .HasKey(pe => new { pe.CharacterId, pe.Slot });
+
+            modelBuilder.Entity<PlayerEquipament>()
+                .HasOne(pe => pe.Character)
+                .WithMany(c => c.EquippedItems)
+                .HasForeignKey(pe => pe.CharacterId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

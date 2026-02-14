@@ -34,7 +34,7 @@ namespace YnamarServer.Database.Models
         [ProtoMember(6)]
         public int? AnimationClipId { get; set; }
 
-        [ProtoIgnore]
+        [ProtoMember(7)]
         [ForeignKey(nameof(AnimationClipId))]
         public AnimationClip? AnimationClip { get; set; }
     }
