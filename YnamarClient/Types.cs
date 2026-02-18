@@ -6,16 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Database.Models;
+using YnamarClient.Services;
 
 namespace YnamarClient
 {
     internal class Types
     {
-        public static PlayerStruct[] Player = new PlayerStruct[100];
+        public static Player[] Players = new Player[100];
         public static MapStruct[] Map = new MapStruct[100];
 
         [ProtoContract]
-        public struct PlayerStruct
+        public class Player
         {
             public string Login;
             public string Password;
@@ -70,6 +71,7 @@ namespace YnamarClient
 
             public int AttackCooldown;
             public bool Attacking;
+            public AnimationPlayerService WeaponAnim = new AnimationPlayerService();
         }
 
         [Serializable]

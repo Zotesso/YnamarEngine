@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using static YnamarClient.Network.NetworkPackets;
+using static YnamarClient.Types;
 
 namespace YnamarClient.Network
 {
@@ -17,7 +18,7 @@ namespace YnamarClient.Network
         private bool connecting;
         private bool connected;
 
-        public static Types.PlayerStruct[] Player = new Types.PlayerStruct[Constants.MAX_PLAYERS];
+        public static Player[] Player = new Player[Constants.MAX_PLAYERS];
 
         public void ConnectToServer()
         {
@@ -81,7 +82,7 @@ namespace YnamarClient.Network
         public static bool IsPlaying(int index)
         {
 
-            if (Types.Player[index].Name != null)
+            if (Types.Players[index] is not null)
             {
                 return true;
             }
@@ -125,8 +126,8 @@ namespace YnamarClient.Network
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)ClientTcpPackets.CPlayerMove);
 
-            buffer.AddByte(Types.Player[Globals.playerIndex].Dir);
-            buffer.AddInteger(Types.Player[Globals.playerIndex].Moving);
+            buffer.AddByte(Types.Players[Globals.playerIndex].Dir);
+            buffer.AddInteger(Types.Players[Globals.playerIndex].Moving);
 
             SendData(buffer.ToArray());
             buffer.Dispose();
@@ -136,7 +137,7 @@ namespace YnamarClient.Network
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)ClientTcpPackets.CLoadMap);
-            buffer.AddInteger(Types.Player[Globals.playerIndex].Map);
+            buffer.AddInteger(Types.Players[Globals.playerIndex].Map);
 
             SendData(buffer.ToArray());
             buffer.Dispose();

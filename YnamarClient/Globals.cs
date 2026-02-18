@@ -13,6 +13,8 @@ namespace YnamarClient
         public static int playerIndex;
         public static Types.MapStruct PlayerMap;
 
+        public const int MAX_SPRITE_SHEET = 1;
+
         public static string loginUsername = "";
         public static string loginPassword = "";
 
