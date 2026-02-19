@@ -52,5 +52,8 @@ namespace YnamarClient.Database.Models
 
         [ProtoMember(14)]
         public Inventory Inventory { get; set; } = null!;
+
+        [ProtoMember(15)]
+        public ICollection<PlayerEquipament> EquippedItems { get; set; }
     }
 }

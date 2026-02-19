@@ -30,34 +30,34 @@ namespace YnamarClient
 
         public static bool CanMove()
         {
-            if (Types.Player[Globals.playerIndex].Moving != 0)
+            if (Types.Players[Globals.playerIndex].Moving != 0)
             {
                 return false;
             }
 
-            int dir = Types.Player[Globals.playerIndex].Dir;
+            int dir = Types.Players[Globals.playerIndex].Dir;
 
-            if (Globals.DirUp && Types.Player[Globals.playerIndex].Y > 0)
+            if (Globals.DirUp && Types.Players[Globals.playerIndex].Y > 0)
             {
-                Types.Player[Globals.playerIndex].Dir = Constants.DIR_UP;
+                Types.Players[Globals.playerIndex].Dir = Constants.DIR_UP;
                 return true;
 
             }
-            if (Globals.DirDown && Types.Player[Globals.playerIndex].Y < Constants.MAX_MAP_Y)
+            if (Globals.DirDown && Types.Players[Globals.playerIndex].Y < Constants.MAX_MAP_Y)
             {
-                Types.Player[Globals.playerIndex].Dir = Constants.DIR_DOWN;
+                Types.Players[Globals.playerIndex].Dir = Constants.DIR_DOWN;
                 return true;
 
             }
-            if (Globals.DirRight && Types.Player[Globals.playerIndex].X < Constants.MAX_MAP_X)
+            if (Globals.DirRight && Types.Players[Globals.playerIndex].X < Constants.MAX_MAP_X)
             {
-                Types.Player[Globals.playerIndex].Dir = Constants.DIR_RIGHT;
+                Types.Players[Globals.playerIndex].Dir = Constants.DIR_RIGHT;
                 return true;
 
             }
-            if (Globals.DirLeft && Types.Player[Globals.playerIndex].X > 0)
+            if (Globals.DirLeft && Types.Players[Globals.playerIndex].X > 0)
             {
-                Types.Player[Globals.playerIndex].Dir = Constants.DIR_LEFT;
+                Types.Players[Globals.playerIndex].Dir = Constants.DIR_LEFT;
                 return true;
 
             }
@@ -72,20 +72,20 @@ namespace YnamarClient
             switch (direction)
             {
                 case Constants.DIR_UP:
-                    X = Types.Player[Globals.playerIndex].X;
-                    Y = Types.Player[Globals.playerIndex].Y - 1;
+                    X = Types.Players[Globals.playerIndex].X;
+                    Y = Types.Players[Globals.playerIndex].Y - 1;
                     break;
                 case Constants.DIR_DOWN:
-                    X = Types.Player[Globals.playerIndex].X;
-                    Y = Types.Player[Globals.playerIndex].Y + 1;
+                    X = Types.Players[Globals.playerIndex].X;
+                    Y = Types.Players[Globals.playerIndex].Y + 1;
                     break;
                 case Constants.DIR_LEFT:
-                    X = Types.Player[Globals.playerIndex].X - 1;
-                    Y = Types.Player[Globals.playerIndex].Y;
+                    X = Types.Players[Globals.playerIndex].X - 1;
+                    Y = Types.Players[Globals.playerIndex].Y;
                     break;
                 case Constants.DIR_RIGHT:
-                    X = Types.Player[Globals.playerIndex].X + 1;
-                    Y = Types.Player[Globals.playerIndex].Y;
+                    X = Types.Players[Globals.playerIndex].X + 1;
+                    Y = Types.Players[Globals.playerIndex].Y;
                     break;
             }
 
@@ -98,7 +98,7 @@ namespace YnamarClient
             {
                 if (CanMove())
                 {
-                    switch (Types.Player[Globals.playerIndex].Dir)
+                    switch (Types.Players[Globals.playerIndex].Dir)
                     {
                         case Constants.DIR_UP:
                             clienttcp.SendPlayerMove();
@@ -121,12 +121,17 @@ namespace YnamarClient
             if (IsTryingToAttack())
             {
                 int attackSpeed = 1000;
-                if (Types.Player[Globals.playerIndex].AttackCooldown + attackSpeed < Tick)
+                if (Types.Players[Globals.playerIndex].AttackCooldown + attackSpeed < Tick)
                 {
-                    if (!Types.Player[Globals.playerIndex].Attacking)
+                    if (!Types.Players[Globals.playerIndex].Attacking)
                     {
-                        Types.Player[Globals.playerIndex].Attacking = true;
-                        Types.Player[Globals.playerIndex].AttackCooldown = Tick;
+                        if (Types.Players[Globals.playerIndex].EquippedItems is not null && Types.Players[Globals.playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip is not null)
+                        {
+                            Types.Players[Globals.playerIndex].WeaponAnim.Play(Types.Players[Globals.playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip);
+                        }
+
+                        Types.Players[Globals.playerIndex].Attacking = true;
+                        Types.Players[Globals.playerIndex].AttackCooldown = Tick;
                         NetworkManager.Client.SendPlayerAttack();
                     }
                 }
@@ -137,67 +142,67 @@ namespace YnamarClient
         {
             int movementSpeed = 6;//(Types.Player[index].Moving * 6);
 
-            switch (Types.Player[index].Dir)
+            switch (Types.Players[index].Dir)
             {
                 case Constants.DIR_UP:
-                    Types.Player[index].YOffset -= movementSpeed;
-                    if (Types.Player[index].YOffset < 0)
+                    Types.Players[index].YOffset -= movementSpeed;
+                    if (Types.Players[index].YOffset < 0)
                     {
-                        Types.Player[index].YOffset = 0;
+                        Types.Players[index].YOffset = 0;
                     }
                     break;
                 case Constants.DIR_DOWN:
-                    Types.Player[index].YOffset += movementSpeed;
-                    if (Types.Player[index].YOffset > 0)
+                    Types.Players[index].YOffset += movementSpeed;
+                    if (Types.Players[index].YOffset > 0)
                     {
-                        Types.Player[index].YOffset = 0;
+                        Types.Players[index].YOffset = 0;
                     }
                     break;
                 case Constants.DIR_LEFT:
-                    Types.Player[index].XOffset -= movementSpeed;
-                    if (Types.Player[index].XOffset < 0)
+                    Types.Players[index].XOffset -= movementSpeed;
+                    if (Types.Players[index].XOffset < 0)
                     {
-                        Types.Player[index].XOffset = 0;
+                        Types.Players[index].XOffset = 0;
                     }
                     break;
                 case Constants.DIR_RIGHT:
-                    Types.Player[index].XOffset += movementSpeed;
-                    if (Types.Player[index].XOffset > 0)
+                    Types.Players[index].XOffset += movementSpeed;
+                    if (Types.Players[index].XOffset > 0)
                     {
-                        Types.Player[index].XOffset = 0;
+                        Types.Players[index].XOffset = 0;
                     }
                     break;
             }
 
-            if (Types.Player[index].Moving > 0)
+            if (Types.Players[index].Moving > 0)
             {
-                if (Types.Player[index].Dir == Constants.DIR_RIGHT || Types.Player[index].Dir == Constants.DIR_DOWN)
+                if (Types.Players[index].Dir == Constants.DIR_RIGHT || Types.Players[index].Dir == Constants.DIR_DOWN)
                 {
-                    if (Types.Player[index].XOffset >= 0 && Types.Player[index].YOffset >= 0)
+                    if (Types.Players[index].XOffset >= 0 && Types.Players[index].YOffset >= 0)
                     {
-                        Types.Player[index].Moving = 0;
-                        if (Types.Player[index].Steps == 0)
+                        Types.Players[index].Moving = 0;
+                        if (Types.Players[index].Steps == 0)
                         {
-                            Types.Player[index].Steps = 2;
+                            Types.Players[index].Steps = 2;
                         }
                         else
                         {
-                            Types.Player[index].Steps = 0;
+                            Types.Players[index].Steps = 0;
                         }
                     }
                 }
                 else
                 {
-                    if (Types.Player[index].XOffset <= 0 && Types.Player[index].YOffset <= 0)
+                    if (Types.Players[index].XOffset <= 0 && Types.Players[index].YOffset <= 0)
                     {
-                        Types.Player[index].Moving = 0;
-                        if (Types.Player[index].Steps == 0)
+                        Types.Players[index].Moving = 0;
+                        if (Types.Players[index].Steps == 0)
                         {
-                            Types.Player[index].Steps = 2;
+                            Types.Players[index].Steps = 2;
                         }
                         else
                         {
-                            Types.Player[index].Steps = 0;
+                            Types.Players[index].Steps = 0;
                         }
                     }
                 }

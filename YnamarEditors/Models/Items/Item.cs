@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarEditors.Models.Animation;
 
 namespace YnamarEditors.Models
 {
@@ -28,5 +30,12 @@ namespace YnamarEditors.Models
 
         [ProtoMember(5)]
         public int Sprite { get; set; }
+
+        [ProtoMember(6)]
+        public int? AnimationClipId { get; set; }
+
+        [ProtoIgnore]
+        [ForeignKey(nameof(AnimationClipId))]
+        public AnimationClip? AnimationClip { get; set; }
     }
 }

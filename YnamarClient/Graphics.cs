@@ -6,6 +6,7 @@ using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using YnamarClient.Network;
 using YnamarClient.Database.Models;
+using System.Linq;
 
 namespace YnamarClient
 {
@@ -14,6 +15,7 @@ namespace YnamarClient
 
         public static Texture2D[] Characters = new Texture2D[3];
         public static Texture2D[] Tilesets = new Texture2D[2];
+        public static Texture2D[] Spritesheets = new Texture2D[Globals.MAX_SPRITE_SHEET];
         public static Texture2D[] Items = new Texture2D[1];
         private static SpriteFont font;
 
@@ -25,6 +27,7 @@ namespace YnamarClient
             LoadFonts(manager);
             LoadCharacters(manager);
             LoadTilesets(manager);
+            LoadSpritesheets(manager);
             LoadItems(manager);
             LoadGFX(manager);
         }
@@ -46,6 +49,14 @@ namespace YnamarClient
             for (int i = 0; i < Tilesets.Length; i++)
             {
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
+            }
+        }
+
+        private static void LoadSpritesheets(ContentManager manager)
+        {
+            for (int i = 0; i < Spritesheets.Length; i++)
+            {
+                Spritesheets[i] = manager.Load<Texture2D>("Spritesheets/" + i.ToString());
             }
         }
 
@@ -85,45 +96,68 @@ namespace YnamarClient
 
             anim = 1;
             int attackSpeed = 1000;
+            int animOffsetX = 0, animOffsetY = 0;
 
-            switch (Types.Player[index].Dir)
+            switch (Types.Players[index].Dir)
             {
                 case Constants.DIR_UP:
                     spriteLeft = 3;
-                    if (Types.Player[index].YOffset > 8)
-                        anim = Types.Player[index].Steps;
+                    animOffsetY = -32;
+                    if (Types.Players[index].YOffset > 8)
+                        anim = Types.Players[index].Steps;
                     break;
                 case Constants.DIR_DOWN:
                     spriteLeft = 0;
-                    if (Types.Player[index].YOffset < -8)
-                        anim = Types.Player[index].Steps;
+                    animOffsetY = 32;
+                    if (Types.Players[index].YOffset < -8)
+                        anim = Types.Players[index].Steps;
                     break;
                 case Constants.DIR_LEFT:
                     spriteLeft = 1;
-                    if (Types.Player[index].XOffset > 8)
-                        anim = Types.Player[index].Steps;
+                    animOffsetX = -32;
+                    if (Types.Players[index].XOffset > 8)
+                        anim = Types.Players[index].Steps;
                     break;
                 case Constants.DIR_RIGHT:
                     spriteLeft = 2;
-                    if (Types.Player[index].XOffset < -8)
-                        anim = Types.Player[index].Steps;
+                    animOffsetX = 32;
+                    if (Types.Players[index].XOffset < -8)
+                        anim = Types.Players[index].Steps;
                     break;
             }
 
-            if ((Types.Player[index].AttackCooldown + (attackSpeed / 2) > (int)gameTime.TotalGameTime.TotalMilliseconds) && Types.Player[index].Attacking) 
+
+            if ((Types.Players[index].AttackCooldown + (attackSpeed / 2) > (int)gameTime.TotalGameTime.TotalMilliseconds) && Types.Players[index].Attacking) 
             {
                 anim = 3;
             }
 
-            if (Types.Player[index].AttackCooldown + attackSpeed < (int)gameTime.TotalGameTime.TotalMilliseconds)
+            if (Types.Players[index].AttackCooldown + attackSpeed < (int)gameTime.TotalGameTime.TotalMilliseconds)
             {
-                Types.Player[index].Attacking = false;
-                Types.Player[index].AttackCooldown = 0;
+                Types.Players[index].Attacking = false;
+                Types.Players[index].AttackCooldown = 0;
             }
 
             srcrec = new Rectangle((anim) * (Characters[SpriteNum].Width / 4), spriteLeft * (Characters[SpriteNum].Height / 4), Characters[SpriteNum].Width / 4, Characters[SpriteNum].Height / 4);
-            X = Types.Player[index].X * 32 + Types.Player[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
-            Y = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
+            X = Types.Players[index].X * 32 + Types.Players[index].XOffset - ((Characters[SpriteNum].Width / 4 - 32) / 2);
+            Y = Types.Players[index].Y * 32 + Types.Players[index].YOffset;
+
+            if (Types.Players[index].WeaponAnim is not null)
+            {
+                Types.Players[index].WeaponAnim.Update(gameTime);
+
+                if (Types.Players[index].WeaponAnim.IsPlaying)
+                {
+                    //Acabar aqui o srcrec
+                    var frameRectangle = Types.Players[index].WeaponAnim.CurrentFrame.SourceRect;
+                    Rectangle rectAnimation = new Rectangle(frameRectangle.X, frameRectangle.Y, frameRectangle.Width, frameRectangle.Height);
+                    var animX = ConvertMapX(X + animOffsetX);
+                    var animY = ConvertMapY(Y + animOffsetY);
+
+                    DrawAttackAnimation(animX, animY, Types.Players[index].WeaponAnim.CurrentTexture, rectAnimation);
+                }
+
+            }
 
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
@@ -131,19 +165,19 @@ namespace YnamarClient
         private static void DrawPlayerName(int index)
         {
 
-            int xoffset = Types.Player[index].X * 32 + Types.Player[index].XOffset;
-            int yoffset = Types.Player[index].Y * 32 + Types.Player[index].YOffset;
-            double logPlayerNameLength = Math.Log(Types.Player[index].Name.Length, 10);
+            int xoffset = Types.Players[index].X * 32 + Types.Players[index].XOffset;
+            int yoffset = Types.Players[index].Y * 32 + Types.Players[index].YOffset;
+            double logPlayerNameLength = Math.Log(Types.Players[index].Name.Length, 10);
             int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
             int x = ConvertMapX(xoffset) - 6 - lengthOffset;
             int y = ConvertMapY(yoffset) - 20;
 
-            Game1.spriteBatch.DrawString(font, Types.Player[index].Name, new Vector2(x, y), Color.Blue);
+            Game1.spriteBatch.DrawString(font, Types.Players[index].Name, new Vector2(x, y), Color.Blue);
         }
 
         private static void DrawPlayerHealthBar(int index)
         {
-            int healthBarWidht = Types.Player[index].MaxHP == 0 ? 0 : (Types.Player[index].HP * healthbar.Width) / Types.Player[index].MaxHP;
+            int healthBarWidht = Types.Players[index].MaxHP == 0 ? 0 : (Types.Players[index].HP * healthbar.Width) / Types.Players[index].MaxHP;
             Rectangle rectanglHealthRight = new Rectangle(0, 0, healthBarWidht, healthbar.Height);
             Rectangle rectangleForBar = new Rectangle(0, 0, healthbarFull.Width, healthbarFull.Height);
 
@@ -187,13 +221,18 @@ namespace YnamarClient
             Game1.spriteBatch.DrawString(font, mapNpc.Npc.Name, new Vector2(x, y), Color.Blue);
         }
 
+        public static void DrawAttackAnimation(int x, int y, Texture2D sprite, Rectangle srcrec)
+        {
+            Game1.spriteBatch.Draw(sprite, new Vector2(x, y), srcrec, Color.White);
+        }
+
         public static int ConvertMapX(int x)
         {
             int cameraLeft = 0;
             int tileViewLeft = 0;
 
-            cameraLeft = (Types.Player[Globals.playerIndex].X + Types.Player[Globals.playerIndex].XOffset) - 350;
-            tileViewLeft = Types.Player[Globals.playerIndex].X;
+            cameraLeft = (Types.Players[Globals.playerIndex].X + Types.Players[Globals.playerIndex].XOffset) - 350;
+            tileViewLeft = Types.Players[Globals.playerIndex].X;
 
             return x - (tileViewLeft * 32) - cameraLeft;
         }
@@ -203,8 +242,8 @@ namespace YnamarClient
             int cameraTop = 0;
             int tileViewTop = 0;
 
-            cameraTop = (Types.Player[Globals.playerIndex].Y + Types.Player[Globals.playerIndex].YOffset) - 250;
-            tileViewTop = Types.Player[Globals.playerIndex].Y;
+            cameraTop = (Types.Players[Globals.playerIndex].Y + Types.Players[Globals.playerIndex].YOffset) - 250;
+            tileViewTop = Types.Players[Globals.playerIndex].Y;
             return y - (tileViewTop * 32) - cameraTop;
         }
 
@@ -240,7 +279,7 @@ namespace YnamarClient
                 {
                     if (ClientTCP.IsPlaying(i))
                     {
-                        if ((Types.Player[i].Map == Types.Player[Globals.playerIndex].Map) && layer == 0)
+                        if ((Types.Players[i].Map == Types.Players[Globals.playerIndex].Map) && layer == 0)
                         {
                             DrawPlayerName(i);
                             DrawPlayer(i, gameTime);

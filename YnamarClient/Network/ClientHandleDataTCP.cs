@@ -7,6 +7,7 @@ using static YnamarClient.Network.NetworkPackets;
 using YnamarClient.GUI;
 using YnamarClient.Database.Models;
 using YnamarClient.Services;
+using static YnamarClient.Types;
 
 namespace YnamarClient.Network
 {
@@ -54,9 +55,10 @@ namespace YnamarClient.Network
             Globals.playerIndex = buffer.GetInteger();
             int bufferLength = buffer.GetInteger();
             byte[] charBuff = buffer.GetByteArray(bufferLength);
-            Types.Player[Globals.playerIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
-            Types.Player[Globals.playerIndex].MaxHP = 500;
-            Types.Player[Globals.playerIndex].HP = 423;
+            Types.Players[Globals.playerIndex] = buffer.DeserializeProto<Player>(charBuff);
+            Types.Players[Globals.playerIndex].MaxHP = 500;
+            Types.Players[Globals.playerIndex].HP = 423;
+            Types.Players[Globals.playerIndex].WeaponAnim = new AnimationPlayerService();
             clienttcp.SendLoadMap();
         }
 
@@ -69,7 +71,7 @@ namespace YnamarClient.Network
             int targetIndex = buffer.GetInteger();
             int bufferLength = buffer.GetInteger();
             byte[] charBuff = buffer.GetByteArray(bufferLength);
-            Types.Player[targetIndex] = buffer.DeserializeProto<Types.PlayerStruct>(charBuff);
+            Types.Players[targetIndex] = buffer.DeserializeProto<Player>(charBuff);
         }
 
         private void HandlePlayerMove(int index, byte[] data)
@@ -84,27 +86,27 @@ namespace YnamarClient.Network
             byte targetDirection = buffer.GetByte();
             int targetMoving = buffer.GetInteger();
 
-            Types.Player[targetIndex].X = targetX;
-            Types.Player[targetIndex].Y = targetY;
-            Types.Player[targetIndex].Dir = targetDirection;
+            Types.Players[targetIndex].X = targetX;
+            Types.Players[targetIndex].Y = targetY;
+            Types.Players[targetIndex].Dir = targetDirection;
 
-            Types.Player[targetIndex].XOffset = 0;
-            Types.Player[targetIndex].YOffset = 0;
-            Types.Player[targetIndex].Moving = 1;
+            Types.Players[targetIndex].XOffset = 0;
+            Types.Players[targetIndex].YOffset = 0;
+            Types.Players[targetIndex].Moving = 1;
 
-            switch (Types.Player[targetIndex].Dir)
+            switch (Types.Players[targetIndex].Dir)
             {
                 case Constants.DIR_UP:
-                    Types.Player[targetIndex].YOffset = 32;
+                    Types.Players[targetIndex].YOffset = 32;
                     break;
                 case Constants.DIR_DOWN:
-                    Types.Player[targetIndex].YOffset = 32 * -1;
+                    Types.Players[targetIndex].YOffset = 32 * -1;
                     break;
                 case Constants.DIR_LEFT:
-                    Types.Player[targetIndex].XOffset = 32;
+                    Types.Players[targetIndex].XOffset = 32;
                     break;
                 case Constants.DIR_RIGHT:
-                    Types.Player[targetIndex].XOffset = 32 * -1;
+                    Types.Players[targetIndex].XOffset = 32 * -1;
                     break;
             }
 

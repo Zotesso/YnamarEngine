@@ -42,7 +42,7 @@ namespace YnamarClient.GUI
         {
             InventoryRuntime inventoryRuntime = new InventoryRuntime();
 
-            foreach (var slot in Types.Player[Globals.playerIndex].Inventory.Slots.Select((value, i) => new { i, value }))
+            foreach (var slot in Types.Players[Globals.playerIndex].Inventory.Slots.Select((value, i) => new { i, value }))
             {
                 Texture2D texture = Graphics.Items[0]; //Atualizar pra pegar o spriteNum do item.
 

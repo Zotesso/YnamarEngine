@@ -78,6 +78,8 @@ namespace YnamarEditors.Services.AnimationEditor
 
             HttpResponseMessage response = await httpClient.GetAsync("http://localhost:8080/api/animationeditor/animation/list");
 
+            MenuManager.StopLoadingRemoveFeedbackPanelAsync();
+
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -85,7 +87,6 @@ namespace YnamarEditors.Services.AnimationEditor
 
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             AnimationClipList animationClipsList = Serializer.Deserialize<AnimationClipList>(responseStream);
-            MenuManager.StopLoadingRemoveFeedbackPanelAsync();
 
             return animationClipsList;
         }

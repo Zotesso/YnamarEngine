@@ -22,6 +22,7 @@ namespace YnamarEditors
     internal class Graphics
     {
         public static Texture2D[] Tilesets = new Texture2D[2];
+        public static Texture2D[] Items = new Texture2D[Globals.MAX_ITEM_SPRITES];
         public static Texture2D[] Spritesheets = new Texture2D[Globals.MAX_SPRITE_SHEET];
         public static Texture2D[] Characters = new Texture2D[Globals.MAX_SPRITES];
 
@@ -35,6 +36,7 @@ namespace YnamarEditors
         {
             LoadFonts(manager);
             LoadTilesets(manager);
+            LoadItems(manager);
             LoadSpritesheets(manager);
             LoadCharacters(manager);
         }
@@ -206,6 +208,14 @@ namespace YnamarEditors
                 Tilesets[i] = manager.Load<Texture2D>("Tilesets/" + i.ToString());
             }
         }
+        private static void LoadItems(ContentManager manager)
+        {
+            for (int i = 0; i < Items.Length; i++)
+            {
+                Items[i] = manager.Load<Texture2D>("Items/" + i.ToString());
+            }
+        }
+
         private static void LoadSpritesheets(ContentManager manager)
         {
             for (int i = 0; i < Spritesheets.Length; i++)

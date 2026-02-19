@@ -1,5 +1,8 @@
 //Code for ItemEditor
 using GumRuntime;
+using System.Linq;
+using MonoGameGum;
+using MonoGameGum.GueDeriving;
 using YnamarEditors.Components;
 using Gum.Converters;
 using Gum.DataTypes;
@@ -9,66 +12,68 @@ using Gum.Wireframe;
 using RenderingLibrary.Graphics;
 
 using System.Linq;
-using MonoGameGum.GueDeriving;
 
-namespace YnamarEditors.Screens
+namespace YnamarEditors.Screens;
+
+partial class ItemEditorRuntime : Gum.Wireframe.BindableGue
 {
-    partial class ItemEditorRuntime:Gum.Wireframe.BindableGue
+    [System.Runtime.CompilerServices.ModuleInitializer]
+    public static void RegisterRuntimeType()
     {
-        [System.Runtime.CompilerServices.ModuleInitializer]
-        public static void RegisterRuntimeType()
-        {
-            GumRuntime.ElementSaveExtensions.RegisterGueInstantiationType("ItemEditor", typeof(ItemEditorRuntime));
-        }
-        public ColoredRectangleRuntime Background { get; protected set; }
-        public ButtonIconRuntime ButtonBackScreen { get; protected set; }
-        public SpriteRuntime ItemSprite { get; protected set; }
-        public TextBoxRuntime ItemSpriteTextBox { get; protected set; }
-        public TextRuntime ItemSpriteText { get; protected set; }
-        public TextRuntime NameText { get; protected set; }
-        public TextBoxRuntime NameTextBox { get; protected set; }
-        public TextRuntime DescriptionText { get; protected set; }
-        public TextBoxRuntime DescriptionTextBox { get; protected set; }
-        public ListBoxRuntime ItemListBox { get; protected set; }
-        public TextBoxRuntime SearchTextBox { get; protected set; }
-        public ButtonStandardRuntime SaveButton { get; protected set; }
-        public ButtonStandardRuntime NewButton { get; protected set; }
-        public TextRuntime ItemTypeText { get; protected set; }
-        public ComboBoxRuntime ItemTypeComboBox { get; protected set; }
-        public CheckBoxRuntime CheckBoxInstance { get; protected set; }
-
-        public ItemEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
-        {
-            if(fullInstantiation)
-            {
-                var element = ObjectFinder.Self.GetElementSave("ItemEditor");
-                element?.SetGraphicalUiElement(this, global::RenderingLibrary.SystemManagers.Default);
-            }
-
-
-
-        }
-        public override void AfterFullCreation()
-        {
-            Background = this.GetGraphicalUiElementByName("Background") as ColoredRectangleRuntime;
-            ButtonBackScreen = this.GetGraphicalUiElementByName("ButtonBackScreen") as ButtonIconRuntime;
-            ItemSprite = this.GetGraphicalUiElementByName("ItemSprite") as SpriteRuntime;
-            ItemSpriteTextBox = this.GetGraphicalUiElementByName("ItemSpriteTextBox") as TextBoxRuntime;
-            ItemSpriteText = this.GetGraphicalUiElementByName("ItemSpriteText") as TextRuntime;
-            NameText = this.GetGraphicalUiElementByName("NameText") as TextRuntime;
-            NameTextBox = this.GetGraphicalUiElementByName("NameTextBox") as TextBoxRuntime;
-            DescriptionText = this.GetGraphicalUiElementByName("DescriptionText") as TextRuntime;
-            DescriptionTextBox = this.GetGraphicalUiElementByName("DescriptionTextBox") as TextBoxRuntime;
-            ItemListBox = this.GetGraphicalUiElementByName("ItemListBox") as ListBoxRuntime;
-            SearchTextBox = this.GetGraphicalUiElementByName("SearchTextBox") as TextBoxRuntime;
-            SaveButton = this.GetGraphicalUiElementByName("SaveButton") as ButtonStandardRuntime;
-            NewButton = this.GetGraphicalUiElementByName("NewButton") as ButtonStandardRuntime;
-            ItemTypeText = this.GetGraphicalUiElementByName("ItemTypeText") as TextRuntime;
-            ItemTypeComboBox = this.GetGraphicalUiElementByName("ItemTypeComboBox") as ComboBoxRuntime;
-            CheckBoxInstance = this.GetGraphicalUiElementByName("CheckBoxInstance") as CheckBoxRuntime;
-            CustomInitialize();
-        }
-        //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code
-        partial void CustomInitialize();
+        GumRuntime.ElementSaveExtensions.RegisterGueInstantiationType("ItemEditor", typeof(ItemEditorRuntime));
     }
+    public ColoredRectangleRuntime Background { get; protected set; }
+    public ButtonIconRuntime ButtonBackScreen { get; protected set; }
+    public SpriteRuntime ItemSprite { get; protected set; }
+    public TextBoxRuntime ItemSpriteTextBox { get; protected set; }
+    public TextRuntime ItemSpriteText { get; protected set; }
+    public TextRuntime NameText { get; protected set; }
+    public TextBoxRuntime NameTextBox { get; protected set; }
+    public TextRuntime DescriptionText { get; protected set; }
+    public TextBoxRuntime DescriptionTextBox { get; protected set; }
+    public ListBoxRuntime ItemListBox { get; protected set; }
+    public TextBoxRuntime SearchTextBox { get; protected set; }
+    public ButtonStandardRuntime SaveButton { get; protected set; }
+    public ButtonStandardRuntime NewButton { get; protected set; }
+    public TextRuntime ItemTypeText { get; protected set; }
+    public ComboBoxRuntime ItemTypeComboBox { get; protected set; }
+    public CheckBoxRuntime CheckBoxInstance { get; protected set; }
+    public SpriteRuntime AnimationSprite { get; protected set; }
+    public ComboBoxRuntime AnimationComboBox { get; protected set; }
+
+    public ItemEditorRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
+    {
+        if (fullInstantiation)
+        {
+            var element = ObjectFinder.Self.GetElementSave("ItemEditor");
+            element?.SetGraphicalUiElement(this, global::RenderingLibrary.SystemManagers.Default);
+        }
+
+
+
+    }
+    public override void AfterFullCreation()
+    {
+        Background = this.GetGraphicalUiElementByName("Background") as global::MonoGameGum.GueDeriving.ColoredRectangleRuntime;
+        ButtonBackScreen = this.GetGraphicalUiElementByName("ButtonBackScreen") as YnamarEditors.Components.ButtonIconRuntime;
+        ItemSprite = this.GetGraphicalUiElementByName("ItemSprite") as global::MonoGameGum.GueDeriving.SpriteRuntime;
+        ItemSpriteTextBox = this.GetGraphicalUiElementByName("ItemSpriteTextBox") as YnamarEditors.Components.TextBoxRuntime;
+        ItemSpriteText = this.GetGraphicalUiElementByName("ItemSpriteText") as global::MonoGameGum.GueDeriving.TextRuntime;
+        NameText = this.GetGraphicalUiElementByName("NameText") as global::MonoGameGum.GueDeriving.TextRuntime;
+        NameTextBox = this.GetGraphicalUiElementByName("NameTextBox") as YnamarEditors.Components.TextBoxRuntime;
+        DescriptionText = this.GetGraphicalUiElementByName("DescriptionText") as global::MonoGameGum.GueDeriving.TextRuntime;
+        DescriptionTextBox = this.GetGraphicalUiElementByName("DescriptionTextBox") as YnamarEditors.Components.TextBoxRuntime;
+        ItemListBox = this.GetGraphicalUiElementByName("ItemListBox") as YnamarEditors.Components.ListBoxRuntime;
+        SearchTextBox = this.GetGraphicalUiElementByName("SearchTextBox") as YnamarEditors.Components.TextBoxRuntime;
+        SaveButton = this.GetGraphicalUiElementByName("SaveButton") as YnamarEditors.Components.ButtonStandardRuntime;
+        NewButton = this.GetGraphicalUiElementByName("NewButton") as YnamarEditors.Components.ButtonStandardRuntime;
+        ItemTypeText = this.GetGraphicalUiElementByName("ItemTypeText") as global::MonoGameGum.GueDeriving.TextRuntime;
+        ItemTypeComboBox = this.GetGraphicalUiElementByName("ItemTypeComboBox") as YnamarEditors.Components.ComboBoxRuntime;
+        CheckBoxInstance = this.GetGraphicalUiElementByName("CheckBoxInstance") as YnamarEditors.Components.CheckBoxRuntime;
+        AnimationSprite = this.GetGraphicalUiElementByName("AnimationSprite") as global::MonoGameGum.GueDeriving.SpriteRuntime;
+        AnimationComboBox = this.GetGraphicalUiElementByName("AnimationComboBox") as YnamarEditors.Components.ComboBoxRuntime;
+        CustomInitialize();
+    }
+    //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code
+    partial void CustomInitialize();
 }

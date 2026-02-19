@@ -90,7 +90,7 @@ namespace YnamarClient.Network
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCAttack);
 
-            buffer.AddByte(Types.Player[Globals.playerIndex].Dir);
+            buffer.AddByte(Types.Players[Globals.playerIndex].Dir);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
