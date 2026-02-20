@@ -242,6 +242,12 @@ namespace YnamarEditors
                         npcEditor.NpcSprite.SourceRectangle = new Microsoft.Xna.Framework.Rectangle(0, 32, 32, 32);
                     };
 
+                    npcEditor.ButtonAddItemDropList.Click += (_, __) =>
+                    {
+                        //if (Globals.SelectedNpc is null) return;
+                        OpenNpcDropListItemSelection();
+                    };
+
                     npcEditor.NewButton.Click += (_, _) =>
                     {
                         var npc = $"Name: ";
@@ -543,6 +549,63 @@ namespace YnamarEditors
             npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+        }
+
+        private async void OpenNpcDropListItemSelection()
+        {
+            NpcDropListSelectPanelRuntime npcDropListSelectPanel = new NpcDropListSelectPanelRuntime();
+            npcDropListSelectPanel.Z = 10;
+            npcDropListSelectPanel.ButtonCloseNpcSelection.HasEvents = true;
+            npcDropListSelectPanel.DropRateTextBox.Text = "100";
+
+            ItemList itemList = await ItemEditorService.ListItems();
+
+            ButtonStandardRuntime selectItemButton = new ButtonStandardRuntime
+            {
+                Name = "SelectItemButton",
+                Width = 120,
+                Height = 60,
+                WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+                X = 60,
+                Y = 80,
+                XUnits = Gum.Converters.GeneralUnitType.Percentage,
+                YUnits = Gum.Converters.GeneralUnitType.Percentage,
+                IsEnabled = false,
+            };
+
+            selectItemButton.TextInstance.Text = "Select Item";
+            
+            selectItemButton.Click += (_, _) =>
+            {
+                if (npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectedIndex < 0) return;
+
+                AddItemToNpcDropList(itemList.ItemsSummary[npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectedIndex], float.Parse(npcDropListSelectPanel.DropRateTextBox.Text));
+                npcDropListSelectPanel.RemoveFromManagers();
+                _currentScreen.Children.Remove(npcDropListSelectPanel);
+            };
+
+            npcDropListSelectPanel.Children.Add(selectItemButton);
+
+            npcDropListSelectPanel.AddToManagers();
+            _currentScreen.Children.Add(npcDropListSelectPanel);
+
+            foreach (ItemSummary itemSummary in itemList.ItemsSummary)
+            {
+                var item = $"Name: {itemSummary.Name} Id: {itemSummary.Id}";
+                npcDropListSelectPanel.ListBoxInstance.FormsControl.Items.Add(item);
+            }
+
+            npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectionChanged += (sender, args) =>
+            {
+                selectItemButton.IsEnabled = true;
+            };            
+        }
+
+        private void AddItemToNpcDropList(ItemSummary item, float rate)
+        {
+            NpcEditorRuntime npcEditor = (NpcEditorRuntime)_currentScreen;
+            npcEditor.DropListBox.FormsControl.Items.Add($"Name: {item.Name} Id: {item.Id} - Rate: {rate}%");
         }
 
         private async Task handleAnimationSelected(int clipId, GraphicalUiElement screenRuntime)

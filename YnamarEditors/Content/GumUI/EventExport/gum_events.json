@@ -2,550 +2,123 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "AnimationEditor",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 0,
-        "TimestampUtc": "2026-01-17T01:32:10.8762287Z"
-      },
-      {
-        "NewName": "EditorSelector.ItemEditorButton1",
+        "NewName": "NpcEditor.NameText1",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:32:42.4612466Z"
+        "TimestampUtc": "2026-02-19T23:36:50.228952Z"
       },
       {
-        "NewName": "EditorSelector.AnimationEditorButton",
-        "OldName": "EditorSelector.ItemEditorButton1",
+        "NewName": "NpcEditor.DropListText",
+        "OldName": "NpcEditor.NameText1",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:32:48.6559845Z"
+        "TimestampUtc": "2026-02-19T23:36:54.6831934Z"
       },
       {
-        "NewName": "AnimationEditor.ButtonBackScreen",
+        "NewName": "NpcEditor.BehaviorListBox1",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:33:35.0778763Z"
+        "TimestampUtc": "2026-02-19T23:37:24.8539412Z"
       },
       {
-        "NewName": "AnimationEditor.Background",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:33:38.4859237Z"
-      },
-      {
-        "NewName": "AnimationEditor.RectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:46:12.4608238Z"
-      },
-      {
-        "NewName": "AnimationEditor.CheckBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:54:10.3888256Z"
-      },
-      {
-        "NewName": "AnimationEditor.LoopChcekBox",
-        "OldName": "AnimationEditor.CheckBoxInstance",
+        "NewName": "NpcEditor.DropListBox",
+        "OldName": "NpcEditor.BehaviorListBox1",
         "ElementType": "Screens",
         "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:54:39.9512028Z"
+        "TimestampUtc": "2026-02-19T23:37:34.5856951Z"
       },
       {
-        "NewName": "AnimationEditor.SpritesheetRectangle",
-        "OldName": "AnimationEditor.RectangleInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:55:46.4559376Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonIconInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:56:14.8226489Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonIconInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:56:17.412518Z"
-      },
-      {
-        "NewName": "AnimationEditor.PlayAnimationButton",
-        "OldName": "AnimationEditor.ButtonIconInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:56:25.2230719Z"
-      },
-      {
-        "NewName": "AnimationEditor.StopAnimationButton",
-        "OldName": "AnimationEditor.ButtonIconInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:57:24.5169955Z"
-      },
-      {
-        "NewName": "AnimationEditor.RectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T01:59:06.1272586Z"
-      },
-      {
-        "NewName": "AnimationEditor.PlayerRectangle",
-        "OldName": "AnimationEditor.RectangleInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T01:59:29.101367Z"
-      },
-      {
-        "NewName": "AnimationEditor",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 0,
-        "TimestampUtc": "2026-01-17T16:52:19.1300068Z"
-      },
-      {
-        "NewName": "AnimationEditor.Background",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T16:52:37.2697976Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonBackScreen",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T16:52:37.329063Z"
-      },
-      {
-        "NewName": "AnimationEditor.RectangleInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:31:24.8007367Z"
-      },
-      {
-        "NewName": "AnimationEditor.RectangleInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:31:29.0145816Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonIconInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:31:35.1833819Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonIconInstance1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:31:37.6412552Z"
-      },
-      {
-        "NewName": "AnimationEditor.CheckBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:31:47.3428505Z"
-      },
-      {
-        "NewName": "AnimationEditor.SpritesheetRectangle",
-        "OldName": "AnimationEditor.RectangleInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:32:08.2351588Z"
-      },
-      {
-        "NewName": "AnimationEditor.PlayerRectangle",
-        "OldName": "AnimationEditor.RectangleInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:33:34.5083672Z"
-      },
-      {
-        "NewName": "AnimationEditor.StartPlayerButton",
-        "OldName": "AnimationEditor.ButtonIconInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:34:35.1369271Z"
-      },
-      {
-        "NewName": "AnimationEditor.IsLoopCheckBox",
-        "OldName": "AnimationEditor.CheckBoxInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:36:57.8858771Z"
-      },
-      {
-        "NewName": "AnimationEditor.StopPlayerButton",
-        "OldName": "AnimationEditor.ButtonIconInstance1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:37:05.1635739Z"
-      },
-      {
-        "NewName": "EditorSelector.ItemEditorButton1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T17:50:02.609616Z"
-      },
-      {
-        "NewName": "EditorSelector.AnimationEditorButton",
-        "OldName": "EditorSelector.ItemEditorButton1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T17:50:13.1042848Z"
-      },
-      {
-        "NewName": "AnimationEditor.TextBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T18:16:09.564837Z"
-      },
-      {
-        "NewName": "AnimationEditor.TextureTextBox",
-        "OldName": "AnimationEditor.TextBoxInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T18:16:24.585645Z"
-      },
-      {
-        "NewName": "AnimationEditor.ResourcePanel",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T18:29:48.8559029Z"
-      },
-      {
-        "NewName": "AnimationEditor.TextBoxInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T18:33:53.6605619Z"
-      },
-      {
-        "NewName": "AnimationEditor.AnimationNameTextBox",
-        "OldName": "AnimationEditor.TextBoxInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T18:34:03.590161Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonIconInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T18:34:48.1265658Z"
-      },
-      {
-        "NewName": "AnimationEditor.AddFrameButton",
-        "OldName": "AnimationEditor.ButtonIconInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T18:34:59.3827909Z"
-      },
-      {
-        "NewName": "AnimationEditor.AddFrameButton1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-17T18:35:12.8929503Z"
-      },
-      {
-        "NewName": "AnimationEditor.RemoveFrameButton",
-        "OldName": "AnimationEditor.AddFrameButton1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-17T18:35:19.1239002Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem",
+        "NewName": "Controls/ButtonIcon1",
         "OldName": null,
         "ElementType": "Components",
         "EventType": 0,
-        "TimestampUtc": "2026-01-18T02:14:58.8854613Z"
+        "TimestampUtc": "2026-02-19T23:40:01.889588Z"
       },
       {
-        "NewName": "AnimationFrameListItem (Container).ColoredRectangleInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:17:01.4102467Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).TextInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:18:46.139941Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).TextInstance1",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:18:56.2253341Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).TextBoxInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:19:06.45219Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).FrameNumberText",
-        "OldName": "AnimationFrameListItem (Container).TextInstance",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-18T02:19:55.7327211Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).RectangleText",
-        "OldName": "AnimationFrameListItem (Container).TextInstance1",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-18T02:20:54.8243203Z"
-      },
-      {
-        "NewName": "AnimationFrameListItem (Container).DurationTextBox",
-        "OldName": "AnimationFrameListItem (Container).TextBoxInstance",
-        "ElementType": "Components",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-18T02:21:28.9840978Z"
-      },
-      {
-        "NewName": "AnimationEditor.ResourcePanel1",
+        "NewName": "NpcEditor.ButtonIconInstance",
         "OldName": null,
         "ElementType": "Screens",
         "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:23:17.9306225Z"
-      },
-      {
-        "NewName": "AnimationEditor.AnimationFrameList",
-        "OldName": "AnimationEditor.ResourcePanel1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-18T02:24:49.7626887Z"
-      },
-      {
-        "NewName": "AnimationEditor.AnimationFrameListItemInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-18T02:25:38.759517Z"
+        "TimestampUtc": "2026-02-19T23:40:07.9423906Z"
       },
       {
         "NewName": null,
-        "OldName": "AnimationFrameListItem (Container).Text RectangleText in AnimationFrameListItem (Container)",
+        "OldName": "Controls/ButtonIcon1",
         "ElementType": "Components",
-        "EventType": 6,
-        "TimestampUtc": "2026-01-18T02:27:19.6719844Z"
+        "EventType": 1,
+        "TimestampUtc": "2026-02-19T23:40:13.3501313Z"
+      },
+      {
+        "NewName": "NpcEditor.ButtonIconInstance1",
+        "OldName": null,
+        "ElementType": "Screens",
+        "EventType": 5,
+        "TimestampUtc": "2026-02-19T23:40:27.4508957Z"
+      },
+      {
+        "NewName": "NpcEditor.ButtonAddItemDropList",
+        "OldName": "NpcEditor.ButtonIconInstance",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-02-19T23:40:39.194992Z"
+      },
+      {
+        "NewName": "NpcEditor.ButtonRemoveItemDropList",
+        "OldName": "NpcEditor.ButtonIconInstance1",
+        "ElementType": "Screens",
+        "EventType": 7,
+        "TimestampUtc": "2026-02-19T23:40:46.9502756Z"
+      },
+      {
+        "NewName": "MapNpcSelectPanel1",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 0,
+        "TimestampUtc": "2026-02-20T00:13:23.5652368Z"
+      },
+      {
+        "NewName": "NpcDropListSelectPanel",
+        "OldName": "MapNpcSelectPanel1",
+        "ElementType": "Components",
+        "EventType": 2,
+        "TimestampUtc": "2026-02-20T00:13:43.0459227Z"
       },
       {
         "NewName": null,
-        "OldName": "AnimationEditor.AnimationFrameListItem AnimationFrameListItemInstance in AnimationEditor",
-        "ElementType": "Screens",
+        "OldName": "NpcDropListSelectPanel (Container).Controls/ButtonStandard ButtonSelectNpc in NpcDropListSelectPanel (Container)",
+        "ElementType": "Components",
         "EventType": 6,
-        "TimestampUtc": "2026-01-18T02:32:49.8939466Z"
+        "TimestampUtc": "2026-02-20T00:14:42.9232467Z"
       },
       {
-        "NewName": "AnimationFrameListItem (Container).ButtonIconInstance",
+        "NewName": "NpcDropListSelectPanel (Container).TextInstance",
         "OldName": null,
         "ElementType": "Components",
         "EventType": 5,
-        "TimestampUtc": "2026-01-20T23:50:37.8753726Z"
+        "TimestampUtc": "2026-02-20T00:15:16.094992Z"
       },
       {
-        "NewName": "AnimationFrameListItem (Container).RemoveFrameButton",
-        "OldName": "AnimationFrameListItem (Container).ButtonIconInstance",
+        "NewName": "NpcDropListSelectPanel (Container).TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-02-20T00:15:26.8032342Z"
+      },
+      {
+        "NewName": "NpcDropListSelectPanel (Container).DropRateTextBox",
+        "OldName": "NpcDropListSelectPanel (Container).TextBoxInstance",
         "ElementType": "Components",
         "EventType": 7,
-        "TimestampUtc": "2026-01-20T23:51:29.527632Z"
+        "TimestampUtc": "2026-02-20T00:16:05.8393787Z"
       },
       {
-        "NewName": "AnimationEditor.SpriteInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-21T01:36:24.6635343Z"
-      },
-      {
-        "NewName": "AnimationEditor.AnimationPlayerSprite",
-        "OldName": "AnimationEditor.SpriteInstance",
-        "ElementType": "Screens",
+        "NewName": "NpcDropListSelectPanel (Container).DropRateText",
+        "OldName": "NpcDropListSelectPanel (Container).TextInstance",
+        "ElementType": "Components",
         "EventType": 7,
-        "TimestampUtc": "2026-01-21T01:36:38.5185377Z"
-      },
-      {
-        "NewName": "AnimationEditor.ContainerInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:20:33.1128716Z"
-      },
-      {
-        "NewName": "AnimationEditor.EditorSection",
-        "OldName": "AnimationEditor.ContainerInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-22T23:26:22.1969723Z"
-      },
-      {
-        "NewName": "AnimationEditor.ContainerInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:26:28.837208Z"
-      },
-      {
-        "NewName": "AnimationEditor.SelectorSection",
-        "OldName": "AnimationEditor.ContainerInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-22T23:27:10.2472938Z"
-      },
-      {
-        "NewName": "AnimationEditor.Background1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:27:18.356697Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonBackScreen1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:27:24.782487Z"
-      },
-      {
-        "NewName": "AnimationEditor.ButtonBackScreenSelector",
-        "OldName": "AnimationEditor.ButtonBackScreen1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-22T23:28:15.7954644Z"
-      },
-      {
-        "NewName": "AnimationEditor.BackgroundSelector",
-        "OldName": "AnimationEditor.Background1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-22T23:28:20.780285Z"
-      },
-      {
-        "NewName": "AnimationEditor.ItemListBox",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:28:58.879049Z"
-      },
-      {
-        "NewName": "AnimationEditor.SearchTextBox",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:28:58.9260487Z"
-      },
-      {
-        "NewName": "AnimationEditor.NewButton",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:28:58.954478Z"
-      },
-      {
-        "NewName": "AnimationEditor.NewButton1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-22T23:29:09.0986974Z"
-      },
-      {
-        "NewName": "AnimationEditor.SelectButton",
-        "OldName": "AnimationEditor.NewButton1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-22T23:29:15.703199Z"
-      },
-      {
-        "NewName": "AnimationEditor.NewButton1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-23T02:44:59.3537044Z"
-      },
-      {
-        "NewName": "AnimationEditor.SaveButton",
-        "OldName": "AnimationEditor.NewButton1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-23T02:45:13.8502322Z"
-      },
-      {
-        "NewName": "ItemEditor.ContainerInstance",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-26T23:59:42.0108878Z"
-      },
-      {
-        "NewName": "ItemEditor.AnimationContainer",
-        "OldName": "ItemEditor.ContainerInstance",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-26T23:59:47.808338Z"
-      },
-      {
-        "NewName": "ItemEditor.ItemTypeComboBox1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-27T00:00:48.6559858Z"
-      },
-      {
-        "NewName": "ItemEditor.AnimationComboBox",
-        "OldName": "ItemEditor.ItemTypeComboBox1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-27T00:01:57.6861387Z"
-      },
-      {
-        "NewName": "ItemEditor.ItemSprite1",
-        "OldName": null,
-        "ElementType": "Screens",
-        "EventType": 5,
-        "TimestampUtc": "2026-01-27T00:02:03.4940926Z"
-      },
-      {
-        "NewName": "ItemEditor.AnimationSprite",
-        "OldName": "ItemEditor.ItemSprite1",
-        "ElementType": "Screens",
-        "EventType": 7,
-        "TimestampUtc": "2026-01-27T00:02:13.812683Z"
-      },
-      {
-        "NewName": null,
-        "OldName": "ItemEditor.Container AnimationContainer in ItemEditor",
-        "ElementType": "Screens",
-        "EventType": 6,
-        "TimestampUtc": "2026-01-28T00:23:45.3508762Z"
+        "TimestampUtc": "2026-02-20T00:16:19.9322352Z"
       }
     ]
   }

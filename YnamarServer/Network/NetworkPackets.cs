@@ -34,6 +34,7 @@ namespace YnamarServer.Network
         {
             UdpSNpcAttacked = 100,
             UdpSNpcMove,
+            UdpSPlayerAttacking,
         }
     }
 }

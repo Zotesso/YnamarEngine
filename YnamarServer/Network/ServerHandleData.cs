@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.Database;
+using YnamarServer.Database.Models;
 using YnamarServer.GameLogic;
 using static YnamarServer.Network.NetworkPackets;
 
@@ -48,7 +50,20 @@ namespace YnamarServer.Network
 
             byte dir = buffer.GetByte();
 
+            SendPlayerAttackToMap(index, dir);
             GameLogicHandler.PlayerAttack(index, dir);
+        }
+
+        private void SendPlayerAttackToMap(int index, byte dir)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerUdpPackets.UdpSPlayerAttacking);
+            bufferSend.AddInteger(index);
+            bufferSend.AddByte(dir);
+
+            NetworkManager.ServerUdp.SendDataToMap(InMemoryDatabase.Player[index].Map, bufferSend.ToArray());
+
+            bufferSend.Dispose();
         }
     }
 }
