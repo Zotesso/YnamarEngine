@@ -11,20 +11,27 @@ namespace YnamarServer.Database.Models
 	[ProtoContract]
 	public class NpcDrop
 	{
-		[Key]
-		public int Id { get; set; }
+        [Key]
+        [ProtoMember(1)]
+        public int Id { get; set; }
 
-		[Required]
-		public int NpcId { get; set; }
-		public Npc Npc { get; set; } = null!;
+        [Required]
+        [ProtoMember(2)]
+        public int NpcId { get; set; }
 
-		[Required]
-		public int ItemId { get; set; }
+        [ProtoIgnore]
+        public Npc? Npc { get; set; }
 
-		public Item Item { get; set; } = null!;
+        [Required]
+        [ProtoMember(3)]
+        public int ItemId { get; set; }
 
-		[Required]
-		public float DropRate { get; set; } // e.g., 0.25 = 25% chance
+        [ProtoIgnore]
+        public Item? Item { get; set; }
 
-	}
+        [Required]
+        [ProtoMember(5)]
+        public float DropRate { get; set; } // e.g., 0.25 = 25% chance
+
+    }
 }

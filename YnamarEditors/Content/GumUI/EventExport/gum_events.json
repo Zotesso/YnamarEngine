@@ -119,6 +119,41 @@
         "ElementType": "Components",
         "EventType": 7,
         "TimestampUtc": "2026-02-20T00:16:19.9322352Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "NpcDropListSelectPanel (Container).Controls/ButtonStandard ButtonCloseNpcSelection in NpcDropListSelectPanel (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2026-02-21T16:31:59.3874898Z"
+      },
+      {
+        "NewName": null,
+        "OldName": "NpcDropListSelectPanel (Container).Controls/TextBox DropRateTextBox in NpcDropListSelectPanel (Container)",
+        "ElementType": "Components",
+        "EventType": 6,
+        "TimestampUtc": "2026-02-21T16:32:02.4861562Z"
+      },
+      {
+        "NewName": "NpcDropListSelectPanel (Container).ButtonStandardInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-02-24T23:50:48.5321563Z"
+      },
+      {
+        "NewName": "NpcDropListSelectPanel (Container).TextBoxInstance",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-02-24T23:50:57.8217431Z"
+      },
+      {
+        "NewName": "NpcDropListSelectPanel (Container).ButtonStandardInstance1",
+        "OldName": null,
+        "ElementType": "Components",
+        "EventType": 5,
+        "TimestampUtc": "2026-02-25T01:05:23.6603758Z"
       }
     ]
   }

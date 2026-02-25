@@ -6,43 +6,73 @@
     <Name>Default</Name>
     <Variable>
       <Type>string</Type>
-      <Name>ButtonCloseNpcSelection.ButtonDisplayText</Name>
+      <Name>ButtonStandardInstance.ButtonDisplayText</Name>
       <Value xsi:type="xsd:string">Close</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>bool</Type>
-      <Name>ButtonCloseNpcSelection.IsXamarinFormsControl</Name>
-      <Value xsi:type="xsd:boolean">true</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>string</Type>
-      <Name>ButtonCloseNpcSelection.Parent</Name>
+      <Name>ButtonStandardInstance.Parent</Name>
       <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>ButtonCloseNpcSelection.X</Name>
-      <Value xsi:type="xsd:float">5</Value>
+      <Name>ButtonStandardInstance.X</Name>
+      <Value xsi:type="xsd:float">7.471265</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
-      <Name>ButtonCloseNpcSelection.XUnits</Name>
+      <Name>ButtonStandardInstance.XUnits</Name>
       <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>ButtonCloseNpcSelection.Y</Name>
-      <Value xsi:type="xsd:float">80</Value>
+      <Name>ButtonStandardInstance.Y</Name>
+      <Value xsi:type="xsd:float">79.999985</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
-      <Name>ButtonCloseNpcSelection.YUnits</Name>
+      <Name>ButtonStandardInstance.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ButtonStandardInstance1.ButtonDisplayText</Name>
+      <Value xsi:type="xsd:string">Select Item</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>ButtonStandardInstance1.Parent</Name>
+      <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonStandardInstance1.X</Name>
+      <Value xsi:type="xsd:float">50.721264</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ButtonStandardInstance1.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonStandardInstance1.Y</Name>
+      <Value xsi:type="xsd:float">80.00001</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ButtonStandardInstance1.YUnits</Name>
       <Value xsi:type="xsd:int">3</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -114,33 +144,9 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>string</Type>
-      <Name>DropRateTextBox.Parent</Name>
-      <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>float</Type>
-      <Name>DropRateTextBox.X</Name>
-      <Value xsi:type="xsd:float">28.5</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>DropRateTextBox.XUnits</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>DropRateTextBox.Y</Name>
-      <Value xsi:type="xsd:float">50.8</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>DropRateTextBox.YUnits</Name>
-      <Value xsi:type="xsd:int">3</Value>
+      <Name>Height</Name>
+      <Value xsi:type="xsd:float">505</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -198,9 +204,39 @@
       <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
+      <Type>string</Type>
+      <Name>TextBoxInstance.Parent</Name>
+      <Value xsi:type="xsd:string">ColoredRectangleInstance</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextBoxInstance.X</Name>
+      <Value xsi:type="xsd:float">30.971272</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>TextBoxInstance.XUnits</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextBoxInstance.Y</Name>
+      <Value xsi:type="xsd:float">54.183907</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>TextBoxInstance.YUnits</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>Width</Name>
-      <Value xsi:type="xsd:float">200</Value>
+      <Value xsi:type="xsd:float">406</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -239,17 +275,22 @@
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
+    <Name>ButtonStandardInstance</Name>
+    <BaseType>Controls/ButtonStandard</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
+    <Name>TextBoxInstance</Name>
+    <BaseType>Controls/TextBox</BaseType>
+    <DefinedByBase>false</DefinedByBase>
+  </Instance>
+  <Instance>
     <Name>ListBoxInstance</Name>
     <BaseType>Controls/ListBox</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>
   <Instance>
-    <Name>DropRateTextBox</Name>
-    <BaseType>Controls/TextBox</BaseType>
-    <DefinedByBase>false</DefinedByBase>
-  </Instance>
-  <Instance>
-    <Name>ButtonCloseNpcSelection</Name>
+    <Name>ButtonStandardInstance1</Name>
     <BaseType>Controls/ButtonStandard</BaseType>
     <DefinedByBase>false</DefinedByBase>
   </Instance>

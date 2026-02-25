@@ -84,6 +84,11 @@ namespace YnamarEditors.Services.NpcEditor
             Serializer.Serialize(ms, npc);
 
             ms.Position = 0;
+            byte[] payload = ms.ToArray();
+
+            // Salva o arquivo para debug
+            File.WriteAllBytes("npceditor_request.pb", payload);
+
 
             var content = new ByteArrayContent(ms.ToArray());
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");

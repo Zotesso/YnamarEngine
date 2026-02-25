@@ -1,5 +1,6 @@
 using ProtoBuf;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YnamarEditors.Models
 {
@@ -7,19 +8,31 @@ namespace YnamarEditors.Models
 	public class NpcDrop
 	{
 		[Key]
-		public int Id { get; set; }
+        [ProtoMember(1)]
+        public int Id { get; set; }
 
 		[Required]
-		public int NpcId { get; set; }
-		public Npc Npc { get; set; } = null!;
+        [ProtoMember(2)]
+        public int NpcId { get; set; }
+
+        [ProtoIgnore]
+		public Npc? Npc { get; set; }
 
 		[Required]
-		public int ItemId { get; set; }
+        [ProtoMember(3)]
+        public int ItemId { get; set; }
 
-		public Item Item { get; set; } = null!;
+        [ProtoIgnore]
+        public Item? Item { get; set; }
 
 		[Required]
-		public float DropRate { get; set; } // e.g., 0.25 = 25% chance
+        [ProtoMember(5)]
+        public float DropRate { get; set; } // e.g., 0.25 = 25% chance
 
-	}
+        [NotMapped]
+        public string? ItemName { get; set; } = string.Empty;
+
+        public override string ToString() =>
+        $"{ItemName} - Id: {ItemId} - Rate: {DropRate}%";
+    }
 }

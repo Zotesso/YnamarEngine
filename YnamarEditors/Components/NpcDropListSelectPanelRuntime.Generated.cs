@@ -24,9 +24,10 @@ partial class NpcDropListSelectPanelRuntime : ContainerRuntime
     }
     public TextRuntime DropRateText { get; protected set; }
     public ColoredRectangleRuntime ColoredRectangleInstance { get; protected set; }
+    public ButtonStandardRuntime ButtonStandardInstance { get; protected set; }
+    public TextBoxRuntime TextBoxInstance { get; protected set; }
     public ListBoxRuntime ListBoxInstance { get; protected set; }
-    public TextBoxRuntime DropRateTextBox { get; protected set; }
-    public ButtonStandardRuntime ButtonCloseNpcSelection { get; protected set; }
+    public ButtonStandardRuntime ButtonStandardInstance1 { get; protected set; }
 
     public NpcDropListSelectPanelRuntime(bool fullInstantiation = true, bool tryCreateFormsObject = true)
     {
@@ -43,9 +44,10 @@ partial class NpcDropListSelectPanelRuntime : ContainerRuntime
     {
         DropRateText = this.GetGraphicalUiElementByName("DropRateText") as global::MonoGameGum.GueDeriving.TextRuntime;
         ColoredRectangleInstance = this.GetGraphicalUiElementByName("ColoredRectangleInstance") as global::MonoGameGum.GueDeriving.ColoredRectangleRuntime;
+        ButtonStandardInstance = this.GetGraphicalUiElementByName("ButtonStandardInstance") as YnamarEditors.Components.ButtonStandardRuntime;
+        TextBoxInstance = this.GetGraphicalUiElementByName("TextBoxInstance") as YnamarEditors.Components.TextBoxRuntime;
         ListBoxInstance = this.GetGraphicalUiElementByName("ListBoxInstance") as YnamarEditors.Components.ListBoxRuntime;
-        DropRateTextBox = this.GetGraphicalUiElementByName("DropRateTextBox") as YnamarEditors.Components.TextBoxRuntime;
-        ButtonCloseNpcSelection = this.GetGraphicalUiElementByName("ButtonCloseNpcSelection") as YnamarEditors.Components.ButtonStandardRuntime;
+        ButtonStandardInstance1 = this.GetGraphicalUiElementByName("ButtonStandardInstance1") as YnamarEditors.Components.ButtonStandardRuntime;
         CustomInitialize();
     }
     //Not assigning variables because Object Instantiation Type is set to By Name rather than Fully In Code
