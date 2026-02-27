@@ -31,7 +31,6 @@ namespace YnamarServer.Database.Models
 
         [Required]
         [ProtoMember(5)]
-        public float DropRate { get; set; } // e.g., 0.25 = 25% chance
-
+        public int DropRate { get; set; } // Drop chance stored as parts per million e.g = 1.000.000 = 100% drop chance, 500.000 = 50% drop chance, etc.
     }
 }

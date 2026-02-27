@@ -30,8 +30,9 @@ namespace YnamarServer.Admin.Services
                     NpcsSummary = await dbContext.Npcs.Select(npc => new NpcSummary
                       {
                         Id = npc.Id,
-                        Name = npc.Name
-                      }).ToListAsync()
+                        Name = npc.Name,
+                        Drops = npc.Drops
+                    }).ToListAsync()
                };
             };
         }
@@ -77,6 +78,30 @@ namespace YnamarServer.Admin.Services
                 else
                 {
                     dbContext.Entry(existing).CurrentValues.SetValues(editedNpc);
+
+                    foreach (var existingDrop in existing.Drops.ToList())
+                    {
+                        if (!editedNpc.Drops.Any(d => d.Id == existingDrop.Id))
+                        {
+                            dbContext.NpcDrops.Remove(existingDrop);
+                        }
+                    }
+
+                    foreach (var editedDrop in editedNpc.Drops)
+                    {
+                        var existingDrop = existing.Drops
+                            .FirstOrDefault(d => d.Id == editedDrop.Id);
+
+                        if (existingDrop is null)
+                        {
+                            existing.Drops.Add(editedDrop);
+                        }
+                        else
+                        {
+                            dbContext.Entry(existingDrop).CurrentValues
+                                .SetValues(editedDrop);
+                        }
+                    }
                 }
 
                 var rows = await dbContext.SaveChangesAsync();

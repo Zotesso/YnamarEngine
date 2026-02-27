@@ -232,7 +232,7 @@ namespace YnamarEditors
 
                         int npcSpriteNum = int.Parse(textBox.Text);
 
-                        if (npcSpriteNum < 0 || npcSpriteNum > Globals.MAX_SPRITES) {
+                        if (npcSpriteNum < 0 || npcSpriteNum >= Globals.MAX_SPRITES) {
                             textBox.Text = "0";
                             npcSpriteNum = 0;
                         }
@@ -565,6 +565,11 @@ namespace YnamarEditors
             npcEditor.NpcSpriteTextBox.Text = npcSummary.Sprite.ToString();
 
             npcEditor.BehaviorListBox.FormsControl.SelectedIndex = npcSummary.Behavior;
+
+            npcSummary.Drops.ToList().ForEach(drop =>
+            {
+                npcEditor.DropListBox.FormsControl.Items.Add(drop);
+            });
         }
 
         private async void OpenNpcDropListItemSelection()
@@ -644,7 +649,7 @@ namespace YnamarEditors
             {
                 if (npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectedIndex < 0) return;
 
-                AddItemToNpcDropList(itemList.ItemsSummary[npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectedIndex], float.Parse(npcDropListSelectPanel.TextBoxInstance.Text));
+                AddItemToNpcDropList(itemList.ItemsSummary[npcDropListSelectPanel.ListBoxInstance.FormsControl.SelectedIndex], int.Parse(npcDropListSelectPanel.TextBoxInstance.Text));
                 npcDropListSelectPanel.RemoveFromManagers();
                 _currentScreen.Children.Remove(npcDropListSelectPanel);
             };
@@ -681,7 +686,7 @@ namespace YnamarEditors
             };            
         }
 
-        private void AddItemToNpcDropList(ItemSummary item, float rate)
+        private void AddItemToNpcDropList(ItemSummary item, int rate)
         {
             NpcEditorRuntime npcEditor = (NpcEditorRuntime)_currentScreen;
             npcEditor.DropListBox.FormsControl.Items.Add(new NpcDrop

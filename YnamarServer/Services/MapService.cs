@@ -45,6 +45,7 @@ namespace YnamarServer.Services
                     .Include(p => p.Layer)
                         .ThenInclude(x => x.MapNpc)
                             .ThenInclude(mapNpc => mapNpc.Npc)
+                                .ThenInclude(npc => npc.Drops)
                     .ToListAsync();
             };
         }

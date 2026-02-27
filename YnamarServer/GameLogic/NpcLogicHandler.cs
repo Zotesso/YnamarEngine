@@ -133,19 +133,34 @@ namespace YnamarServer.GameLogic
 
         public static void NpcAttacked(int playerMapNum, int mapNpcIndex, int damage)
         {
-            InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= damage;
+            MapNpc mapNpc = InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex);
+            mapNpc.Hp -= damage;
             NpcService npcService = Program.npcService;
 
-            if (InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp <= 0)
+            if (mapNpc.Hp <= 0)
             {
-                InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).RespawnWait = (int)Program.CurrentTick;
-                Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpcIndex);
-                npcService.SendNpcKilledToMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+                mapNpc.RespawnWait = (int)Program.CurrentTick;
+                NpcKilled(playerMapNum, mapNpcIndex, mapNpc);
                 return;
             }
 
-            npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+            npcService.SendNpcAttackedtoMap(playerMapNum, 0, mapNpc);
+        }
 
+        public static void NpcKilled(int playerMapNum, int mapNpcIndex, MapNpc mapNpc)
+        {
+            NpcService npcService = Program.npcService;
+            Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpcIndex);
+            npcService.SendNpcKilledToMap(playerMapNum, 0, mapNpc);
+
+            foreach (NpcDrop drop in mapNpc.Npc.Drops)
+            {
+                if (DropService.Roll(drop.DropRate, 1000))
+                {
+                    Console.WriteLine("Dropou o item " + drop.ItemId);
+                    //GiveItem(drop.ItemId);
+                }
+            }
         }
     }
 }
