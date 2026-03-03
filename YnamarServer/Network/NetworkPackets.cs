@@ -15,6 +15,7 @@ namespace YnamarServer.Network
             SPlayerMove,
             SLoadMap,
             SNpcKilled,
+            SInventorySlotUpdate,
         }
 
         public enum ClientTcpPackets

@@ -10,19 +10,22 @@ namespace YnamarClient.Database.Models
     [ProtoContract]
     internal class InventorySlot
     {
-        [ProtoMember(1)]
-        public int Id { get; set; }
+        [Required]
+        public int InventoryId { get; set; }
 
-        [ProtoMember(2)]
+        public Inventory Inventory { get; set; } = null!;
+
+        [Required]
+        [ProtoMember(1)]
         public int SlotId { get; set; }
 
-        [ProtoMember(3)]
+        [ProtoMember(2)]
         public int? ItemId { get; set; }
 
-        [ProtoMember(4)]
+        [ProtoMember(3)]
         public Item? Item { get; set; } = null;
 
-        [ProtoMember(5)]
+        [ProtoMember(4)]
         public int Quantity { get; set; }
     }
 }

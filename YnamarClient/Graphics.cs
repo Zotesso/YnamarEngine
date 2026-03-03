@@ -221,6 +221,15 @@ namespace YnamarClient
             Game1.spriteBatch.DrawString(font, mapNpc.Npc.Name, new Vector2(x, y), Color.Blue);
         }
 
+        // Função nn funciona, pq begin nn foi incializado
+        public static void DrawTextInChat(string text, Color color)
+        {
+            int x = ConvertMapX(0) - 6;
+            int y = ConvertMapY(0) + 20;
+
+            Game1.spriteBatch.DrawString(font, text, new Vector2(x, y), color); 
+        }
+
         public static void DrawAttackAnimation(int x, int y, Texture2D sprite, Rectangle srcrec)
         {
             Game1.spriteBatch.Draw(sprite, new Vector2(x, y), srcrec, Color.White);

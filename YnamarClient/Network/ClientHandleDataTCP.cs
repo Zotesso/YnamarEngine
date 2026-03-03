@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static YnamarClient.Network.NetworkPackets;
-using YnamarClient.GUI;
 using YnamarClient.Database.Models;
+using YnamarClient.GUI;
 using YnamarClient.Services;
+using static System.Reflection.Metadata.BlobBuilder;
+using static YnamarClient.Network.NetworkPackets;
 using static YnamarClient.Types;
 
 namespace YnamarClient.Network
@@ -28,6 +31,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SPlayerMove, HandlePlayerMove);
             Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
             Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
+            Packets.Add((int)ServerPackets.SInventorySlotUpdate, HandleInventorySlotUpdate);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -143,6 +147,28 @@ namespace YnamarClient.Network
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
             Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
-        }   
+        }
+        private void HandleInventorySlotUpdate(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int targetIndex = buffer.GetInteger();
+            int bufferLength = buffer.GetInteger();
+            byte[] inventorySlotBuff = buffer.GetByteArray(bufferLength);
+            InventorySlot inventorySlotToUpdate = buffer.DeserializeProto<InventorySlot>(inventorySlotBuff);
+            if (inventorySlotToUpdate.SlotId <= Types.Players[Globals.playerIndex].Inventory.Slots.Count)
+            {
+                Types.Players[Globals.playerIndex].Inventory.Slots.Add(inventorySlotToUpdate);
+            } else
+            {
+                Types.Players[Globals.playerIndex].Inventory.Slots.ElementAt(inventorySlotToUpdate.SlotId).Item = inventorySlotToUpdate.Item;
+                Types.Players[Globals.playerIndex].Inventory.Slots.ElementAt(inventorySlotToUpdate.SlotId).ItemId = inventorySlotToUpdate.ItemId;
+                Types.Players[Globals.playerIndex].Inventory.Slots.ElementAt(inventorySlotToUpdate.SlotId).Quantity = inventorySlotToUpdate.Quantity;
+            }
+
+            Graphics.DrawTextInChat("Voce dropou o item: " + inventorySlotToUpdate.Item.Name, Microsoft.Xna.Framework.Color.Yellow);
+        }
     }
 }

@@ -13,9 +13,25 @@ namespace YnamarServer.Network
 {
     internal class ServerTCP
     {
-        public static ClientTCP[] Clients = new ClientTCP[Constants.MAX_PLAYERS];
+        private static readonly Lazy<ServerTCP> _instance =
+            new Lazy<ServerTCP>(() => new ServerTCP());
+
+        public static ServerTCP Instance => _instance.Value;
+
+        private ServerTCP()
+        {
+            Clients = new ClientTCP[Constants.MAX_PLAYERS];
+
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                Clients[i] = new ClientTCP();
+            }
+        }
+
+        public ClientTCP[] Clients = new ClientTCP[Constants.MAX_PLAYERS];
         public TcpListener ServerSocket;
         public static NetworkStream clientStream;
+
         public void InitializeNetwork()
         {
             ServerSocket = new TcpListener(IPAddress.Any, 5555);
@@ -29,7 +45,7 @@ namespace YnamarServer.Network
             client.NoDelay = false;
             ServerSocket.BeginAcceptTcpClient(OnClientConnect, null);
 
-            for (int i = 0; i <= Constants.MAX_PLAYERS; i++)
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
             {
                 if (Clients[i].Socket == null)
                 {
