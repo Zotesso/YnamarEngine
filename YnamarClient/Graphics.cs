@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using RenderingLibrary.Graphics;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
-using YnamarClient.Network;
-using YnamarClient.Database.Models;
 using System.Linq;
+using YnamarClient.Database.Models;
+using YnamarClient.Network;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace YnamarClient
 {
@@ -21,6 +23,8 @@ namespace YnamarClient
 
         public static Texture2D healthbarFull;
         public static Texture2D healthbar;
+
+        public static List<ChatMessage> ChatMessages = new();
 
         public static void InitializeGraphics(ContentManager manager)
         {
@@ -80,6 +84,7 @@ namespace YnamarClient
             // DrawPlayerName();
             DrawMapGrid(gameTime);
             DrawPlayerHealthBar(Globals.playerIndex);
+            DrawChat();
 
             Game1.spriteBatch.End();
         }
@@ -221,13 +226,36 @@ namespace YnamarClient
             Game1.spriteBatch.DrawString(font, mapNpc.Npc.Name, new Vector2(x, y), Color.Blue);
         }
 
-        // Função nn funciona, pq begin nn foi incializado
-        public static void DrawTextInChat(string text, Color color)
+        private static void DrawChat()
         {
-            int x = ConvertMapX(0) - 6;
-            int y = ConvertMapY(0) + 20;
+            int baseX = 200;
+            int baseY = 20;
 
-            Game1.spriteBatch.DrawString(font, text, new Vector2(x, y), color); 
+            for (int i = 0; i < ChatMessages.Count; i++)
+            {
+                Game1.spriteBatch.DrawString(
+                    font,
+                    ChatMessages[i].Text,
+                    new Vector2(baseX + 1, (baseY + i * 20) + 1),
+                    Color.Black,
+                    0f,
+                    Vector2.Zero,
+                    2f,
+                    SpriteEffects.None,
+                    0f);
+
+                Game1.spriteBatch.DrawString(
+                    font,
+                    ChatMessages[i].Text,
+                    new Vector2(baseX, baseY + i * 20),
+                    ChatMessages[i].Color,
+                    0f,                 
+                    Vector2.Zero,      
+                    2f,
+                    SpriteEffects.None,
+                    0f
+                );
+            }
         }
 
         public static void DrawAttackAnimation(int x, int y, Texture2D sprite, Rectangle srcrec)
