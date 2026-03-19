@@ -32,8 +32,10 @@ namespace YnamarEditors.Models
         [ProtoMember(7)]
         public byte Behavior { get; set; }
 
+        [ProtoMember(8)]
         public int RespawnTime { get; set; }
 
+        [ProtoMember(9)]
         public ICollection<NpcDrop> Drops { get; set; } = new List<NpcDrop>();
     }
 }

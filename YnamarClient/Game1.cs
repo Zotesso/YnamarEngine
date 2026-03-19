@@ -94,6 +94,7 @@ namespace YnamarClient
                     GameLogic.OpenInventory();
                 }
             }
+            UpdateChat(gameTime);
 
                 // TODO: Add your update logic here
                 Gum.Update(gameTime);
@@ -137,6 +138,18 @@ namespace YnamarClient
             Globals.DirRight = Keyboard.GetState().IsKeyDown(Keys.Right);
             Globals.DirLeft = Keyboard.GetState().IsKeyDown(Keys.Left);
             Globals.ZKeyPressed = Keyboard.GetState().IsKeyDown(Keys.Z);
+        }
+        public static void UpdateChat(GameTime gameTime)
+        {
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            for (int i = Graphics.ChatMessages.Count - 1; i >= 0; i--)
+            {
+                Graphics.ChatMessages[i].TimeLeft -= delta;
+
+                if (Graphics.ChatMessages[i].TimeLeft <= 0)
+                    Graphics.ChatMessages.RemoveAt(i);
+            }
         }
 
         public static void ClearScreenGum()

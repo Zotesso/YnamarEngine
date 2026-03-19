@@ -26,5 +26,8 @@ namespace YnamarServer
 
         //NPC Constants
         public const int MAX_NPCS = 100;
+
+        //Items Constants
+        public const int MAX_ITEMS = 100;
     }
 }

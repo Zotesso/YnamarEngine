@@ -10,7 +10,6 @@ public class General
     private ServerProtocol? serverProtocol;
     private ServerHandleData handleServerData;
 
-    private ServerTCP stcp;
     private ServerHandleDataTCP handleServerDataTcp;
 
     public async Task LoadInMemoryResources()
@@ -26,7 +25,7 @@ public class General
         }
 
         InMemoryDatabase.Npcs = (await npcService.LoadAllNpcs()).ToArray();
-
+        InMemoryDatabase.Items = (await Program.itemService.LoadAllItems()).ToArray();
     }
 
     public void initializeServer()
@@ -39,15 +38,10 @@ public class General
 
     public void initializeTCPServer()
     {
-        stcp = new ServerTCP();
+        var stcp = ServerTCP.Instance;
+
         handleServerDataTcp = new ServerHandleDataTCP();
         handleServerDataTcp.InitializeMessages();
-
-        for (int i = 0; i < Constants.MAX_PLAYERS; i++)
-        {
-            ServerTCP.Clients[i] = new ClientTCP();
-        }
-
 
         stcp.InitializeNetwork();
     }

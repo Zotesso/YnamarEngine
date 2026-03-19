@@ -13,7 +13,7 @@ namespace YnamarServer.GameLogic
 {
     internal class GameLogicHandler
     {
-        private static ServerTCP stcp = new ServerTCP();
+        private static ServerTCP stcp = ServerTCP.Instance;
 
         public static void PlayerMove(int index, byte dir, int movement)
         {
@@ -55,7 +55,7 @@ namespace YnamarServer.GameLogic
 
             if (mapNpcIndex.HasValue)
             {
-                NpcLogicHandler.NpcAttacked(playerMapNum, (int)mapNpcIndex, 50);
+                NpcLogicHandler.NpcAttacked(index, playerMapNum, (int)mapNpcIndex, 50);
                 //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
                // NpcService npcService = Program.npcService;
                 //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));

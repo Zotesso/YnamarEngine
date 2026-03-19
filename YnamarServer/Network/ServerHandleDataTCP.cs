@@ -17,7 +17,7 @@ namespace YnamarServer.Network
     {
         private delegate void Packet(int index, byte[] data);
         private static Dictionary<int, Packet> Packets;
-        private static ServerTCP stcp = new ServerTCP();
+        private static ServerTCP stcp = ServerTCP.Instance;
 
         public void InitializeMessages()
         {

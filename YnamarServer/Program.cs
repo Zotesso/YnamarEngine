@@ -29,6 +29,8 @@ internal class Program
     public static ItemEditorService itemEditorService;
     public static AnimationEditorService animationEditorService;
     public static NpcService npcService;
+    public static InventoryService inventoryService;
+    public static ItemService itemService;
 
     private static async Task Main(string[] args)
     {
@@ -81,7 +83,9 @@ internal class Program
         itemEditorService = new ItemEditorService(serviceScopeFactory);
         animationEditorService = new AnimationEditorService(serviceScopeFactory);
         npcService = new NpcService(serviceScopeFactory);
-
+        inventoryService = new InventoryService(serviceScopeFactory);
+        itemService = new ItemService(serviceScopeFactory);
+        
         Console.WriteLine("Initializing Server!");
         general = new General();
         consoleThread = new Thread(new ThreadStart(ConsoleThread));

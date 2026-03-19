@@ -22,5 +22,8 @@ namespace YnamarEditors.Models.Protos
 
         [ProtoMember(2)]
         public string Name { get; set; }
+
+        [ProtoMember(3)]
+        public ICollection<NpcDrop> Drops { get; set; } = new List<NpcDrop>();
     }
 }

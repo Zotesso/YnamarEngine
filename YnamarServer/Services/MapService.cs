@@ -10,7 +10,7 @@ namespace YnamarServer.Services
     internal class MapService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private static ServerTCP stcp = new ServerTCP();
+        private static ServerTCP stcp = ServerTCP.Instance;
 
         public MapService(IServiceScopeFactory serviceScopeFactory)
         {
@@ -45,6 +45,7 @@ namespace YnamarServer.Services
                     .Include(p => p.Layer)
                         .ThenInclude(x => x.MapNpc)
                             .ThenInclude(mapNpc => mapNpc.Npc)
+                                .ThenInclude(npc => npc.Drops)
                     .ToListAsync();
             };
         }

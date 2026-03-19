@@ -12,7 +12,7 @@ namespace YnamarServer.Services
 	internal class NpcService
 	{
 		private readonly IServiceScopeFactory _serviceScopeFactory;
-        private static ServerTCP stcp = new ServerTCP();
+        private static ServerTCP stcp = ServerTCP.Instance;
 
         public NpcService(IServiceScopeFactory serviceScopeFactory)
 		{

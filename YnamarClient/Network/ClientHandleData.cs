@@ -21,6 +21,7 @@ namespace YnamarClient.Network
 
             Packets.Add((int)ServerUdpPackets.UdpSNpcAttacked, HandleNpcAttacked);
             Packets.Add((int)ServerUdpPackets.UdpSNpcMove, HandleNpcMove);
+            Packets.Add((int)ServerUdpPackets.UdpSPlayerAttacking, HandlePlayerAttacking);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -71,6 +72,27 @@ namespace YnamarClient.Network
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
             Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+        }
+
+        private void HandlePlayerAttacking(int index, byte[] data)
+        {
+            if (!Globals.InGame) return;
+
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int playerIndex = buffer.GetInteger();
+            byte playerDir = buffer.GetByte();
+            Types.Players[playerIndex].Dir = playerDir;
+            Types.Players[playerIndex].Attacking = true;
+
+            if (Types.Players[playerIndex].EquippedItems is not null && Types.Players[playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip is not null)
+            {
+                Types.Players[playerIndex].WeaponAnim.Play(Types.Players[playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip);
+            }
+
+            buffer.Dispose();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.Database.Models;
 
 namespace YnamarServer.Database.Protos
 {
@@ -22,5 +23,8 @@ namespace YnamarServer.Database.Protos
 
         [ProtoMember(2)]
         public string Name { get; set; }
+
+        [ProtoMember(3)]
+        public ICollection<NpcDrop> Drops { get; set; } = new List<NpcDrop>();
     }
 }

@@ -51,6 +51,9 @@ namespace YnamarServer.Database
                 .HasForeignKey(s => s.ItemId)
                 .IsRequired(false);
 
+            modelBuilder.Entity<InventorySlot>()
+                .HasKey(x => new { x.InventoryId, x.SlotId });
+
             modelBuilder.Entity<MapNpc>()
                 .HasOne(mn => mn.Npc)
                 .WithMany()

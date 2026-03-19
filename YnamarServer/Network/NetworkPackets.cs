@@ -15,6 +15,7 @@ namespace YnamarServer.Network
             SPlayerMove,
             SLoadMap,
             SNpcKilled,
+            SInventorySlotUpdate,
         }
 
         public enum ClientTcpPackets
@@ -34,6 +35,7 @@ namespace YnamarServer.Network
         {
             UdpSNpcAttacked = 100,
             UdpSNpcMove,
+            UdpSPlayerAttacking,
         }
     }
 }
