@@ -1,4 +1,8 @@
-﻿using Myra.Graphics2D.UI;
+﻿using Gum.DataTypes;
+using Gum.Wireframe;
+using GumRuntime;
+using MonoGameGum;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +15,9 @@ namespace YnamarClient.GUI
     {
         public static Menu menu;
         public static InterfaceGUI IGUI { get; } = new InterfaceGUI();
+        private GumProjectSave _gumProject;
+        private static GraphicalUiElement _currentScreen;
+
 
         public enum Menu
         {
@@ -19,6 +26,19 @@ namespace YnamarClient.GUI
             InGame,
             adminPanel
         }
+
+        public MenuManager(GumProjectSave gumProject)
+        {
+            _gumProject = gumProject;
+            var screenRuntime = _gumProject.Screens
+               .First(s => s.Name == "GameScreen")
+               .ToGraphicalUiElement();
+
+            screenRuntime.AddToRoot();
+            _currentScreen = screenRuntime;
+        }
+
+        public GraphicalUiElement GetCurrentScreen() => _currentScreen;
 
         public static void ChangeMenu(Menu menu, Desktop desktop)
         {

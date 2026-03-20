@@ -26,5 +26,16 @@ namespace YnamarClient
 
         //NPC Constants
         public const int MAX_NPCS = 100;
+
+        public enum EquipmentsEnum
+        {
+            Weapon = 0,
+            Chestplate,
+            Leggings,
+            Boots,
+            Helmet,
+            Shield,
+        }
+
     }
 }

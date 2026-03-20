@@ -27,6 +27,7 @@ namespace YnamarClient
         ClientTCP ctcp;
         ClientHandleDataTCP clientDataHandleTCP;
         private static Thread tcpThread;
+        private MenuManager _menuManager;
 
         public static Desktop desktop;
         public static GumProjectSave gumProject;
@@ -34,6 +35,7 @@ namespace YnamarClient
         public static new int Tick;
         public static int ElapsedTime;
         public static int FrameTime;
+        private KeyboardState _previousKeyboardState;
 
         public Game1()
         {
@@ -58,6 +60,7 @@ namespace YnamarClient
             tcpThread.Start();
 
             gumProject = Gum.Initialize(this, "GumUI/gumproject.gumx");
+            _menuManager = new MenuManager(gumProject);
             Graphics.InitializeGraphics(Content);
 
             var rectangle = new ColoredRectangleRuntime();
@@ -84,16 +87,28 @@ namespace YnamarClient
 
         protected override void Update(GameTime gameTime)
         {
+            var currentKeyboardState = Keyboard.GetState();
+            bool isComboPressed =
+                currentKeyboardState.IsKeyDown(Keys.LeftAlt) &&
+                currentKeyboardState.IsKeyDown(Keys.E);
+
+            bool wasComboPressed =
+                _previousKeyboardState.IsKeyDown(Keys.LeftAlt) &&
+                _previousKeyboardState.IsKeyDown(Keys.E);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             if (Globals.InGame)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.E))
+                if (isComboPressed && !wasComboPressed)
                 {
-                    GameLogic.OpenInventory();
+                    GameLogic.ToggleInventory(_menuManager);
                 }
             }
+
+            _previousKeyboardState = currentKeyboardState;
+
             UpdateChat(gameTime);
 
                 // TODO: Add your update logic here

@@ -1,21 +1,22 @@
-﻿using Myra.Graphics2D.UI;
-using Myra.Graphics2D;
+﻿using Gum.DataTypes;
+using Gum.Wireframe;
+using GumRuntime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGameGum;
 using Myra;
+using Myra.Graphics2D;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YnamarClient.Network;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Gum.DataTypes;
-using GumRuntime;
-using Gum.Wireframe;
-using MonoGameGum;
-using YnamarClient.Screens;
-using YnamarClient.Database.Models;
 using YnamarClient.Components;
+using YnamarClient.Database.Models;
+using YnamarClient.Network;
+using YnamarClient.Screens;
+using static YnamarClient.Constants;
 
 namespace YnamarClient.GUI
 {
@@ -23,6 +24,7 @@ namespace YnamarClient.GUI
     {
         public static List<Panel> Windows = new List<Panel>();
         private ClientTCP clienttcp = new ClientTCP();
+        private static InventoryRuntime? _playerInventory = null;
 
         public void InitializeGUI(Game1 game, Desktop desktop)
         {
@@ -38,9 +40,29 @@ namespace YnamarClient.GUI
             Windows.Add(panel);
         }
 
+        public static InventoryRuntime? PlayerInventory { get => _playerInventory; set => _playerInventory = value; }
+
         public void CreateWindow_Inventory()
         {
-            InventoryRuntime inventoryRuntime = new InventoryRuntime();
+            PlayerInventory = new InventoryRuntime();
+
+            foreach (int equipSlot in Enum.GetValues<EquipmentsEnum>())
+            {
+                InventoryItemRuntime invSlot = new InventoryItemRuntime();
+
+                Item? equippedItem = Types.Players[Globals.playerIndex].EquippedItems.FirstOrDefault(e => e.Slot == equipSlot)?.Item;
+                int spriteNum = equippedItem is not null ? equippedItem.Sprite : 0;
+                Texture2D texture = Graphics.Items[spriteNum];
+
+                invSlot.SpriteInstance.Texture = texture;
+                int column = equipSlot % 5;
+                int row = equipSlot / 5;
+
+                invSlot.X = 50 + (column * 32) + ((column + 1) * 5);
+                invSlot.Y = 50 + (row * 32) + ((row + 1) * 15);
+
+                PlayerInventory.Children.Add(invSlot);
+            }
 
             foreach (var slot in Types.Players[Globals.playerIndex].Inventory.Slots.Select((value, i) => new { i, value }))
             {
@@ -53,13 +75,25 @@ namespace YnamarClient.GUI
                 int row = slot.i / 5;
 
                 invSlot.X = 50 + (column * 32) + ((column + 1) * 5);
-                invSlot.Y = 50 + (row * 32) + ((row + 1) * 15);
+                invSlot.Y = 200 + (row * 32) + ((row + 1) * 15);
 
-                inventoryRuntime.Children.Add(invSlot);
+                PlayerInventory.Name = "InventoryRuntime";
+                PlayerInventory.Children.Add(invSlot);
             }
-            
-            inventoryRuntime.AddToRoot();
+
+            PlayerInventory.AddToRoot();
         }
+
+        //public void CloseWindow_Inventory(MenuManager menuManager)
+        //{
+        //    var inventory = menuManager.GetCurrentScreen().GetGraphicalUiElementByName("InventoryRuntime");
+
+        //    if (inventory is not null) 
+        //    {
+        //        inventory.RemoveFromRoot();
+        //    }
+        //    OpenedInventory = false;
+        //}
 
         public void CreateWindow_Login(Desktop desktop)
         {

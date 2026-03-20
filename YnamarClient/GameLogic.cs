@@ -302,8 +302,15 @@ namespace YnamarClient
             }
         }
 
-        public static void OpenInventory()
+        public static void ToggleInventory(MenuManager menuManager)
         {
+            if (InterfaceGUI.PlayerInventory is not null)
+            {
+                InterfaceGUI.PlayerInventory.RemoveFromRoot();
+                InterfaceGUI.PlayerInventory = null;
+                return;
+            }
+
             MenuManager.IGUI.CreateWindow_Inventory();
         }
 

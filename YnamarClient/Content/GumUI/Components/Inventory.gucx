@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ComponentSave xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Inventory</Name>
   <BaseType>Container</BaseType>
   <State>
@@ -31,7 +31,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Gray.Height</Name>
-      <Value xsi:type="xsd:float">364</Value>
+      <Value xsi:type="xsd:float">590</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -53,8 +53,20 @@
     </Variable>
     <Variable>
       <Type>float</Type>
+      <Name>Gray.X</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>Gray.Y</Name>
+      <Value xsi:type="xsd:float">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">365</Value>
+      <Value xsi:type="xsd:float">594</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -90,13 +102,13 @@
     <Variable>
       <Type>float</Type>
       <Name>Title.X</Name>
-      <Value xsi:type="xsd:float">95</Value>
+      <Value xsi:type="xsd:float">89</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>Title.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Value xsi:type="xsd:float">210</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -114,7 +126,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Y</Name>
-      <Value xsi:type="xsd:float">137</Value>
+      <Value xsi:type="xsd:float">4</Value>
       <SetsValue>true</SetsValue>
     </Variable>
   </State>

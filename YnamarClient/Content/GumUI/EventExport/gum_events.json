@@ -2,46 +2,11 @@
   "UserEvents": {
     "eb9b018caf07b51b0914ce96fcf317ab532a2d06983c4d374dfd66c5516f0933": [
       {
-        "NewName": "Inventory",
+        "NewName": "GameScreen",
         "OldName": null,
-        "ElementType": "Components",
+        "ElementType": "Screens",
         "EventType": 0,
-        "TimestampUtc": "2025-08-24T22:00:00.6940251Z"
-      },
-      {
-        "NewName": "Inventory (Container).Gray",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:01:39.0352853Z"
-      },
-      {
-        "NewName": "Inventory (Container).Title",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:06:36.0220434Z"
-      },
-      {
-        "NewName": "InventoryItem",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 0,
-        "TimestampUtc": "2025-08-24T22:10:06.4775501Z"
-      },
-      {
-        "NewName": "InventoryItem (Container).Black",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:10:19.6485462Z"
-      },
-      {
-        "NewName": "InventoryItem (Container).SpriteInstance",
-        "OldName": null,
-        "ElementType": "Components",
-        "EventType": 5,
-        "TimestampUtc": "2025-08-24T22:29:23.7063622Z"
+        "TimestampUtc": "2026-03-20T00:31:32.499823Z"
       }
     ]
   }
