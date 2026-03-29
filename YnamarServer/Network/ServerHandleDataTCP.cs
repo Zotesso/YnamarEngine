@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using YnamarServer.Database;
 using YnamarServer.Database.Models;
 using YnamarServer.GameLogic;
 using YnamarServer.GameLogic.Items.Factory;
+using YnamarServer.Network.Session;
 using YnamarServer.Services;
 using static YnamarServer.Network.NetworkPackets;
 
@@ -66,6 +68,13 @@ namespace YnamarServer.Network
 
             Character accChar = await myService.GetCharacterAsync(userId);
             InMemoryDatabase.Player[index] = accChar;
+            var session = new PlayerSession
+            {
+                Index = index,
+                PlayerId = accChar.Id,
+            };
+
+            Program.Sessions[session.Index] = session;
             SendCharacterPackage(index, accChar);
             SendJoinMap(index);
             SendCharacterPackageToMap(index, accChar);

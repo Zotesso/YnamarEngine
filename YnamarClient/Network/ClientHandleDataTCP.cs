@@ -32,6 +32,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SLoadMap, HandleLoadMap);
             Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
             Packets.Add((int)ServerPackets.SInventorySlotUpdate, HandleInventorySlotUpdate);
+            Packets.Add((int)ServerPackets.SInventorySlotDelete, HandleInventorySlotDelete);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -174,6 +175,23 @@ namespace YnamarClient.Network
                 Color = Microsoft.Xna.Framework.Color.White,
                 TimeLeft = 5f
             });
+        }
+
+        private void HandleInventorySlotDelete(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int targetIndex = buffer.GetInteger();
+            int bufferLength = buffer.GetInteger();
+            int inventorySlotId = buffer.GetInteger();
+            InventorySlot invSlotToRemove = Types.Players[Globals.playerIndex].Inventory.Slots.ElementAt(inventorySlotId);
+
+            if (invSlotToRemove is not null)
+            {
+                Types.Players[Globals.playerIndex].Inventory.Slots.Remove(invSlotToRemove);
+            }
         }
     }
 }

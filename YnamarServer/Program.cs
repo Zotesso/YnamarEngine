@@ -8,6 +8,7 @@ using System.Diagnostics;
 using YnamarServer.Admin.Controllers;
 using YnamarServer.Admin.Services;
 using YnamarServer.GameLogic;
+using YnamarServer.Network.Session;
 using YnamarServer.Services;
 
 internal class Program
@@ -20,7 +21,9 @@ internal class Program
     private static Thread? tcpServerThread;
     private static Thread? udpServerThread;
     private static Thread? gameLoopThread;
-    
+
+    public static Dictionary<int, PlayerSession> Sessions = new();
+
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;
     public static MapService mapService;

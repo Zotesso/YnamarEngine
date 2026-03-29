@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
+using YnamarServer.Network;
+using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Services
 {
@@ -73,6 +75,17 @@ namespace YnamarServer.Services
 
                 return expectedId;
             }
+        }
+
+        public void SendInventorySlotDeleteToPlayer(int playerIndex, int inventorySlotId)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerPackets.SInventorySlotDelete);
+            bufferSend.AddInteger(playerIndex);
+            bufferSend.AddInteger(inventorySlotId);
+
+            ServerTCP.Instance.SendData(playerIndex, bufferSend.ToArray());
+            bufferSend.Dispose();
         }
     }
 }
