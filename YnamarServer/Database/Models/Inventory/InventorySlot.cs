@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class InventorySlot
+    public class InventorySlot
     {
         [Required]
         public int InventoryId { get; set; }

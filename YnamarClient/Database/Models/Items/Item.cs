@@ -27,12 +27,15 @@ namespace YnamarClient.Database.Models
         public int Type { get; set; }
 
         [ProtoMember(5)]
-        public int Sprite { get; set; }
+        public int UsageType { get; set; }
 
         [ProtoMember(6)]
-        public int? AnimationClipId { get; set; }
+        public int Sprite { get; set; }
 
         [ProtoMember(7)]
+        public int? AnimationClipId { get; set; }
+
+        [ProtoMember(8)]
         [ForeignKey(nameof(AnimationClipId))]
         public AnimationClip? AnimationClip { get; set; }
 

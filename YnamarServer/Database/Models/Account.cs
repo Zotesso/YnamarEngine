@@ -3,7 +3,7 @@ using System.Reflection.Metadata;
 
 namespace YnamarServer.Database.Models
 {
-    internal class Account
+    public class Account
     {
         [Key]
         public int Id { get; set; }

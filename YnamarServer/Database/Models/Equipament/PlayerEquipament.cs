@@ -12,7 +12,7 @@ using YnamarServer.Database.Models.Animation;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class PlayerEquipament
+    public class PlayerEquipament
     {
         [ProtoMember(1)]
         public int CharacterId { get; set; }

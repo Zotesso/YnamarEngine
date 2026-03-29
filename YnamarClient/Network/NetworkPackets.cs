@@ -23,9 +23,9 @@ namespace YnamarClient.Network
             CLogin = 1,
             CRegister,
             CPlayerMove,
-            CLoadMap
+            CLoadMap,
+            CItemUsed,
         }
-
 
         public enum ClientUdpPackets
         {

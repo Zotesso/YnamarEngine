@@ -10,56 +10,57 @@ using ProtoBuf;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class Character
+    public class Character
     {
         [Key]
+        [ProtoMember(1)]
         public int Id { get; set; }
 
-        [ProtoMember(1)]
+        [ProtoMember(2)]
         public string Name { get; set; }
 
-        [ProtoMember(2)]
+        [ProtoMember(3)]
         public int Sprite { get; set; }
 
-        [ProtoMember(3)]
+        [ProtoMember(4)]
         public int Level { get; set; }
 
-        [ProtoMember(4)]
+        [ProtoMember(5)]
         public int EXP { get; set; }
 
-        [ProtoMember(5)]
+        [ProtoMember(6)]
         public int Map { get; set; }
 
-        [ProtoMember(6)]
+        [ProtoMember(7)]
         public int X { get; set; }
 
-        [ProtoMember(7)]
+        [ProtoMember(8)]
         public int Y { get; set; }
 
-        [ProtoMember(8)]
+        [ProtoMember(9)]
         public byte Dir { get; set; }
 
-        [ProtoMember(9)]
+        [ProtoMember(10)]
         public int XOffset { get; set; }
 
-        [ProtoMember(10)]
+        [ProtoMember(11)]
         public int YOffset { get; set; }
 
-        [ProtoMember(11)]
+        [ProtoMember(12)]
         public byte Access { get; set; }
 
-        [ProtoMember(12)]
+        [ProtoMember(13)]
         public int MaxHP { get; set; }
 
-        [ProtoMember(13)]
+        [ProtoMember(14)]
         public int HP { get; set; }
 
         public Account Account { get; set; } = null!;
 
-        [ProtoMember(14)]
+        [ProtoMember(15)]
         public Inventory Inventory { get; set; } = null!;
 
-        [ProtoMember(15)]
+        [ProtoMember(16)]
         public ICollection<PlayerEquipament> EquippedItems { get; set; }
 
     }

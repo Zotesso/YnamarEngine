@@ -22,51 +22,54 @@ namespace YnamarClient
             public string Password;
 
             [ProtoMember(1)]
-            public string Name;
+            public int Id;
 
             [ProtoMember(2)]
-            public int Sprite;
+            public string Name;
 
             [ProtoMember(3)]
-            public int Level;
+            public int Sprite;
 
             [ProtoMember(4)]
-            public int EXP;
+            public int Level;
 
             [ProtoMember(5)]
-            public int Map;
+            public int EXP;
 
             [ProtoMember(6)]
-            public int X;
+            public int Map;
 
             [ProtoMember(7)]
-            public int Y;
+            public int X;
 
             [ProtoMember(8)]
-            public byte Dir;
+            public int Y;
 
             [ProtoMember(9)]
-            public int XOffset;
+            public byte Dir;
 
             [ProtoMember(10)]
+            public int XOffset;
+
+            [ProtoMember(11)]
             public int YOffset;
 
             public int Moving;
             public byte Steps;
 
-            [ProtoMember(11)]
+            [ProtoMember(12)]
             public byte Access;
 
-            [ProtoMember(12)]
+            [ProtoMember(13)]
             public int MaxHP;
 
-            [ProtoMember(13)]
+            [ProtoMember(14)]
             public int HP;
 
-            [ProtoMember(14)]
+            [ProtoMember(15)]
             public Inventory Inventory;
 
-            [ProtoMember(15)]
+            [ProtoMember(16)]
             public ICollection<PlayerEquipament> EquippedItems { get; set; }
 
             public int AttackCooldown;

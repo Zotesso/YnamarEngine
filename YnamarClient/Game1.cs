@@ -24,7 +24,6 @@ namespace YnamarClient
         ClientHandleData clientDataHandle;
         private static Thread udpThread;
 
-        ClientTCP ctcp;
         ClientHandleDataTCP clientDataHandleTCP;
         private static Thread tcpThread;
         private MenuManager _menuManager;
@@ -52,11 +51,10 @@ namespace YnamarClient
             udpThread = new Thread(new ThreadStart(NetworkManager.Client.ConnectToServer));
             udpThread.Start();
 
-            ctcp = new ClientTCP();
             clientDataHandleTCP = new ClientHandleDataTCP();
             clientDataHandleTCP.InitializeMessages();
 
-            tcpThread = new Thread(new ThreadStart(ctcp.ConnectToServer));
+            tcpThread = new Thread(new ThreadStart(NetworkManager.ClientTcp.ConnectToServer));
             tcpThread.Start();
 
             gumProject = Gum.Initialize(this, "GumUI/gumproject.gumx");

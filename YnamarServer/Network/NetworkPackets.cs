@@ -24,6 +24,7 @@ namespace YnamarServer.Network
             CRegister,
             CPlayerMove,
             CLoadMap,
+            CItemUsed,
         }
 
         public enum ClientUdpPackets

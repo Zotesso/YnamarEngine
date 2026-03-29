@@ -16,6 +16,7 @@ using YnamarClient.Components;
 using YnamarClient.Database.Models;
 using YnamarClient.Network;
 using YnamarClient.Screens;
+using YnamarClient.Services;
 using static YnamarClient.Constants;
 
 namespace YnamarClient.GUI
@@ -61,6 +62,13 @@ namespace YnamarClient.GUI
                 invSlot.X = 50 + (column * 32) + ((column + 1) * 5);
                 invSlot.Y = 50 + (row * 32) + ((row + 1) * 15);
 
+                invSlot.Click += (_, _) =>
+                {
+                    if (equippedItem is null) return;
+
+                    ItemService.handleItemUsed(equippedItem.Id);
+                };
+
                 PlayerInventory.Children.Add(invSlot);
             }
 
@@ -78,6 +86,12 @@ namespace YnamarClient.GUI
                 invSlot.Y = 200 + (row * 32) + ((row + 1) * 15);
 
                 PlayerInventory.Name = "InventoryRuntime";
+
+                invSlot.Click += (_, _) =>
+                {
+                    ItemService.handleItemUsed((int)slot.value.ItemId);
+                };
+
                 PlayerInventory.Children.Add(invSlot);
             }
 

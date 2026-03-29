@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    internal class Inventory
+    public class Inventory
     {
         [Key]
         [ProtoMember(1)]

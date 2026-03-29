@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YnamarServer
 {
-    internal class Constants
+    public class Constants
     {
         //Player Constants
         public const int MAX_PLAYERS = 100;
@@ -29,5 +29,12 @@ namespace YnamarServer
 
         //Items Constants
         public const int MAX_ITEMS = 100;
+
+        public enum UsageItemType
+        {
+            Equipable,
+            Consumable,
+            None
+        }
     }
 }

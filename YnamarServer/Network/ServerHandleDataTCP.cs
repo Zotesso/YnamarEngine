@@ -3,11 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
 using YnamarServer.GameLogic;
+using YnamarServer.GameLogic.Items.Factory;
 using YnamarServer.Services;
 using static YnamarServer.Network.NetworkPackets;
 
@@ -30,6 +32,7 @@ namespace YnamarServer.Network
             Packets.Add((int)ClientTcpPackets.CRegister, HandleRegister);
             Packets.Add((int)ClientTcpPackets.CPlayerMove, HandlePlayerMovement);
             Packets.Add((int)ClientTcpPackets.CLoadMap, HandleLoadMap);
+            Packets.Add((int)ClientTcpPackets.CItemUsed, HandleItemUsed);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -77,7 +80,7 @@ namespace YnamarServer.Network
             byte[] charProtoBuf = bufferSend.SerializeProto(accChar);
             bufferSend.AddInteger(charProtoBuf.Length);
             bufferSend.AddByteArray(charProtoBuf);
-            
+
             stcp.SendData(index, bufferSend.ToArray());
 
             bufferSend.Dispose();
@@ -150,6 +153,19 @@ namespace YnamarServer.Network
             MapService mapService = Program.mapService;
             Map loadedMap = await mapService.LoadMap(mapNum);
             mapService.SendMapToClient(index, loadedMap);
+        }
+
+        private void HandleItemUsed(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+            int playerIndex = buffer.GetInteger();
+            int slot = buffer.GetInteger();
+
+            ItemService itemService = Program.itemService;
+            itemService.UseItem(playerIndex, slot);
+            buffer.Dispose();
         }
     }
 }
