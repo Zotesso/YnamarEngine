@@ -51,7 +51,9 @@ namespace YnamarClient.GUI
             {
                 InventoryItemRuntime invSlot = new InventoryItemRuntime();
 
-                Item? equippedItem = Types.Players[Globals.playerIndex].EquippedItems.FirstOrDefault(e => e.Slot == equipSlot)?.Item;
+                Item? equippedItem = Types.Players[Globals.playerIndex].EquippedItems is not null ? 
+                    Types.Players[Globals.playerIndex].EquippedItems.FirstOrDefault(e => e.Slot == equipSlot)?.Item
+                    : null;
                 int spriteNum = equippedItem is not null ? equippedItem.Sprite : 0;
                 Texture2D texture = Graphics.Items[spriteNum];
 

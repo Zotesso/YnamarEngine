@@ -15,6 +15,7 @@ namespace YnamarServer.Network.Session
         private readonly ConcurrentDictionary<int, PlayerSession> _sessionsByIndex = new();
         private readonly ConcurrentDictionary<int, int> _indexByPlayerId = new();
         private readonly ConcurrentDictionary<EndPoint, int> _indexByUdp = new();
+        private readonly ConcurrentDictionary<TcpClient, int> _indexByTcp = new();
 
         private readonly IndexPool _indexPool;
         private readonly Random _random = new();
@@ -39,6 +40,7 @@ namespace YnamarServer.Network.Session
 
             _sessionsByIndex[index] = session;
             _indexByPlayerId[playerId] = index;
+            _indexByTcp[tcp] = index;
 
             return session;
         }
@@ -48,6 +50,7 @@ namespace YnamarServer.Network.Session
             if (_sessionsByIndex.TryRemove(index, out var session))
             {
                 _indexByPlayerId.TryRemove(session.PlayerId, out _);
+                _indexByTcp.TryRemove(session.Tcp, out _); 
 
                 if (session.UdpEndpoint != null)
                     _indexByUdp.TryRemove(session.UdpEndpoint, out _);
@@ -75,13 +78,21 @@ namespace YnamarServer.Network.Session
             return null;
         }
 
+        public PlayerSession? GetByTcp(TcpClient tcp)
+        {
+            if (_indexByTcp.TryGetValue(tcp, out var index))
+                return GetByIndex(index);
+
+            return null;
+        }
+
         public bool RegisterUdpEndpoint(IPEndPoint endpoint, int index, long token)
         {
             var session = GetByIndex(index);
             if (session == null) return false;
 
             if (session.UdpToken != token)
-                return false; // 🚨 spoof detectado
+                return false;
 
             session.UdpEndpoint = endpoint;
             _indexByUdp[endpoint] = index;

@@ -22,7 +22,7 @@ internal class Program
     private static Thread? udpServerThread;
     private static Thread? gameLoopThread;
 
-    public static Dictionary<int, PlayerSession> Sessions = new();
+    public static SessionManager SessionManager = new SessionManager(100);
 
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;

@@ -78,9 +78,17 @@ namespace YnamarServer.Network
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
-            clientStream = Clients[index].Socket.GetStream();
-            clientStream.Write(buffer.ToArray(), 0, buffer.ToArray().Length);
-            buffer.Dispose();
+
+            try {
+                clientStream = Clients[index].Socket.GetStream();
+                clientStream.Write(buffer.ToArray(), 0, buffer.ToArray().Length);
+                buffer.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting stream for player " + index + ": " + ex.Message);
+                return;
+            }
         }
 
         public void SendDataToMap(int mapNum, byte[] data)

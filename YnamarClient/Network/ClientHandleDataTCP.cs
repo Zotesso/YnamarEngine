@@ -86,36 +86,40 @@ namespace YnamarClient.Network
             buffer.GetInteger();
 
             int targetIndex = buffer.GetInteger();
-            int targetX = buffer.GetInteger();
-            int targetY = buffer.GetInteger();
-            byte targetDirection = buffer.GetByte();
-            int targetMoving = buffer.GetInteger();
 
-            Types.Players[targetIndex].X = targetX;
-            Types.Players[targetIndex].Y = targetY;
-            Types.Players[targetIndex].Dir = targetDirection;
-
-            Types.Players[targetIndex].XOffset = 0;
-            Types.Players[targetIndex].YOffset = 0;
-            Types.Players[targetIndex].Moving = 1;
-
-            switch (Types.Players[targetIndex].Dir)
+            if (Types.Players.TryGetValue(targetIndex, out var player))
             {
-                case Constants.DIR_UP:
-                    Types.Players[targetIndex].YOffset = 32;
-                    break;
-                case Constants.DIR_DOWN:
-                    Types.Players[targetIndex].YOffset = 32 * -1;
-                    break;
-                case Constants.DIR_LEFT:
-                    Types.Players[targetIndex].XOffset = 32;
-                    break;
-                case Constants.DIR_RIGHT:
-                    Types.Players[targetIndex].XOffset = 32 * -1;
-                    break;
-            }
+                int targetX = buffer.GetInteger();
+                int targetY = buffer.GetInteger();
+                byte targetDirection = buffer.GetByte();
+                int targetMoving = buffer.GetInteger();
 
-            GameLogic.ProcessMovement(targetIndex);
+                Types.Players[targetIndex].X = targetX;
+                Types.Players[targetIndex].Y = targetY;
+                Types.Players[targetIndex].Dir = targetDirection;
+
+                Types.Players[targetIndex].XOffset = 0;
+                Types.Players[targetIndex].YOffset = 0;
+                Types.Players[targetIndex].Moving = 1;
+
+                switch (Types.Players[targetIndex].Dir)
+                {
+                    case Constants.DIR_UP:
+                        Types.Players[targetIndex].YOffset = 32;
+                        break;
+                    case Constants.DIR_DOWN:
+                        Types.Players[targetIndex].YOffset = 32 * -1;
+                        break;
+                    case Constants.DIR_LEFT:
+                        Types.Players[targetIndex].XOffset = 32;
+                        break;
+                    case Constants.DIR_RIGHT:
+                        Types.Players[targetIndex].XOffset = 32 * -1;
+                        break;
+                }
+
+                GameLogic.ProcessMovement(targetIndex);
+            }
         }
 
         private void HandleLoadMap(int index, byte[] data)

@@ -19,7 +19,7 @@ namespace YnamarServer.Network
 {
     internal class ServerHandleDataTCP
     {
-        private delegate void Packet(int index, byte[] data);
+        private delegate void Packet(TcpClient client, byte[] data);
         private static Dictionary<int, Packet> Packets;
         private static ServerTCP stcp = ServerTCP.Instance;
 
@@ -37,7 +37,7 @@ namespace YnamarServer.Network
             Packets.Add((int)ClientTcpPackets.CItemUsed, HandleItemUsed);
         }
 
-        public void HandleNetworkMessages(int index, byte[] data)
+        public void HandleNetworkMessages(TcpClient client, byte[] data)
         {
             int packetNum;
             PacketBuffer buffer;
@@ -49,11 +49,11 @@ namespace YnamarServer.Network
 
             if (Packets.TryGetValue(packetNum, out Packet Packet))
             {
-                Packet.Invoke(index, data);
+                Packet.Invoke(client, data);
             }
         }
 
-        private async void HandleLoginAsync(int index, byte[] data)
+        private async void HandleLoginAsync(TcpClient client, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
@@ -64,17 +64,15 @@ namespace YnamarServer.Network
 
             var myService = Program.accountService;
             int userId = await myService.Login(username, password);
-            Console.WriteLine("Player " + index + " Has logged in");
 
             Character accChar = await myService.GetCharacterAsync(userId);
-            InMemoryDatabase.Player[index] = accChar;
-            var session = new PlayerSession
-            {
-                Index = index,
-                PlayerId = accChar.Id,
-            };
 
-            Program.Sessions[session.Index] = session;
+            var session = Program.SessionManager.CreateSession(userId, client);
+            int index = session.Index;
+            InMemoryDatabase.Player[index] = accChar;
+
+            Console.WriteLine("Player " + index + " Has logged in");
+
             SendCharacterPackage(index, accChar);
             SendJoinMap(index);
             SendCharacterPackageToMap(index, accChar);
@@ -129,7 +127,7 @@ namespace YnamarServer.Network
             }
         }
 
-        private void HandleRegister(int index, byte[] data)
+        private void HandleRegister(TcpClient client, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
@@ -141,7 +139,7 @@ namespace YnamarServer.Network
             myService.RegisterUserAsync(username, password);
         }
 
-        private void HandlePlayerMovement(int index, byte[] data)
+        private void HandlePlayerMovement(TcpClient client, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
@@ -150,9 +148,13 @@ namespace YnamarServer.Network
             byte dir = buffer.GetByte();
             int moving = buffer.GetInteger();
 
-            GameLogicHandler.PlayerMove(index, dir, moving);
+            var player = Program.SessionManager.GetByTcp(client);
+
+            if (player is null) return;
+
+            GameLogicHandler.PlayerMove(player.Index, dir, moving);
         }
-        private async void HandleLoadMap(int index, byte[] data)
+        private async void HandleLoadMap(TcpClient client, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
@@ -161,15 +163,24 @@ namespace YnamarServer.Network
             int mapNum = buffer.GetInteger();
             MapService mapService = Program.mapService;
             Map loadedMap = await mapService.LoadMap(mapNum);
-            mapService.SendMapToClient(index, loadedMap);
+
+            var player = Program.SessionManager.GetByTcp(client);
+
+            if (player is null) return;
+
+            mapService.SendMapToClient(player.Index, loadedMap);
         }
 
-        private void HandleItemUsed(int index, byte[] data)
+        private void HandleItemUsed(TcpClient client, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
             buffer.GetInteger();
-            int playerIndex = buffer.GetInteger();
+            var player = Program.SessionManager.GetByTcp(client);
+
+            if (player is null) return;
+
+            int playerIndex = player.PlayerId;
             int slot = buffer.GetInteger();
 
             ItemService itemService = Program.itemService;

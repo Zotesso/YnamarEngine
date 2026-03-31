@@ -82,7 +82,7 @@ namespace YnamarClient.Network
         public static bool IsPlaying(int index)
         {
 
-            if (Types.Players[index] is not null)
+            if (Types.Players.TryGetValue(index, out _))
             {
                 return true;
             }

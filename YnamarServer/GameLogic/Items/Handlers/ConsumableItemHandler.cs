@@ -16,6 +16,7 @@ namespace YnamarServer.GameLogic.Items.Handlers
             character.HP += 50;
 
             context.InventorySlots.Remove(slot);
+            
         }
 
     }

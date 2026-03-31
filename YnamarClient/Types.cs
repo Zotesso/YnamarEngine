@@ -12,7 +12,7 @@ namespace YnamarClient
 {
     internal class Types
     {
-        public static Player[] Players = new Player[100];
+        public static Dictionary<int, Player> Players = new();
         public static MapStruct[] Map = new MapStruct[100];
 
         [ProtoContract]

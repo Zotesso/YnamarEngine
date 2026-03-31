@@ -44,7 +44,7 @@ namespace YnamarServer.Network
                 Array.Resize(ref newBytes, readBytes);
                 Buffer.BlockCopy(readBuff, 0, newBytes, 0, readBytes);
 
-                handleServerData.HandleNetworkMessages(Index, newBytes);
+                handleServerData.HandleNetworkMessages(Socket, newBytes);
                 myStream.BeginRead(readBuff, 0, Socket.ReceiveBufferSize, OnReceiveData, null);
             }
             catch(Exception e)
