@@ -17,6 +17,7 @@ namespace YnamarServer.Network
             SNpcKilled,
             SInventorySlotUpdate,
             SInventorySlotDelete,
+            SUdpHandshake,
         }
 
         public enum ClientTcpPackets
@@ -30,7 +31,8 @@ namespace YnamarServer.Network
 
         public enum ClientUdpPackets
         {
-            UdpCAttack = 100,
+            UdpCHandshake = 100,
+            UdpCAttack
         }
 
         public enum ServerUdpPackets

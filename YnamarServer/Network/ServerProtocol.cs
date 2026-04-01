@@ -3,8 +3,9 @@ using System;
 using System.Text;
 using System.Threading.Channels;
 using System.Xml;
-using YnamarServer.Network;
 using YnamarServer.Database;
+using YnamarServer.Network;
+using YnamarServer.Network.Session;
 using static YnamarServer.Network.NetworkPackets;
 
 /// <summary>
@@ -57,6 +58,10 @@ public class ServerProtocol
 
                     case EventType.Disconnect:
                         Console.WriteLine("Client disconnected - ID: " + netEvent.Peer.ID + ", IP: " + netEvent.Peer.IP);
+                        if (Program.SessionManager.GetByUdpPeer(netEvent.Peer.ID) is PlayerSession session)
+                        {
+                            Program.SessionManager.RemoveSession(session.Index);
+                        }
                         connectedClients.Remove(netEvent.Peer.ID);
                         break;
 
@@ -70,7 +75,7 @@ public class ServerProtocol
                         byte[] buffer = new byte[netEvent.Packet.Length];
                         netEvent.Packet.CopyTo(buffer);
 
-                        handleServerData.HandleNetworkMessages(netEvent.ChannelID, buffer);
+                        handleServerData.HandleNetworkMessages(netEvent.Peer, netEvent.ChannelID, buffer);
                         netEvent.Packet.Dispose();
                         break;
                 }

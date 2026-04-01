@@ -13,7 +13,6 @@ namespace YnamarServer.Network.Session
         public int Index { get; set; }
         public int PlayerId { get; set; }
         public TcpClient? Tcp { get; init; }
-        public IPEndPoint? UdpEndpoint { get; set; }
 
         public long UdpToken { get; init; }
 

@@ -55,6 +55,12 @@ namespace YnamarClient.Network
             buffUpdate = true;
         }
 
+        public void AddLong(long Input)
+        {
+            Buff.AddRange(BitConverter.GetBytes(Input));
+            buffUpdate = true;
+        }
+
         public void AddFloat(float Input)
         {
             Buff.AddRange(BitConverter.GetBytes(Input));
@@ -102,6 +108,31 @@ namespace YnamarClient.Network
                 if (Peek & Buff.Count > readPosition)
                 {
                     readPosition += 4;
+                }
+
+                return bitToRead;
+            }
+            else
+            {
+                throw new Exception("Packet Buffer Passed limit");
+            }
+        }
+
+        public long GetLong(bool Peek = true)
+        {
+            if (Buff.Count > readPosition)
+            {
+                if (buffUpdate)
+                {
+                    readBuff = Buff.ToArray();
+                    buffUpdate = false;
+                }
+
+                long bitToRead = BitConverter.ToInt64(readBuff, readPosition);
+
+                if (Peek & Buff.Count > readPosition)
+                {
+                    readPosition += 8;
                 }
 
                 return bitToRead;

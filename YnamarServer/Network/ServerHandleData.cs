@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ENet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
 using YnamarServer.GameLogic;
+using YnamarServer.Network.Session;
 using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Network
 {
     internal class ServerHandleData
     {
-        private delegate void Packet(int index, byte[] data);
+        private delegate void Packet(Peer peer, byte channel, byte[] data);
         private static Dictionary<int, Packet> Packets;
 
         public void InitializeMessages()
@@ -22,10 +24,11 @@ namespace YnamarServer.Network
             Console.WriteLine("Initializing Packets");
 
             //Packets
+            Packets.Add((int)ClientUdpPackets.UdpCHandshake, HandleUdpHandshake);
             Packets.Add((int)ClientUdpPackets.UdpCAttack, HandlePlayerAttack);
         }
 
-        public void HandleNetworkMessages(int index, byte[] data)
+        public void HandleNetworkMessages(Peer peer, byte channel, byte[] data)
         {
             int packetNum;
             PacketBuffer buffer;
@@ -37,21 +40,50 @@ namespace YnamarServer.Network
 
             if (Packets.TryGetValue(packetNum, out Packet Packet))
             {
-                Packet.Invoke(index, data);
+                Packet.Invoke(peer, channel, data);
             }
         }
-        
-
-        public void HandlePlayerAttack(int index, byte[] data)
+        private void HandleUdpHandshake(Peer peer, byte channel, byte[] data)
         {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int index = buffer.GetInteger();
+            long token = buffer.GetLong();
+
+            bool success = Program.SessionManager.RegisterPeer(peer.ID, index, token);
+
+            if (!success)
+            {
+                Console.WriteLine($"[SECURITY] Invalid UDP handshake from Peer {peer.ID}");
+                peer.Disconnect(0);
+                return;
+            }
+
+            Console.WriteLine($"UDP authenticated: Peer {peer.ID} -> Player {index}");
+            buffer.Dispose();
+        }
+
+        public void HandlePlayerAttack(Peer peer, byte channel, byte[] data)
+        {
+            PlayerSession session = Program.SessionManager.GetByUdpPeer(peer.ID);
+
+            if (session == null)
+            {
+                Console.WriteLine($"[SECURITY] Unauthenticated UDP packet from {peer.ID}");
+                peer.Disconnect(0);
+                return;
+            }
+
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddByteArray(data);
             buffer.GetInteger();
 
             byte dir = buffer.GetByte();
 
-            SendPlayerAttackToMap(index, dir);
-            GameLogicHandler.PlayerAttack(index, dir);
+            SendPlayerAttackToMap(session.Index, dir);
+            GameLogicHandler.PlayerAttack(session.Index, dir);
         }
 
         private void SendPlayerAttackToMap(int index, byte dir)

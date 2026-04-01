@@ -14,7 +14,7 @@ namespace YnamarServer.Network.Session
     {
         private readonly ConcurrentDictionary<int, PlayerSession> _sessionsByIndex = new();
         private readonly ConcurrentDictionary<int, int> _indexByPlayerId = new();
-        private readonly ConcurrentDictionary<EndPoint, int> _indexByUdp = new();
+        private readonly ConcurrentDictionary<uint, int> _indexByUdpPeerId = new();
         private readonly ConcurrentDictionary<TcpClient, int> _indexByTcp = new();
 
         private readonly IndexPool _indexPool;
@@ -51,10 +51,6 @@ namespace YnamarServer.Network.Session
             {
                 _indexByPlayerId.TryRemove(session.PlayerId, out _);
                 _indexByTcp.TryRemove(session.Tcp, out _); 
-
-                if (session.UdpEndpoint != null)
-                    _indexByUdp.TryRemove(session.UdpEndpoint, out _);
-
                 _indexPool.Return(index);
             }
         }
@@ -70,9 +66,9 @@ namespace YnamarServer.Network.Session
             return null;
         }
 
-        public PlayerSession? GetByUdp(EndPoint endpoint)
+        public PlayerSession? GetByUdpPeer(uint peerId)
         {
-            if (_indexByUdp.TryGetValue(endpoint, out var index))
+            if (_indexByUdpPeerId.TryGetValue(peerId, out var index))
                 return GetByIndex(index);
 
             return null;
@@ -86,7 +82,7 @@ namespace YnamarServer.Network.Session
             return null;
         }
 
-        public bool RegisterUdpEndpoint(IPEndPoint endpoint, int index, long token)
+        public bool RegisterPeer(uint peerId, int index, long token)
         {
             var session = GetByIndex(index);
             if (session == null) return false;
@@ -94,15 +90,9 @@ namespace YnamarServer.Network.Session
             if (session.UdpToken != token)
                 return false;
 
-            session.UdpEndpoint = endpoint;
-            _indexByUdp[endpoint] = index;
+            _indexByUdpPeerId[peerId] = index;
 
             return true;
-        }
-
-        public PlayerSession? ValidateUdpPacket(IPEndPoint endpoint)
-        {
-            return GetByUdp(endpoint);
         }
 
         private static long GenerateToken()

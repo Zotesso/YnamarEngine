@@ -73,9 +73,21 @@ namespace YnamarServer.Network
 
             Console.WriteLine("Player " + index + " Has logged in");
 
+            SendUdpHandshakePacket(index, new UdpHandshakePacket { Index = session.Index,  Token = session.UdpToken });
             SendCharacterPackage(index, accChar);
             SendJoinMap(index);
             SendCharacterPackageToMap(index, accChar);
+        }
+
+        private void SendUdpHandshakePacket(int index, UdpHandshakePacket udpHandshake)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerPackets.SUdpHandshake);
+            bufferSend.AddInteger(udpHandshake.Index);
+            bufferSend.AddLong(udpHandshake.Token);
+            stcp.SendData(index, bufferSend.ToArray());
+
+            bufferSend.Dispose();
         }
 
         private void SendCharacterPackage(int index, Character accChar)

@@ -33,6 +33,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SNpcKilled, HandleNpcKilled);
             Packets.Add((int)ServerPackets.SInventorySlotUpdate, HandleInventorySlotUpdate);
             Packets.Add((int)ServerPackets.SInventorySlotDelete, HandleInventorySlotDelete);
+            Packets.Add((int)ServerPackets.SUdpHandshake, HandleUdpHandshake);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -49,6 +50,19 @@ namespace YnamarClient.Network
             {
                 Packet.Invoke(index, data);
             }
+        }
+
+        private void HandleUdpHandshake(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            Globals.UdpHandshakePacket.Index = buffer.GetInteger();
+            Globals.UdpHandshakePacket.Token = buffer.GetLong();
+
+            NetworkManager.Client.SendUdpHandshake();
+            buffer.Dispose();
         }
 
         private void HandleJoinGame(int index, byte[] data)

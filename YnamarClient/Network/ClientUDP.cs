@@ -85,6 +85,17 @@ namespace YnamarClient.Network
             }
         }
 
+        public void SendUdpHandshake()
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCHandshake);
+            buffer.AddInteger(Globals.UdpHandshakePacket.Index);
+            buffer.AddLong(Globals.UdpHandshakePacket.Token);
+
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+
         public void SendPlayerAttack()
         {
             PacketBuffer buffer = new PacketBuffer();
