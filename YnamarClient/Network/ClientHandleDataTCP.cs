@@ -38,17 +38,37 @@ namespace YnamarClient.Network
 
         public void HandleNetworkMessages(int index, byte[] data)
         {
-            int packetNum;
-            PacketBuffer buffer;
-            buffer = new PacketBuffer();
+            Buffer.AddByteArray(data);
 
-            buffer.AddByteArray(data);
-            packetNum = buffer.GetInteger();
-            buffer.Dispose();
-
-            if (Packets.TryGetValue(packetNum, out Packet Packet))
+            while (Buffer.Length() >= 4)
             {
-                Packet.Invoke(index, data);
+                int packetLength = Buffer.PeekInteger();
+
+                if (Buffer.Length() >= packetLength + 4)
+                {
+                    Buffer.GetInteger();
+
+                    byte[] packetData = Buffer.GetByteArray(packetLength);
+
+                    ProcessPacket(index, packetData);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private void ProcessPacket(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+
+            int packetNum = buffer.GetInteger();
+
+            if (Packets.TryGetValue(packetNum, out Packet packet))
+            {
+                packet.Invoke(index, data);
             }
         }
 
@@ -78,7 +98,7 @@ namespace YnamarClient.Network
             Types.Players[Globals.playerIndex].MaxHP = 500;
             Types.Players[Globals.playerIndex].HP = 423;
             Types.Players[Globals.playerIndex].WeaponAnim = new AnimationPlayerService();
-            clienttcp.SendLoadMap();
+            //clienttcp.SendLoadMap();
         }
 
         private void HandlePlayerData(int index, byte[] data)
@@ -132,7 +152,7 @@ namespace YnamarClient.Network
                         break;
                 }
 
-                GameLogic.ProcessMovement(targetIndex);
+                //GameLogic.ProcessMovement(targetIndex);
             }
         }
 

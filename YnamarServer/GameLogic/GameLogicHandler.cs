@@ -8,6 +8,7 @@ using YnamarServer.Network;
 using YnamarServer.Database;
 using YnamarServer.Services;
 using YnamarServer.Database.Models;
+using YnamarServer.Network.Session;
 
 namespace YnamarServer.GameLogic
 {
@@ -41,21 +42,21 @@ namespace YnamarServer.GameLogic
                 buffer.AddByte(dir);
                 buffer.AddInteger(movement);
 
-                stcp.SendDataToMap(InMemoryDatabase.Player[index].Map, buffer.ToArray());
+                stcp.SendPacketToMap(InMemoryDatabase.Player[index].Map, buffer);
                 buffer.Dispose();
             }
         }
 
-        public static void PlayerAttack(int index, byte dir)
+        public static void PlayerAttack(PlayerSession session, byte dir)
         {
-            int targetX = DirToX(InMemoryDatabase.Player[index].X, dir);
-            int targetY = DirToY(InMemoryDatabase.Player[index].Y, dir);
-            int playerMapNum = InMemoryDatabase.Player[index].Map;
+            int targetX = DirToX(InMemoryDatabase.Player[session.Index].X, dir);
+            int targetY = DirToY(InMemoryDatabase.Player[session.Index].Y, dir);
+            int playerMapNum = InMemoryDatabase.Player[session.Index].Map;
             int? mapNpcIndex = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
 
             if (mapNpcIndex.HasValue)
             {
-                NpcLogicHandler.NpcAttacked(index, playerMapNum, (int)mapNpcIndex, 50);
+                NpcLogicHandler.NpcAttacked(session, playerMapNum, (int)mapNpcIndex, 50);
                 //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
                // NpcService npcService = Program.npcService;
                 //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));

@@ -83,7 +83,7 @@ namespace YnamarServer.Network
             byte dir = buffer.GetByte();
 
             SendPlayerAttackToMap(session.Index, dir);
-            GameLogicHandler.PlayerAttack(session.Index, dir);
+            GameLogicHandler.PlayerAttack(session, dir);
         }
 
         private void SendPlayerAttackToMap(int index, byte dir)

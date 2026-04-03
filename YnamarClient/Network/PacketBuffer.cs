@@ -92,10 +92,14 @@ namespace YnamarClient.Network
             buffUpdate = true;
         }
 
-        //Read Data
-        public int GetInteger(bool Peek = true)
+        public int PeekInteger()
         {
-            if (Buff.Count > readPosition)
+            return GetInteger(false);
+        }
+
+        public int GetInteger(bool moveReadPosition = true)
+        {
+            if (Buff.Count >= readPosition + 4)
             {
                 if (buffUpdate)
                 {
@@ -103,14 +107,14 @@ namespace YnamarClient.Network
                     buffUpdate = false;
                 }
 
-                int bitToRead = BitConverter.ToInt32(readBuff, readPosition);
+                int value = BitConverter.ToInt32(readBuff, readPosition);
 
-                if (Peek & Buff.Count > readPosition)
+                if (moveReadPosition)
                 {
                     readPosition += 4;
                 }
 
-                return bitToRead;
+                return value;
             }
             else
             {
@@ -130,7 +134,7 @@ namespace YnamarClient.Network
 
                 long bitToRead = BitConverter.ToInt64(readBuff, readPosition);
 
-                if (Peek & Buff.Count > readPosition)
+                if (Peek && Buff.Count > readPosition)
                 {
                     readPosition += 8;
                 }
@@ -155,7 +159,7 @@ namespace YnamarClient.Network
 
                 float bitToRead = BitConverter.ToSingle(readBuff, readPosition);
 
-                if (Peek & Buff.Count > readPosition)
+                if (Peek && Buff.Count > readPosition)
                 {
                     readPosition += 4;
                 }
@@ -180,7 +184,7 @@ namespace YnamarClient.Network
 
             string bitToRead = Encoding.ASCII.GetString(readBuff, readPosition, length);
 
-            if (Peek & Buff.Count > readPosition)
+            if (Peek && Buff.Count > readPosition)
             {
                 if (bitToRead.Length > 0)
                 {
@@ -203,7 +207,7 @@ namespace YnamarClient.Network
 
                 byte bitToRead = readBuff[readPosition];
 
-                if (Peek & Buff.Count > readPosition)
+                if (Peek && Buff.Count > readPosition)
                 {
                     readPosition += 1;
                 }
@@ -246,7 +250,7 @@ namespace YnamarClient.Network
 
                 short bitToRead = BitConverter.ToInt16(readBuff, readPosition);
 
-                if (Peek & Buff.Count > readPosition)
+                if (Peek && Buff.Count > readPosition)
                 {
                     readPosition += 2;
                 }

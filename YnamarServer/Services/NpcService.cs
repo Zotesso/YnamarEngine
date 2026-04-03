@@ -60,7 +60,7 @@ namespace YnamarServer.Services
             bufferSend.AddInteger(mapNpcProtoBuf.Length);
             bufferSend.AddByteArray(mapNpcProtoBuf);
 
-            stcp.SendDataToMap(mapNum, bufferSend.ToArray());
+            stcp.SendPacketToMap(mapNum, bufferSend);
 
             bufferSend.Dispose();
         }

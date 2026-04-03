@@ -138,71 +138,71 @@ namespace YnamarClient
             }
         }
 
-        public static void ProcessMovement(int index)
+        public static void ProcessMovement(Types.Player player)
         {
             int movementSpeed = 6;//(Types.Player[index].Moving * 6);
 
-            switch (Types.Players[index].Dir)
+            switch (player.Dir)
             {
                 case Constants.DIR_UP:
-                    Types.Players[index].YOffset -= movementSpeed;
-                    if (Types.Players[index].YOffset < 0)
+                    player.YOffset -= movementSpeed;
+                    if (player.YOffset < 0)
                     {
-                        Types.Players[index].YOffset = 0;
+                        player.YOffset = 0;
                     }
                     break;
                 case Constants.DIR_DOWN:
-                    Types.Players[index].YOffset += movementSpeed;
-                    if (Types.Players[index].YOffset > 0)
+                    player.YOffset += movementSpeed;
+                    if (player.YOffset > 0)
                     {
-                        Types.Players[index].YOffset = 0;
+                        player.YOffset = 0;
                     }
                     break;
                 case Constants.DIR_LEFT:
-                    Types.Players[index].XOffset -= movementSpeed;
-                    if (Types.Players[index].XOffset < 0)
+                    player.XOffset -= movementSpeed;
+                    if (player.XOffset < 0)
                     {
-                        Types.Players[index].XOffset = 0;
+                        player.XOffset = 0;
                     }
                     break;
                 case Constants.DIR_RIGHT:
-                    Types.Players[index].XOffset += movementSpeed;
-                    if (Types.Players[index].XOffset > 0)
+                    player.XOffset += movementSpeed;
+                    if (player.XOffset > 0)
                     {
-                        Types.Players[index].XOffset = 0;
+                        player.XOffset = 0;
                     }
                     break;
             }
 
-            if (Types.Players[index].Moving > 0)
+            if (player.Moving > 0)
             {
-                if (Types.Players[index].Dir == Constants.DIR_RIGHT || Types.Players[index].Dir == Constants.DIR_DOWN)
+                if (player.Dir == Constants.DIR_RIGHT || player.Dir == Constants.DIR_DOWN)
                 {
-                    if (Types.Players[index].XOffset >= 0 && Types.Players[index].YOffset >= 0)
+                    if (player.XOffset >= 0 && player.YOffset >= 0)
                     {
-                        Types.Players[index].Moving = 0;
-                        if (Types.Players[index].Steps == 0)
+                        player.Moving = 0;
+                        if (player.Steps == 0)
                         {
-                            Types.Players[index].Steps = 2;
+                            player.Steps = 2;
                         }
                         else
                         {
-                            Types.Players[index].Steps = 0;
+                            player.Steps = 0;
                         }
                     }
                 }
                 else
                 {
-                    if (Types.Players[index].XOffset <= 0 && Types.Players[index].YOffset <= 0)
+                    if (player.XOffset <= 0 && player.YOffset <= 0)
                     {
-                        Types.Players[index].Moving = 0;
-                        if (Types.Players[index].Steps == 0)
+                        player.Moving = 0;
+                        if (player.Steps == 0)
                         {
-                            Types.Players[index].Steps = 2;
+                            player.Steps = 2;
                         }
                         else
                         {
-                            Types.Players[index].Steps = 0;
+                            player.Steps = 0;
                         }
                     }
                 }

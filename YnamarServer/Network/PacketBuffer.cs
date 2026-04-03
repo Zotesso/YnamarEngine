@@ -104,7 +104,7 @@ namespace YnamarServer.Network
 
                 int bitToRead = BitConverter.ToInt32(readBuff, readPosition);
 
-                if (Peek & Buff.Count > readPosition)
+                if (Peek && Buff.Count > readPosition)
                 {
                     readPosition += 4;
                 }

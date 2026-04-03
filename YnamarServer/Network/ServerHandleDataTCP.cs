@@ -33,7 +33,6 @@ namespace YnamarServer.Network
             Packets.Add((int)ClientTcpPackets.CLogin, HandleLoginAsync);
             Packets.Add((int)ClientTcpPackets.CRegister, HandleRegister);
             Packets.Add((int)ClientTcpPackets.CPlayerMove, HandlePlayerMovement);
-            Packets.Add((int)ClientTcpPackets.CLoadMap, HandleLoadMap);
             Packets.Add((int)ClientTcpPackets.CItemUsed, HandleItemUsed);
         }
 
@@ -75,6 +74,8 @@ namespace YnamarServer.Network
 
             SendUdpHandshakePacket(index, new UdpHandshakePacket { Index = session.Index,  Token = session.UdpToken });
             SendCharacterPackage(index, accChar);
+            LoadMap(session, accChar.Map);
+            Thread.Sleep(50);
             SendJoinMap(index);
             SendCharacterPackageToMap(index, accChar);
         }
@@ -85,7 +86,7 @@ namespace YnamarServer.Network
             bufferSend.AddInteger((int)ServerPackets.SUdpHandshake);
             bufferSend.AddInteger(udpHandshake.Index);
             bufferSend.AddLong(udpHandshake.Token);
-            stcp.SendData(index, bufferSend.ToArray());
+            stcp.SendPacket(index, bufferSend);
 
             bufferSend.Dispose();
         }
@@ -100,7 +101,7 @@ namespace YnamarServer.Network
             bufferSend.AddInteger(charProtoBuf.Length);
             bufferSend.AddByteArray(charProtoBuf);
 
-            stcp.SendData(index, bufferSend.ToArray());
+            stcp.SendPacket(index, bufferSend);
 
             bufferSend.Dispose();
         }
@@ -114,7 +115,7 @@ namespace YnamarServer.Network
             bufferSend.AddInteger(charProtoBuf.Length);
             bufferSend.AddByteArray(charProtoBuf);
 
-            stcp.SendDataToMap(accChar.Map, bufferSend.ToArray());
+            stcp.SendPacketToMap(accChar.Map, bufferSend);
 
             bufferSend.Dispose();
         }
@@ -133,7 +134,7 @@ namespace YnamarServer.Network
                     buffer.AddInteger(charProtoBuf.Length);
                     buffer.AddByteArray(charProtoBuf);
 
-                    stcp.SendData(index, buffer.ToArray());
+                    stcp.SendPacket(index, buffer);
                     buffer.Dispose();
                 }
             }
@@ -166,21 +167,12 @@ namespace YnamarServer.Network
 
             GameLogicHandler.PlayerMove(player.Index, dir, moving);
         }
-        private async void HandleLoadMap(TcpClient client, byte[] data)
+        private async void LoadMap(PlayerSession session, int mapNum)
         {
-            PacketBuffer buffer = new PacketBuffer();
-            buffer.AddByteArray(data);
-            buffer.GetInteger();
-
-            int mapNum = buffer.GetInteger();
             MapService mapService = Program.mapService;
             Map loadedMap = await mapService.LoadMap(mapNum);
 
-            var player = Program.SessionManager.GetByTcp(client);
-
-            if (player is null) return;
-
-            mapService.SendMapToClient(player.Index, loadedMap);
+            mapService.SendMapToClient(session.Index, loadedMap);
         }
 
         private void HandleItemUsed(TcpClient client, byte[] data)

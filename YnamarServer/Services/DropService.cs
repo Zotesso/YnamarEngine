@@ -2,6 +2,7 @@
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
 using YnamarServer.Network;
+using YnamarServer.Network.Session;
 using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Services
@@ -34,21 +35,26 @@ namespace YnamarServer.Services
             return (int)result;
         }
 
-        public static async Task GiveItemAsync(int playerId, int itemId, int quantity)
+        public static async Task GiveItemAsync(PlayerSession session, int itemId, int quantity)
         {
-            // Por enquanto esse 1 se refere ao playerId fixo, revisando a parte de index do udp/tcp e como pego esse valor de playerId, se torna um parametro
-            InventorySlot inventorySlotToUpdate = await Program.inventoryService.AddItemToPlayerInventory(itemId, 1, quantity);
+            InventorySlot inventorySlotToUpdate = await Program.inventoryService.AddItemToPlayerInventory(itemId, session.PlayerId, quantity);
             
+            if (inventorySlotToUpdate == null)
+            {
+                Console.WriteLine($"Failed to add item {itemId} to player {session.PlayerId}'s inventory.");
+                return;
+            }
+
             PacketBuffer bufferSend = new PacketBuffer();
             bufferSend.AddInteger((int)ServerPackets.SInventorySlotUpdate);
-            bufferSend.AddInteger(playerId);
+            bufferSend.AddInteger(session.Index);
             inventorySlotToUpdate.Item = InMemoryDatabase.Items.Where(i => i.Id == inventorySlotToUpdate.ItemId).First();
             byte[] inventorySlotProtoBuf = bufferSend.SerializeProto<InventorySlot>(inventorySlotToUpdate);
 
             bufferSend.AddInteger(inventorySlotProtoBuf.Length);
             bufferSend.AddByteArray(inventorySlotProtoBuf);
 
-            ServerTCP.Instance.SendData(playerId, bufferSend.ToArray());
+            ServerTCP.Instance.SendPacket(session.Index, bufferSend);
 
             bufferSend.Dispose();
         }

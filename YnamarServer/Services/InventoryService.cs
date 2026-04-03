@@ -84,7 +84,7 @@ namespace YnamarServer.Services
             bufferSend.AddInteger(playerIndex);
             bufferSend.AddInteger(inventorySlotId);
 
-            ServerTCP.Instance.SendData(playerIndex, bufferSend.ToArray());
+            ServerTCP.Instance.SendPacket(playerIndex, bufferSend);
             bufferSend.Dispose();
         }
     }

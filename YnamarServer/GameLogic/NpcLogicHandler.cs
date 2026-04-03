@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
+using YnamarServer.Network.Session;
 using YnamarServer.Services;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -131,7 +132,7 @@ namespace YnamarServer.GameLogic
             mapService.SendMapNpcToMap(mapNum, layerNum, mapNpcIndex, mapNpc);
         }
 
-        public static void NpcAttacked(int playerId, int playerMapNum, int mapNpcIndex, int damage)
+        public static void NpcAttacked(PlayerSession session, int playerMapNum, int mapNpcIndex, int damage)
         {
             MapNpc mapNpc = InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex);
             mapNpc.Hp -= damage;
@@ -140,14 +141,14 @@ namespace YnamarServer.GameLogic
             if (mapNpc.Hp <= 0)
             {
                 mapNpc.RespawnWait = (int)Program.CurrentTick;
-                NpcKilled(playerId, playerMapNum, mapNpcIndex, mapNpc);
+                NpcKilled(session, playerMapNum, mapNpcIndex, mapNpc);
                 return;
             }
 
             npcService.SendNpcAttackedtoMap(playerMapNum, 0, mapNpc);
         }
 
-        public static void NpcKilled(int playerId, int playerMapNum, int mapNpcIndex, MapNpc mapNpc)
+        public static void NpcKilled(PlayerSession session, int playerMapNum, int mapNpcIndex, MapNpc mapNpc)
         {
             NpcService npcService = Program.npcService;
             Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpcIndex);
@@ -158,7 +159,7 @@ namespace YnamarServer.GameLogic
                 if (DropService.Roll(drop.DropRate, 1000))
                 {
                     Console.WriteLine("Dropou o item " + drop.ItemId);
-                    DropService.GiveItemAsync(playerId, drop.ItemId, 1);
+                    DropService.GiveItemAsync(session, drop.ItemId, 1);
                 }
             }
         }

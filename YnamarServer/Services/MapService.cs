@@ -82,7 +82,7 @@ namespace YnamarServer.Services
             bufferSend.AddInteger(mapProtoBuf.Length);
             bufferSend.AddByteArray(mapProtoBuf);
 
-            stcp.SendData(index, bufferSend.ToArray());
+            stcp.SendPacket(index, bufferSend);
 
             bufferSend.Dispose();
         }

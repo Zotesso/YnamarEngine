@@ -74,6 +74,32 @@ namespace YnamarServer.Network
             return InMemoryDatabase.Player[index] != null;
         }
 
+        public void SendPacket(int index, PacketBuffer buffer)
+        {
+            byte[] data = buffer.ToArray();
+
+            PacketBuffer finalBuffer = new PacketBuffer();
+            finalBuffer.AddInteger(data.Length);
+            finalBuffer.AddByteArray(data);
+
+            SendData(index, finalBuffer.ToArray());
+
+            finalBuffer.Dispose();
+        }
+
+        public void SendPacketToMap(int map, PacketBuffer buffer)
+        {
+            byte[] data = buffer.ToArray();
+
+            PacketBuffer finalBuffer = new PacketBuffer();
+            finalBuffer.AddInteger(data.Length);
+            finalBuffer.AddByteArray(data);
+
+            SendDataToMap(map, finalBuffer.ToArray());
+
+            finalBuffer.Dispose();
+        }
+
         public void SendData(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
