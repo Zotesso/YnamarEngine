@@ -55,7 +55,7 @@ namespace YnamarClient.GUI
                     Types.Players[Globals.playerIndex].EquippedItems.FirstOrDefault(e => e.Slot == equipSlot)?.Item
                     : null;
                 int spriteNum = equippedItem is not null ? equippedItem.Sprite : 0;
-                Texture2D texture = Graphics.Items[spriteNum];
+                Texture2D texture = Graphics.Graphics.Items[spriteNum];
 
                 invSlot.SpriteInstance.Texture = texture;
                 int column = equipSlot % 5;
@@ -76,7 +76,7 @@ namespace YnamarClient.GUI
 
             foreach (var slot in Types.Players[Globals.playerIndex].Inventory.Slots.Select((value, i) => new { i, value }))
             {
-                Texture2D texture = Graphics.Items[slot.value.Item.Sprite];
+                Texture2D texture = Graphics.Graphics.Items[slot.value.Item.Sprite];
 
                 InventoryItemRuntime invSlot = new InventoryItemRuntime();
 

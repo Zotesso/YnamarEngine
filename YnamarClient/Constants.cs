@@ -11,6 +11,7 @@ namespace YnamarClient
         //Player Constants
         public const int MAX_PLAYERS = 100;
 
+        public const int TILE_SIZE = 32;
 
         public const byte DIR_UP = 0;
         public const byte DIR_DOWN = 1;

@@ -207,7 +207,7 @@ namespace YnamarClient.Network
                 Types.Players[Globals.playerIndex].Inventory.Slots.ElementAt(inventorySlotToUpdate.SlotId).Quantity = inventorySlotToUpdate.Quantity;
             }
 
-            Graphics.ChatMessages.Add(new ChatMessage
+            Graphics.Graphics.ChatMessages.Add(new ChatMessage
             {
                 Text = "You dropped " + inventorySlotToUpdate.Item.Name,
                 Color = Microsoft.Xna.Framework.Color.White,

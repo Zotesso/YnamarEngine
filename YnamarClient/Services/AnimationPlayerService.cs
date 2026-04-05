@@ -18,7 +18,7 @@ namespace YnamarClient.Services
         private bool _loop;
 
         public Texture2D CurrentTexture =>
-            Graphics.Spritesheets[_clip.Frames[_currentFrameIndex].TextureId];
+            Graphics.Graphics.Spritesheets[_clip.Frames[_currentFrameIndex].TextureId];
         public AnimationFrame CurrentFrame =>
             _clip.Frames[_currentFrameIndex];
 

@@ -7,10 +7,13 @@ using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using Myra;
 using Myra.Graphics2D.UI;
+using RenderingLibrary;
 using System;
 using System.Threading;
+using YnamarClient.Graphics;
 using YnamarClient.GUI;
 using YnamarClient.Network;
+using Camera = YnamarClient.Graphics.Camera;
 
 namespace YnamarClient
 {
@@ -59,7 +62,7 @@ namespace YnamarClient
 
             gumProject = Gum.Initialize(this, "GumUI/gumproject.gumx");
             _menuManager = new MenuManager(gumProject);
-            Graphics.InitializeGraphics(Content);
+            Graphics.Graphics.InitializeGraphics(Content);
 
             var rectangle = new ColoredRectangleRuntime();
             rectangle.Width = 100;
@@ -141,7 +144,8 @@ namespace YnamarClient
                 CheckKeys();
                 GameLogic.CheckMovement();
                 GameLogic.CheckAttack(Tick);
-                Graphics.RenderGraphics(gameTime);
+                Camera.UpdateCamera();
+                Graphics.Graphics.RenderGraphics(gameTime);
             }
 
             desktop.Render();
@@ -162,12 +166,12 @@ namespace YnamarClient
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            for (int i = Graphics.ChatMessages.Count - 1; i >= 0; i--)
+            for (int i = Graphics.Graphics.ChatMessages.Count - 1; i >= 0; i--)
             {
-                Graphics.ChatMessages[i].TimeLeft -= delta;
+                Graphics.Graphics.ChatMessages[i].TimeLeft -= delta;
 
-                if (Graphics.ChatMessages[i].TimeLeft <= 0)
-                    Graphics.ChatMessages.RemoveAt(i);
+                if (Graphics.Graphics.ChatMessages[i].TimeLeft <= 0)
+                    Graphics.Graphics.ChatMessages.RemoveAt(i);
             }
         }
 
