@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarServer.Database.Models.Map
+namespace YnamarServer.Database.Models
 {
     [ProtoContract]
-    public class MapEntity
+    public class MapMetadata
     {
         [Key]
         [ProtoMember(1)]

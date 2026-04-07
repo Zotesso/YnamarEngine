@@ -1,15 +1,16 @@
 ﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.Database.Models;
+using YnamarServer.Database.Models.Map;
 
-namespace YnamarServer.Database.Models
+namespace YnamarServer.Database.Protos
 {
     [ProtoContract]
-    public class Map
+    public class MapLoadDto
     {
         [ProtoMember(1)]
         public int Id { get; set; }
@@ -18,16 +19,18 @@ namespace YnamarServer.Database.Models
         public string Name { get; set; }
 
         [ProtoMember(3)]
-        public int MaxMapX { get; set; }
+        public int Width { get; set; }
 
         [ProtoMember(4)]
-        public int MaxMapY { get; set; }
+        public int Height { get; set; }
 
         [ProtoMember(5)]
-        [Timestamp]
-        public byte[] LastUpdate { get; set; }
+        public int ChunkSize { get; set; }
 
         [ProtoMember(6)]
-        public ICollection<MapLayer> Layer { get; } = new List<MapLayer>();
+        public List<TileDefinition> TileDefinitions { get; set; }
+
+        [ProtoMember(7)]
+        public List<MapNpc> Npcs { get; set; }
     }
 }

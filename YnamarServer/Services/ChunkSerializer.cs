@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json;
 using YnamarServer.Database.Models;
 using YnamarServer.Database.Models.Map;
 
@@ -6,6 +7,10 @@ namespace YnamarServer.Services
 {
     public static class ChunkSerializer
     {
+        public static Dictionary<string, ushort> tileLookup = new();
+        public static Dictionary<ushort, Database.Models.TileDefinition> tileDefinitions = new();
+        public static ushort nextId = 1;
+
         public static void SaveChunk(string path, Database.Models.Map.Chunk chunk)
         {
             using var fs = new FileStream(path, FileMode.Create);
@@ -64,7 +69,7 @@ namespace YnamarServer.Services
             return chunk;
         }
 
-        public void BuildAndSaveChunks(Map map)
+        public static void BuildAndSaveChunks(Map map)
         {
             int chunkSize = 32;
 
@@ -104,7 +109,7 @@ namespace YnamarServer.Services
                                     continue;
                                 }
 
-                                var tile = layer.Tile[worldX, worldY];
+                                var tile = layer.Tile.FirstOrDefault(t => t.X == worldX && t.Y == worldY);
 
                                 tiles[y * chunkSize + x] = ConvertToTileId(tile);
                             }
@@ -120,7 +125,7 @@ namespace YnamarServer.Services
             }
         }
 
-        public static ushort ConvertToTileId(TileStruct tile)
+        public static ushort ConvertToTileId(Tile tile)
         {
             // Build a unique key
             string key = $"{tile.TilesetNumber}_{tile.TileX}_{tile.TileY}_{tile.Type}_{tile.Data1}_{tile.Data2}_{tile.Data3}";
@@ -132,19 +137,39 @@ namespace YnamarServer.Services
 
             tileLookup[key] = newId;
 
-            tileDefinitions[newId] = new TileDefinition
+            tileDefinitions[newId] = new Database.Models.TileDefinition
             {
                 Id = newId,
                 Tileset = tile.TilesetNumber,
                 TileX = tile.TileX,
                 TileY = tile.TileY,
                 Type = tile.Type,
-                Data1 = tile.Data1,
-                Data2 = tile.Data2,
-                Data3 = tile.Data3
+                Data1 = (byte)tile.Data1,
+                Data2 = (byte)tile.Data2,
+                Data3 = (byte)tile.Data3
             };
 
             return newId;
+        }
+
+        public static void SaveTileDefinitions(string mapName, Dictionary<ushort, TileDefinition> tileDefinitions)
+        {
+            string folderPath = Path.Combine("maps", mapName);
+
+            Directory.CreateDirectory(folderPath);
+
+            string filePath = Path.Combine(folderPath, "tiles.json");
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            var list = tileDefinitions.Values.ToList();
+
+            string json = JsonSerializer.Serialize(list, options);
+
+            File.WriteAllText(filePath, json);
         }
     }
 }
