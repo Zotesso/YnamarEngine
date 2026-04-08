@@ -22,14 +22,14 @@ namespace YnamarServer.GameLogic
 
             int x = DirToX(InMemoryDatabase.Player[index].X, dir);
             int y = DirToY(InMemoryDatabase.Player[index].Y, dir);
-            Map? playerMap = InMemoryDatabase.Maps[InMemoryDatabase.Player[index].Map];
+            MapRuntime? playerMap = InMemoryDatabase.Maps[InMemoryDatabase.Player[index].Map];
 
             if (playerMap is null) return;
 
              if (IsValidPosition(x, y))
             {
                 // Check for blocked tile
-                if (playerMap.Layer.ElementAt(0).Tile.ElementAt(x + (x * 49) + y).Type == 1) return;
+               // ->>>> Corrigir aqui depois de adicionar o loadchunks if (playerMap.Layer.ElementAt(0).Tile.ElementAt(x + (x * 49) + y).Type == 1) return;
 
                 InMemoryDatabase.Player[index].X = x;
                 InMemoryDatabase.Player[index].Y = y;
@@ -52,11 +52,11 @@ namespace YnamarServer.GameLogic
             int targetX = DirToX(InMemoryDatabase.Player[session.Index].X, dir);
             int targetY = DirToY(InMemoryDatabase.Player[session.Index].Y, dir);
             int playerMapNum = InMemoryDatabase.Player[session.Index].Map;
-            int? mapNpcIndex = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
+            MapNpc? mapNpc = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
 
-            if (mapNpcIndex.HasValue)
+            if (mapNpc is not null)
             {
-                NpcLogicHandler.NpcAttacked(session, playerMapNum, (int)mapNpcIndex, 50);
+                NpcLogicHandler.NpcAttacked(session, playerMapNum, mapNpc, 50);
                 //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
                // NpcService npcService = Program.npcService;
                 //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));

@@ -1,17 +1,12 @@
 ﻿
 using System.Text.Json;
 using YnamarServer.Database.Models;
-using YnamarServer.Database.Models.Map;
 
 namespace YnamarServer.Services
 {
     public static class ChunkSerializer
     {
-        public static Dictionary<string, ushort> tileLookup = new();
-        public static Dictionary<ushort, Database.Models.TileDefinition> tileDefinitions = new();
-        public static ushort nextId = 1;
-
-        public static void SaveChunk(string path, Database.Models.Map.Chunk chunk)
+        public static void SaveChunk(string path, Chunk chunk)
         {
             using var fs = new FileStream(path, FileMode.Create);
             using var bw = new BinaryWriter(fs);
@@ -36,12 +31,12 @@ namespace YnamarServer.Services
             }
         }
 
-        public static Database.Models.Map.Chunk LoadChunk(string path)
+        public static Chunk LoadChunk(string path)
         {
             using var fs = new FileStream(path, FileMode.Open);
             using var br = new BinaryReader(fs);
 
-            Database.Models.Map.Chunk chunk = new Database.Models.Map.Chunk();
+           Chunk chunk = new Chunk();
 
             chunk.X = br.ReadInt32();
             chunk.Y = br.ReadInt32();
@@ -69,7 +64,7 @@ namespace YnamarServer.Services
             return chunk;
         }
 
-        public static void BuildAndSaveChunks(Map map)
+        public static void BuildAndSaveChunks(Map map, MapBuildContext context)
         {
             int chunkSize = 32;
 
@@ -84,7 +79,7 @@ namespace YnamarServer.Services
             {
                 for (int cy = 0; cy < chunkCountY; cy++)
                 {
-                    Database.Models.Map.Chunk chunk = new Database.Models.Map.Chunk
+                    Chunk chunk = new Chunk
                     {
                         X = cx,
                         Y = cy,
@@ -111,7 +106,7 @@ namespace YnamarServer.Services
 
                                 var tile = layer.Tile.FirstOrDefault(t => t.X == worldX && t.Y == worldY);
 
-                                tiles[y * chunkSize + x] = ConvertToTileId(tile);
+                                tiles[y * chunkSize + x] = context.GetOrCreateTileId(tile);
                             }
                         }
 
@@ -123,53 +118,6 @@ namespace YnamarServer.Services
                     ChunkSerializer.SaveChunk(path, chunk);
                 }
             }
-        }
-
-        public static ushort ConvertToTileId(Tile tile)
-        {
-            // Build a unique key
-            string key = $"{tile.TilesetNumber}_{tile.TileX}_{tile.TileY}_{tile.Type}_{tile.Data1}_{tile.Data2}_{tile.Data3}";
-
-            if (tileLookup.TryGetValue(key, out ushort existingId))
-                return existingId;
-
-            ushort newId = nextId++;
-
-            tileLookup[key] = newId;
-
-            tileDefinitions[newId] = new Database.Models.TileDefinition
-            {
-                Id = newId,
-                Tileset = tile.TilesetNumber,
-                TileX = tile.TileX,
-                TileY = tile.TileY,
-                Type = tile.Type,
-                Data1 = (byte)tile.Data1,
-                Data2 = (byte)tile.Data2,
-                Data3 = (byte)tile.Data3
-            };
-
-            return newId;
-        }
-
-        public static void SaveTileDefinitions(string mapName, Dictionary<ushort, TileDefinition> tileDefinitions)
-        {
-            string folderPath = Path.Combine("maps", mapName);
-
-            Directory.CreateDirectory(folderPath);
-
-            string filePath = Path.Combine(folderPath, "tiles.json");
-
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-
-            var list = tileDefinitions.Values.ToList();
-
-            string json = JsonSerializer.Serialize(list, options);
-
-            File.WriteAllText(filePath, json);
         }
     }
 }

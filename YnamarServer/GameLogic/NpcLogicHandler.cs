@@ -13,7 +13,7 @@ namespace YnamarServer.GameLogic
 {
     internal class NpcLogicHandler
     {
-        public static bool CanNpcMove(Map map, MapNpc mapNpc, byte direction)
+        public static bool CanNpcMove(MapRuntime map, MapNpc mapNpc, byte direction)
         {
             if(map.Id < 0 || mapNpc.Id < 0 || direction > Constants.DIR_RIGHT)
                return false;
@@ -44,7 +44,7 @@ namespace YnamarServer.GameLogic
                 // to do - check if Directional blocking
 
                 case Constants.DIR_DOWN:
-                if (y < map.MaxMapY)
+                if (y < map.Height)
                     {
                         canNpcMove = true;
                     }
@@ -84,7 +84,7 @@ namespace YnamarServer.GameLogic
 
                 case Constants.DIR_RIGHT:
 
-                    if (x < map.MaxMapX)
+                    if (x < map.Width)
                     {
                         canNpcMove = true;
                     }
@@ -107,7 +107,7 @@ namespace YnamarServer.GameLogic
             return canNpcMove;
         }
 
-        public static void NpcMove(int mapNum, int layerNum, int mapNpcIndex, MapNpc mapNpc, byte direction)
+        public static void NpcMove(int mapNum, MapNpc mapNpc, byte direction)
         {
             mapNpc.Dir = direction;
 
@@ -129,29 +129,28 @@ namespace YnamarServer.GameLogic
             }
 
             MapService mapService = Program.mapService;
-            mapService.SendMapNpcToMap(mapNum, layerNum, mapNpcIndex, mapNpc);
+            mapService.SendMapNpcToMap(mapNum, 0, mapNpc.Id, mapNpc);
         }
 
-        public static void NpcAttacked(PlayerSession session, int playerMapNum, int mapNpcIndex, int damage)
+        public static void NpcAttacked(PlayerSession session, int playerMapNum, MapNpc mapNpc, int damage)
         {
-            MapNpc mapNpc = InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex);
             mapNpc.Hp -= damage;
             NpcService npcService = Program.npcService;
 
             if (mapNpc.Hp <= 0)
             {
                 mapNpc.RespawnWait = (int)Program.CurrentTick;
-                NpcKilled(session, playerMapNum, mapNpcIndex, mapNpc);
+                NpcKilled(session, playerMapNum, mapNpc);
                 return;
             }
 
             npcService.SendNpcAttackedtoMap(playerMapNum, 0, mapNpc);
         }
 
-        public static void NpcKilled(PlayerSession session, int playerMapNum, int mapNpcIndex, MapNpc mapNpc)
+        public static void NpcKilled(PlayerSession session, int playerMapNum, MapNpc mapNpc)
         {
             NpcService npcService = Program.npcService;
-            Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpcIndex);
+            Program.mapService.SaveMapNpcRespawnWait(playerMapNum, 0, (int)mapNpc.Id);
             npcService.SendNpcKilledToMap(playerMapNum, 0, mapNpc);
 
             foreach (NpcDrop drop in mapNpc.Npc.Drops)

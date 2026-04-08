@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarServer.Database.Models;
-using YnamarServer.Database.Models.Map;
 
 namespace YnamarServer.Database.Protos
 {

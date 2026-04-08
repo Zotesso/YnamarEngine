@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YnamarServer.Database.Models;
 using YnamarServer.Database;
+using YnamarServer.Database.Models;
 using YnamarServer.Network;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http.HttpResults;
+using YnamarServer.Services;
 
 namespace YnamarServer.Admin.Services
 {
@@ -29,31 +30,37 @@ namespace YnamarServer.Admin.Services
 
                 using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-                var existing = await dbContext.Maps.Include(m => m.Layer).ThenInclude(l => l.Tile).FirstOrDefaultAsync(m => m.Id == editedMap.Id);
+                var existing = await dbContext.MapsMetadata.FirstOrDefaultAsync(m => m.Id == editedMap.Id);
+
+                MapMetadata editedMapMetadata = new MapMetadata
+                {
+                    Id = editedMap.Id,
+                    Name = editedMap.Name,
+                    MaxMapX = editedMap.MaxMapX,
+                    MaxMapY = editedMap.MaxMapY,
+                    Version = 1,
+                    FilePath = $"maps/{editedMap.Name}/"
+                };
 
                 if (existing is null)
                 {
-                    dbContext.Maps.Add(editedMap);
+                    dbContext.MapsMetadata.Add(editedMapMetadata);
                 } else
                 {
-                    dbContext.Entry(existing).CurrentValues.SetValues(editedMap);
-                    foreach(var layer in editedMap.Layer) 
-                    {
-                        var targetLayer = existing.Layer.FirstOrDefault(l => l.LayerLevel == layer.LayerLevel);
-                        if (targetLayer is not null)
-                        {
-                            existing.Layer.Remove(targetLayer);
-                            await dbContext.SaveChangesAsync();
-                        }
-
-                        existing.Layer.Add(layer);
-                    }
+                    dbContext.Entry(existing).CurrentValues.SetValues(editedMapMetadata);
 
                 }
 
+                await transaction.CommitAsync();
+
                 var rows = await dbContext.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+                var context = new MapBuildContext();
+
+                ChunkSerializer.BuildAndSaveChunks(editedMap, context);
+
+                context.SaveTileDefinitions(editedMap.Name, context.TileDefinitions);
+
                 return rows;
             };
         }
@@ -64,14 +71,16 @@ namespace YnamarServer.Admin.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                return await dbContext.Maps.Where(m => m.Id == mapNum)
-                    .Include(p => p.Layer)
-                        .ThenInclude(x => x.Tile)
-                    .Include(p => p.Layer)
-                        .ThenInclude(x => x.MapNpc)
-                            .ThenInclude(mapNpc => mapNpc.Npc)
-                    .FirstOrDefaultAsync();
-            };
+                var mapMetaData = await dbContext.MapsMetadata.Where(m => m.Id == mapNum).FirstOrDefaultAsync();
+
+                if (mapMetaData == null)
+                {
+                    return null;
+                }
+
+                return new MapRebuilder().Rebuild(mapMetaData.FilePath, mapMetaData.MaxMapX, mapMetaData.MaxMapY);
+            }
+            ;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace YnamarServer.Database
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
-        public virtual DbSet<Map> Maps { get; set; }
+        public virtual DbSet<MapMetadata> MapsMetadata { get; set; }
         public virtual DbSet<MapNpc> MapNpc { get; set; }
         public virtual DbSet<Npc> Npcs { get; set; }
         public virtual DbSet<NpcDrop> NpcDrops { get; set; }

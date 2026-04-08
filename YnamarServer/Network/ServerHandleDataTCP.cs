@@ -170,7 +170,7 @@ namespace YnamarServer.Network
         private async void LoadMap(PlayerSession session, int mapNum)
         {
             MapService mapService = Program.mapService;
-            Map loadedMap = await mapService.LoadMap(mapNum);
+            Map loadedMap = null;// Corrigir aqui tbm dps de corrigir loadMap chunks await mapService.LoadMap(mapNum);
 
             mapService.SendMapToClient(session.Index, loadedMap);
         }

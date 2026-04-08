@@ -29,5 +29,8 @@ namespace YnamarServer.Database.Models
 
         [ProtoIgnore]
         public Map? Map { get; set; } = null;
+
+        [ProtoIgnore]
+        public MapMetadata? MapMetadata { get; set; } = null;
     }
 }

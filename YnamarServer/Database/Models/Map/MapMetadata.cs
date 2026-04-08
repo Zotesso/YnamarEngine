@@ -25,10 +25,12 @@ namespace YnamarServer.Database.Models
         public int MaxMapY { get; set; }
 
         [ProtoMember(5)]
-        [Timestamp]
-        public byte[] LastUpdate { get; set; }
+        public int Version { get; set; }
 
         [ProtoMember(6)]
         public string FilePath { get; set; }
+
+        [ProtoMember(7)]
+        public ICollection<MapLayer> Layer { get; } = new List<MapLayer>();
     }
 }

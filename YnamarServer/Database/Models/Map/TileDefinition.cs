@@ -8,15 +8,15 @@ namespace YnamarServer.Database.Models
 {
     public class TileDefinition
     {
-        public ushort Id;
+        public ushort Id { get; set; }
 
-        public int Tileset;
-        public int TileX;
-        public int TileY;
+        public int Tileset { get; set; }
+        public int TileX { get; set; }
+        public int TileY { get; set; }
 
-        public byte Type;
-        public byte Data1;
-        public byte Data2;
-        public byte Data3;
+        public byte Type { get; set; }
+        public byte Data1 { get; set; }
+        public byte Data2 { get; set; }
+        public byte Data3 { get; set; }
     }
 }
