@@ -21,25 +21,34 @@ namespace YnamarServer.Services
             return list.ToDictionary(t => t.Id);
         }
 
-        public Map Rebuild(string mapPath, int width, int height)
+        public Map Rebuild(MapMetadata mapMetadata, string mapPath)
         {
             int chunkSize = 32;
 
-            int chunkCountX = (int)Math.Ceiling(width / (float)chunkSize);
-            int chunkCountY = (int)Math.Ceiling(height / (float)chunkSize);
+            int chunkCountX = (int)Math.Ceiling(mapMetadata.MaxMapX / (float)chunkSize);
+            int chunkCountY = (int)Math.Ceiling(mapMetadata.MaxMapY / (float)chunkSize);
 
             // Load tile definitions
             var tileDefinitions = LoadTileDefinitions(mapPath);
+            var layerGrids = new Dictionary<int, Tile[,]>();
 
             // Create empty map
             Map map = new Map
             {
-                MaxMapX = width,
-                MaxMapY = height,
+                Id = mapMetadata.Id,
+                MaxMapX = mapMetadata.MaxMapX,
+                MaxMapY = mapMetadata.MaxMapY,
+                Name = mapMetadata.Name,
             };
 
+            foreach (var (layer, i) in mapMetadata.Layer.Select((value, i) => (value, i)))
+            {
+                map.Layer.Add(layer);
+                layerGrids[i] = new Tile[mapMetadata.MaxMapX, mapMetadata.MaxMapY];
+            }
+
             // Prepare layers dynamically
-            Dictionary<int, MapLayer> layers = new();
+            //Dictionary<int, MapLayer> layers = new();
 
             for (int cx = 0; cx < chunkCountX; cx++)
             {
@@ -52,20 +61,20 @@ namespace YnamarServer.Services
 
                     var chunk = ChunkSerializer.LoadChunk(chunkPath);
 
-                    foreach (var layerEntry in chunk.Layers)
+                  foreach (var layerEntry in chunk.Layers)
                     {
                         int layerId = layerEntry.Key;
                         var tileArray = layerEntry.Value;
 
-                        if (!layers.ContainsKey(layerId))
-                        {
-                            layers[layerId] = new MapLayer
-                            {
-                                LayerLevel = (byte)layerId
-                            };
+                        //if (!layers.ContainsKey(layerId))
+                        //{
+                        //    layers[layerId] = new MapLayer
+                        //    {
+                        //        LayerLevel = (byte)layerId
+                        //    };
 
-                            map.Layer.ElementAt(layerId).LayerLevel = (byte)layerId;
-                        }
+                        //    map.Layer.ElementAt(layerId).LayerLevel = (byte)layerId;
+                        //}
 
                         for (int x = 0; x < chunkSize; x++)
                         {
@@ -74,7 +83,7 @@ namespace YnamarServer.Services
                                 int worldX = cx * chunkSize + x;
                                 int worldY = cy * chunkSize + y;
 
-                                if (worldX >= width || worldY >= height)
+                                if (worldX >= mapMetadata.MaxMapX || worldY >= mapMetadata.MaxMapY)
                                     continue;
 
                                 int index = y * chunkSize + x;
@@ -85,7 +94,7 @@ namespace YnamarServer.Services
 
                                 var def = tileDefinitions[tileId];
 
-                                map.Layer.ElementAt(layerId).Tile.Add(new Tile
+                                layerGrids[layerId][worldX, worldY] = new Tile
                                 {
                                     X = worldX,
                                     Y = worldY,
@@ -96,9 +105,37 @@ namespace YnamarServer.Services
                                     Data1 = def.Data1,
                                     Data2 = def.Data2,
                                     Data3 = def.Data3
-                                });
+                                };
+
+                                //map.Layer.ElementAt(layerId).Tile.Add(new Tile
+                                //{
+                                //    X = worldX,
+                                //    Y = worldY,
+                                //    TilesetNumber = def.Tileset,
+                                //    TileX = def.TileX,
+                                //    TileY = def.TileY,
+                                //    Type = def.Type,
+                                //    Data1 = def.Data1,
+                                //    Data2 = def.Data2,
+                                //    Data3 = def.Data3
+                                //});
                             }
                         }
+                    }
+                }
+            }
+
+            foreach (var (layerId, grid) in layerGrids)
+            {
+
+                for (int y = 0; y < mapMetadata.MaxMapY; y++)
+                {
+                    for (int x = 0; x < mapMetadata.MaxMapX; x++)
+                    {
+                        var tile = grid[x, y];
+
+                        if (tile != null)
+                            map.Layer.ElementAt(layerId).Tile.Add(tile);
                     }
                 }
             }

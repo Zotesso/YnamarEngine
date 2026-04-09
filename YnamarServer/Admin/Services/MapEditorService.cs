@@ -30,8 +30,10 @@ namespace YnamarServer.Admin.Services
 
                 using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-                var existing = await dbContext.MapsMetadata.FirstOrDefaultAsync(m => m.Id == editedMap.Id);
-
+                var existing = await dbContext.MapsMetadata.Include(m => m.Layer)
+                    .ThenInclude(l => l.MapNpc)
+                    .FirstOrDefaultAsync(m => m.Id == editedMap.Id);
+                    
                 MapMetadata editedMapMetadata = new MapMetadata
                 {
                     Id = editedMap.Id,
@@ -39,21 +41,37 @@ namespace YnamarServer.Admin.Services
                     MaxMapX = editedMap.MaxMapX,
                     MaxMapY = editedMap.MaxMapY,
                     Version = 1,
-                    FilePath = $"maps/{editedMap.Name}/"
+                    FilePath = $"maps/{editedMap.Name}/",
                 };
+
+                foreach (var layer in editedMap.Layer)
+                {
+                    editedMapMetadata.Layer.Add(layer);
+                }
 
                 if (existing is null)
                 {
                     dbContext.MapsMetadata.Add(editedMapMetadata);
                 } else
                 {
-                    dbContext.Entry(existing).CurrentValues.SetValues(editedMapMetadata);
+                    foreach (var layer in editedMap.Layer)
+                    {
+                        var targetLayer = existing.Layer.FirstOrDefault(l => l.LayerLevel == layer.LayerLevel);
+                        if (targetLayer is not null)
+                        {
+                            existing.Layer.Remove(targetLayer);
+                            await dbContext.SaveChangesAsync();
+                        }
 
+                        existing.Layer.Add(layer);
+                    }
+
+                    dbContext.Entry(existing).CurrentValues.SetValues(editedMapMetadata);
                 }
 
-                await transaction.CommitAsync();
 
                 var rows = await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
 
                 var context = new MapBuildContext();
 
@@ -71,14 +89,17 @@ namespace YnamarServer.Admin.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                var mapMetaData = await dbContext.MapsMetadata.Where(m => m.Id == mapNum).FirstOrDefaultAsync();
+                var mapMetaData = await dbContext.MapsMetadata.Include(m => m.Layer)
+                    .ThenInclude(l => l.MapNpc)
+                    .Where(m => m.Id == mapNum)
+                    .FirstOrDefaultAsync();
 
                 if (mapMetaData == null)
                 {
                     return null;
                 }
 
-                return new MapRebuilder().Rebuild(mapMetaData.FilePath, mapMetaData.MaxMapX, mapMetaData.MaxMapY);
+                return new MapRebuilder().Rebuild(mapMetaData, mapMetaData.FilePath);
             }
             ;
         }

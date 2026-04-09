@@ -106,7 +106,10 @@ namespace YnamarServer.Services
 
                                 var tile = layer.Tile.FirstOrDefault(t => t.X == worldX && t.Y == worldY);
 
-                                tiles[y * chunkSize + x] = context.GetOrCreateTileId(tile);
+                                if (tile != null)
+                                {
+                                    tiles[y * chunkSize + x] = context.GetOrCreateTileId(tile);
+                                }
                             }
                         }
 
