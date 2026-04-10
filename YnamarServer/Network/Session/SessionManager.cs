@@ -25,7 +25,7 @@ namespace YnamarServer.Network.Session
             _indexPool = new IndexPool(maxPlayers);
         }
 
-        public PlayerSession CreateSession(int playerId, TcpClient tcp)
+        public PlayerSession CreateSession(int playerId, int mapId, TcpClient tcp)
         {
             if (!_indexPool.TryRent(out int index))
                 throw new Exception("Servidor cheio");
@@ -34,6 +34,7 @@ namespace YnamarServer.Network.Session
             {
                 Index = index,
                 PlayerId = playerId,
+                CurrentMapId = mapId,
                 Tcp = tcp,
                 UdpToken = GenerateToken()
             };

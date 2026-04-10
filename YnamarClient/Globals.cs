@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarClient.Database.Models;
+using YnamarClient.Database.Protos;
 using YnamarClient.Network;
 
 namespace YnamarClient
@@ -14,6 +16,8 @@ namespace YnamarClient
         public static int playerIndex;
         public static UdpHandshakePacket UdpHandshakePacket;
         public static Types.MapStruct PlayerMap;
+        public static MapLoadDto PlayerMapLoadDto;
+        public static Dictionary<ushort, TileDefinition> tileDefinitionsLookup;
 
         public const int MAX_SPRITE_SHEET = 1;
 

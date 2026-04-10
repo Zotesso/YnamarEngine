@@ -1,6 +1,8 @@
 ﻿
+using K4os.Compression.LZ4;
 using System.Text.Json;
 using YnamarServer.Database.Models;
+using YnamarServer.Database.Protos;
 
 namespace YnamarServer.Services
 {
@@ -62,6 +64,45 @@ namespace YnamarServer.Services
             }
 
             return chunk;
+        }
+
+        private static byte[] CompressTiles(ushort[] tiles)
+        {
+            byte[] raw = new byte[tiles.Length * 2  ];
+            Buffer.BlockCopy(tiles, 0, raw, 0, raw.Length);
+
+            return LZ4Pickler.Pickle(raw);
+        }
+
+        public static ushort[] DecompressTiles(byte[] compressed)
+        {
+            byte[] raw = LZ4Pickler.Unpickle(compressed);
+
+            ushort[] tiles = new ushort[raw.Length / 2];
+            Buffer.BlockCopy(raw, 0, tiles, 0, raw.Length);
+
+            return tiles;
+        }
+
+        public static ChunkDto ConvertToDto(Chunk chunk)
+        {
+            var dto = new ChunkDto
+            {
+                X = chunk.X,
+                Y = chunk.Y,
+                Size = chunk.Size
+            };
+
+            foreach (var layer in chunk.Layers)
+            {
+                dto.Layers.Add(new ChunkLayerDto
+                {
+                    LayerId = layer.Key,
+                    Tiles = CompressTiles(layer.Value)
+                });
+            }
+
+            return dto;
         }
 
         public static void BuildAndSaveChunks(Map map, MapBuildContext context)

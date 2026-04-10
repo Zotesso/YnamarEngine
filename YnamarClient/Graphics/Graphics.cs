@@ -78,11 +78,15 @@ namespace YnamarClient.Graphics
             }
         }
 
-        public static void RenderGraphics(GameTime gameTime)
+        public static void RenderGraphics(GameTime gameTime, ChunkManager chunkManager)
         {
             Game1.spriteBatch.Begin();
             // DrawPlayerName();
-            DrawMapGrid(gameTime);
+            foreach (var chunk in chunkManager.GetVisibleChunks())
+            {
+                DrawChunk(chunk);
+            }
+            // DrawMapGrid(gameTime);
             DrawPlayerHealthBar(Globals.playerIndex);
             DrawChat();
 
@@ -275,39 +279,45 @@ namespace YnamarClient.Graphics
             Game1.spriteBatch.Draw(sprite, new Vector2(x, y), srcrec, Color.White);
         }
 
-        //public static int ConvertMapX(int x)
-        //{
-        //    int cameraLeft = 0;
-        //    int tileViewLeft = 0;
-
-        //    cameraLeft = (Types.Players[Globals.playerIndex].X + Types.Players[Globals.playerIndex].XOffset) - 350;
-        //    tileViewLeft = Types.Players[Globals.playerIndex].X;
-
-        //    return x - (tileViewLeft * 32) - cameraLeft;
-        //}
-
-        //public static int ConvertMapY(int y)
-        //{
-        //    int cameraTop = 0;
-        //    int tileViewTop = 0;
-
-        //    cameraTop = (Types.Players[Globals.playerIndex].Y + Types.Players[Globals.playerIndex].YOffset) - 250;
-        //    tileViewTop = Types.Players[Globals.playerIndex].Y;
-        //    return y - (tileViewTop * 32) - cameraTop;
-        //}
-
         private static void DrawSprite(int sprite, int x2, int y2, Rectangle srcrec)
         {
             int X, Y;
 
             X = x2 - Camera.X;
             Y = y2 - Camera.Y;
-            //X = ConvertMapX(x2);
-            //Y = ConvertMapY(y2);
 
             Game1.spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
         }
 
+        public static void DrawChunk(Chunk chunk)
+        {
+            foreach (var layerEntry in chunk.Layers)
+            {
+                int layerId = layerEntry.Key;
+
+                ushort[] tiles = layerEntry.Value;
+
+                for (int x = 0; x < chunk.Size; x++)
+                {
+                    for (int y = 0; y < chunk.Size; y++)
+                    {
+                        int index = y * chunk.Size + x;
+                        ushort tileId = tiles[index];
+
+                        if (tileId == 0)
+                            continue;
+
+                        if (!Globals.tileDefinitionsLookup.TryGetValue(tileId, out var def))
+                            continue;
+
+                        int worldX = chunk.X * chunk.Size + x;
+                        int worldY = chunk.Y * chunk.Size + y;
+
+                        DrawTile(worldX, worldY, def);
+                    }
+                }
+            }
+        }
         private static void DrawMapGrid(GameTime gameTime)
         {
             int maxMapLayer = Globals.PlayerMap.Layer.Length;
@@ -333,19 +343,10 @@ namespace YnamarClient.Graphics
                 {
                     for (int y = startY; y < endY; y++)
                     {
-                        DrawTile(x, y, layer);
+                       // DrawTile(x, y, layer);
                     }
                 }
 
-                //if (Globals.PlayerMap.Layer[layer].Tile != null) {
-                //    for (int x = 0; x < Globals.PlayerMap.Layer[layer].Tile.GetLength(0); x++)
-                //    {
-                //        for (int y = 0; y < Globals.PlayerMap.Layer[layer].Tile.GetLength(1); y++)
-                //        {
-                //            DrawTile(x * 32, y * 32, x, y, layer);
-                //        }
-                //    }
-                //};
 
                 for (int i = 0; i < Constants.MAX_PLAYERS; i++)
                 {
@@ -422,16 +423,15 @@ namespace YnamarClient.Graphics
             DrawSprite(SpriteNum, X, Y, srcrec);
         }
 
-        private static void DrawTile(int x, int y, int layerNum)
+        private static void DrawTile(int x, int y, TileDefinition def)
         {
-            //int TilesetX = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileX;
-            //int TilesetY = Globals.PlayerMap.Layer[layerNum].Tile[x, y].TileY;
-
-            //if (TilesetX == 0 && TilesetY == 0) return;
-            var tile = Globals.PlayerMap.Layer[layerNum].Tile[x, y];
-
-            if (tile.TileX == 0 && tile.TileY == 0)
+            if (def.TileX == 0 && def.TileY == 0)
                 return;
+
+            //var tile = Globals.PlayerMap.Layer[layerNum].Tile[x, y];
+
+            //if (tile.TileX == 0 && tile.TileY == 0)
+            //    return;
 
             int worldX = x * Constants.TILE_SIZE;
             int worldY = y * Constants.TILE_SIZE;
@@ -440,15 +440,9 @@ namespace YnamarClient.Graphics
             int screenY = worldY - Camera.Y;
 
             Rectangle srcrec;
-            //int tilesetnum = Globals.PlayerMap.Layer[layerNum].Tile[x,y].TilesetNumber;
 
-            //int MapX, MapY;
-            //MapX = ConvertMapX(mapX);
-            //MapY = ConvertMapY(mapY);
-
-
-            srcrec = new Rectangle(tile.TileX, tile.TileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
-            Game1.spriteBatch.Draw(Tilesets[tile.TilesetNumber], new Vector2(screenX, screenY), srcrec, Color.White);
+            srcrec = new Rectangle(def.TileX, def.TileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+            Game1.spriteBatch.Draw(Tilesets[def.Tileset], new Vector2(screenX, screenY), srcrec, Color.White);
         }
     }
 }

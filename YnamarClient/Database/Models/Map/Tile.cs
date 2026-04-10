@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace YnamarClient.Database.Models
 {
     [ProtoContract]
-    internal class Tile
+    public class Tile
     {
         [Key]
         public int Id { get; set; }

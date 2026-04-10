@@ -8,6 +8,7 @@ using YnamarServer.Database;
 using YnamarServer.Database.Models;
 using YnamarServer.GameLogic;
 using YnamarServer.Network.Session;
+using YnamarServer.Services;
 using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Network
@@ -26,6 +27,7 @@ namespace YnamarServer.Network
             //Packets
             Packets.Add((int)ClientUdpPackets.UdpCHandshake, HandleUdpHandshake);
             Packets.Add((int)ClientUdpPackets.UdpCAttack, HandlePlayerAttack);
+            Packets.Add((int)ClientUdpPackets.UdpCRequestChunk, HandleRequestChunk);
         }
 
         public void HandleNetworkMessages(Peer peer, byte channel, byte[] data)
@@ -84,6 +86,49 @@ namespace YnamarServer.Network
 
             SendPlayerAttackToMap(session.Index, dir);
             GameLogicHandler.PlayerAttack(session, dir);
+        }
+        public void HandleRequestChunk(Peer peer, byte channel, byte[] data)
+        {
+            PlayerSession session = Program.SessionManager.GetByUdpPeer(peer.ID);
+
+            if (session == null)
+            {
+                Console.WriteLine($"[SECURITY] Unauthenticated UDP packet from {peer.ID}");
+                peer.Disconnect(0);
+                return;
+            }
+
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int x = buffer.GetInteger();
+            int y = buffer.GetInteger();
+
+            int mapId = session.CurrentMapId;
+
+            var map = InMemoryDatabase.Maps[mapId];
+
+            if (x < 0 || y < 0)
+                return;
+
+            int maxChunkX = map.Width / 32;
+            int maxChunkY = map.Height / 32;
+
+            if (x > maxChunkX || y > maxChunkY)
+                return;
+
+            string path = $"maps/{map.Name}/chunk_{x}_{y}.bin";
+
+            if (!File.Exists(path))
+                return;
+
+            var chunk = ChunkSerializer.LoadChunk(path);
+
+            var dto = ChunkSerializer.ConvertToDto(chunk);
+
+            Program.mapService.SendMapChunkToClient(peer.ID, dto);
+            buffer.Dispose();
         }
 
         private void SendPlayerAttackToMap(int index, byte dir)

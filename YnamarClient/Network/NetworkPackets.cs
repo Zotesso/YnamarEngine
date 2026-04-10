@@ -32,7 +32,8 @@ namespace YnamarClient.Network
         public enum ClientUdpPackets
         {
             UdpCHandshake = 100,
-            UdpCAttack
+            UdpCAttack,
+            UdpCRequestChunk,
         }
 
         public enum ServerUdpPackets
@@ -40,6 +41,7 @@ namespace YnamarClient.Network
             UdpSNpcAttacked = 100,
             UdpSNpcMove,
             UdpSPlayerAttacking,
+            UdpSSendChunk,
         }
     }
 }

@@ -11,7 +11,7 @@ using YnamarClient.Database.Models;
 namespace YnamarClient.Database.Models
 {
     [ProtoContract]
-    internal class MapNpc
+    public class MapNpc
     {
         [Key]
         public int Id { get; set; }

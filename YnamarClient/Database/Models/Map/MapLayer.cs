@@ -6,7 +6,7 @@ using YnamarClient.Database.Models;
 namespace YnamarClient.Database.Models
 {
     [ProtoContract]
-    internal class MapLayer
+    public class MapLayer
     {
         [Key]
         public int Id { get; set; }

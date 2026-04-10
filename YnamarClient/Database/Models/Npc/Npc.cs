@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace YnamarClient.Database.Models
 {
     [ProtoContract]
-    internal class Npc
+    public class Npc
     {
         [Key]
         public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿using ENet;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
+using System.IO;
 using System.Text;
 
 namespace YnamarClient.Network
@@ -102,6 +103,18 @@ namespace YnamarClient.Network
             buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCAttack);
 
             buffer.AddByte(Types.Players[Globals.playerIndex].Dir);
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+
+        public void SendChunkRequest(int x, int y)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCRequestChunk);
+
+            buffer.AddInteger(x);
+            buffer.AddInteger(y);
+
             SendData(buffer.ToArray());
             buffer.Dispose();
         }

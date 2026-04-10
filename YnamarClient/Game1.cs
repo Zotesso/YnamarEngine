@@ -13,6 +13,7 @@ using System.Threading;
 using YnamarClient.Graphics;
 using YnamarClient.GUI;
 using YnamarClient.Network;
+using static YnamarClient.Types;
 using Camera = YnamarClient.Graphics.Camera;
 
 namespace YnamarClient
@@ -25,6 +26,7 @@ namespace YnamarClient
         public static SpriteBatch spriteBatch;
 
         ClientHandleData clientDataHandle;
+        public static ChunkManager chunkManager = new ChunkManager();
         private static Thread udpThread;
 
         ClientHandleDataTCP clientDataHandleTCP;
@@ -123,6 +125,7 @@ namespace YnamarClient
 
             if (Globals.InGame)
             {
+                chunkManager.Update(Types.Players[Globals.playerIndex].X, Types.Players[Globals.playerIndex].Y);
                 Tick = (int)gameTime.TotalGameTime.TotalMilliseconds;
                 ElapsedTime = (Tick - FrameTime);
                 FrameTime = Tick;
@@ -136,7 +139,7 @@ namespace YnamarClient
 
                         GameLogic.ProcessMovement(player);
                     }
-                    GameLogic.ProcessMapNpcsMovement();
+                    //CORRIGIR AQ DPS - GameLogic.ProcessMapNpcsMovement();
                     WalkTimer = Tick + 30;
                 }
 
@@ -145,7 +148,7 @@ namespace YnamarClient
                 GameLogic.CheckMovement();
                 GameLogic.CheckAttack(Tick);
                 Camera.UpdateCamera();
-                Graphics.Graphics.RenderGraphics(gameTime);
+                Graphics.Graphics.RenderGraphics(gameTime, chunkManager);
             }
 
             desktop.Render();

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace YnamarClient.Database.Models
 {
     [ProtoContract]
-    internal class Map
+    public class Map
     {
         [ProtoMember(1)]
         public int Id { get; set; }

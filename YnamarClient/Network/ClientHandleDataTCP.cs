@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YnamarClient.Database.Models;
+using YnamarClient.Database.Protos;
 using YnamarClient.GUI;
 using YnamarClient.Services;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -165,8 +166,12 @@ namespace YnamarClient.Network
             int targetIndex = buffer.GetInteger();
             int bufferLength = buffer.GetInteger();
             byte[] mapBuff = buffer.GetByteArray(bufferLength);
-            Map deserializedMap = buffer.DeserializeProto<Map>(mapBuff);
-            mapService.convertMapPayloadToClientMap(deserializedMap);
+            MapLoadDto deserializedMap = buffer.DeserializeProto<MapLoadDto>(mapBuff);
+
+            Globals.PlayerMapLoadDto = deserializedMap;
+            Globals.tileDefinitionsLookup = deserializedMap.TileDefinitions.ToDictionary(t => t.Id);
+            //mapService.convertMapPayloadToClientMap(deserializedMap);
+
             MenuManager.ChangeMenu(MenuManager.Menu.InGame, Game1.desktop);
             GameLogic.InGame();
         }

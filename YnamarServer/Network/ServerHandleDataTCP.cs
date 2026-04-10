@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YnamarServer.Database;
 using YnamarServer.Database.Models;
+using YnamarServer.Database.Protos;
 using YnamarServer.GameLogic;
 using YnamarServer.GameLogic.Items.Factory;
 using YnamarServer.Network.Session;
@@ -66,7 +67,7 @@ namespace YnamarServer.Network
 
             Character accChar = await myService.GetCharacterAsync(userId);
 
-            var session = Program.SessionManager.CreateSession(userId, client);
+            var session = Program.SessionManager.CreateSession(userId, accChar.Map, client);
             int index = session.Index;
             InMemoryDatabase.Player[index] = accChar;
 
@@ -170,9 +171,18 @@ namespace YnamarServer.Network
         private async void LoadMap(PlayerSession session, int mapNum)
         {
             MapService mapService = Program.mapService;
-            Map loadedMap = null;// Corrigir aqui tbm dps de corrigir loadMap chunks await mapService.LoadMap(mapNum);
+            MapMetadata loadedMap = await mapService.LoadMap(mapNum);
+            MapLoadDto mapLoadDto = new MapLoadDto
+            {
+                Id = loadedMap.Id,
+                Name = loadedMap.Name,
+                Width = loadedMap.MaxMapX,
+                Height = loadedMap.MaxMapY,
+                ChunkSize = 32,
+                TileDefinitions = new MapRebuilder().LoadTileDefinitions(loadedMap.FilePath).Values.ToList(),
+            };
 
-            mapService.SendMapToClient(session.Index, loadedMap);
+            mapService.SendMapToClient(session.Index, mapLoadDto);
         }
 
         private void HandleItemUsed(TcpClient client, byte[] data)

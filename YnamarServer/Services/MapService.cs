@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using YnamarServer.Database;
-using static YnamarServer.Network.NetworkPackets;
-using YnamarServer.Network;
+﻿using ENet;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using YnamarServer.Database;
 using YnamarServer.Database.Models;
+using YnamarServer.Database.Protos;
+using YnamarServer.Network;
+using YnamarServer.Network.Session;
+using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Services
 {
@@ -79,17 +82,31 @@ namespace YnamarServer.Services
             };
         }
 
-        public void SendMapToClient(int index, Map map)
+        public void SendMapToClient(int index, MapLoadDto map)
         {
             PacketBuffer bufferSend = new PacketBuffer();
             bufferSend.AddInteger((int)ServerPackets.SLoadMap);
             bufferSend.AddInteger(index);
 
-            byte[] mapProtoBuf = bufferSend.SerializeProto<Map>(map);
+            byte[] mapProtoBuf = bufferSend.SerializeProto<MapLoadDto>(map);
             bufferSend.AddInteger(mapProtoBuf.Length);
             bufferSend.AddByteArray(mapProtoBuf);
 
             stcp.SendPacket(index, bufferSend);
+
+            bufferSend.Dispose();
+        }
+
+        public void SendMapChunkToClient(uint index, ChunkDto chunk)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerUdpPackets.UdpSSendChunk);
+
+            byte[] chunkDtoProtoBuf = bufferSend.SerializeProto<ChunkDto>(chunk);
+            bufferSend.AddInteger(chunkDtoProtoBuf.Length);
+            bufferSend.AddByteArray(chunkDtoProtoBuf);
+
+            NetworkManager.ServerUdp.SendData(index, bufferSend.ToArray());
 
             bufferSend.Dispose();
         }

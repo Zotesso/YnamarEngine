@@ -10,7 +10,7 @@ namespace YnamarServer.Services
 {
     public class MapRebuilder
     {
-        private Dictionary<ushort, TileDefinition> LoadTileDefinitions(string mapPath)
+        public Dictionary<ushort, TileDefinition> LoadTileDefinitions(string mapPath)
         {
             string path = Path.Combine(mapPath, "tiles.json");
 

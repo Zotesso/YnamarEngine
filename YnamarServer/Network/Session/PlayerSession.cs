@@ -11,7 +11,11 @@ namespace YnamarServer.Network.Session
     public class PlayerSession
     {
         public int Index { get; set; }
+
         public int PlayerId { get; set; }
+
+        public int CurrentMapId { get; set; }
+
         public TcpClient? Tcp { get; init; }
 
         public long UdpToken { get; init; }
