@@ -18,6 +18,7 @@ namespace YnamarServer.Network
             SInventorySlotUpdate,
             SInventorySlotDelete,
             SUdpHandshake,
+            SSendChunk,
         }
 
         public enum ClientTcpPackets
@@ -27,13 +28,13 @@ namespace YnamarServer.Network
             CPlayerMove,
             CLoadMap,
             CItemUsed,
+            CRequestChunk,
         }
 
         public enum ClientUdpPackets
         {
             UdpCHandshake = 100,
             UdpCAttack,
-            UdpCRequestChunk,
         }
 
         public enum ServerUdpPackets
@@ -41,7 +42,6 @@ namespace YnamarServer.Network
             UdpSNpcAttacked = 100,
             UdpSNpcMove,
             UdpSPlayerAttacking,
-            UdpSSendChunk,
         }
     }
 }

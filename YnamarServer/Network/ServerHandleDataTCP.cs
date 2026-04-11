@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using ENet;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace YnamarServer.Network
             Packets.Add((int)ClientTcpPackets.CRegister, HandleRegister);
             Packets.Add((int)ClientTcpPackets.CPlayerMove, HandlePlayerMovement);
             Packets.Add((int)ClientTcpPackets.CItemUsed, HandleItemUsed);
+            Packets.Add((int)ClientTcpPackets.CRequestChunk, HandleRequestChunk);
         }
 
         public void HandleNetworkMessages(TcpClient client, byte[] data)
@@ -199,6 +201,49 @@ namespace YnamarServer.Network
 
             ItemService itemService = Program.itemService;
             itemService.UseItem(playerIndex, slot);
+            buffer.Dispose();
+        }
+
+        public void HandleRequestChunk(TcpClient client, byte[] data)
+        {
+            PlayerSession session = Program.SessionManager.GetByTcp(client);
+
+            if (session == null)
+            {
+                return;
+            }
+
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int x = buffer.GetInteger();
+            int y = buffer.GetInteger();
+
+            int mapId = session.CurrentMapId;
+
+            var map = InMemoryDatabase.Maps[mapId];
+
+            if (x < 0 || y < 0)
+                return;
+
+            int maxChunkX = map.Width / 32;
+            int maxChunkY = map.Height / 32;
+
+            if (x > maxChunkX || y > maxChunkY)
+                return;
+
+            string path = $"maps/{map.Name}/chunk_{x}_{y}.bin";
+
+            if (!File.Exists(path))
+                return;
+
+            var chunk = ChunkSerializer.LoadChunk(path);
+
+            var dto = ChunkSerializer.ConvertToDto(chunk);
+            Console.WriteLine($"Player: {session.PlayerId} Chunk enviado: {x}, {y}");
+
+            Program.mapService.SendMapChunkToClient(session.Index, dto);
             buffer.Dispose();
         }
     }

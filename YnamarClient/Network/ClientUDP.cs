@@ -106,17 +106,5 @@ namespace YnamarClient.Network
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
-
-        public void SendChunkRequest(int x, int y)
-        {
-            PacketBuffer buffer = new PacketBuffer();
-            buffer.AddInteger((int)NetworkPackets.ClientUdpPackets.UdpCRequestChunk);
-
-            buffer.AddInteger(x);
-            buffer.AddInteger(y);
-
-            SendData(buffer.ToArray());
-            buffer.Dispose();
-        }
     }
 }

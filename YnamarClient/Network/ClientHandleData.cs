@@ -23,7 +23,6 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerUdpPackets.UdpSNpcAttacked, HandleNpcAttacked);
             Packets.Add((int)ServerUdpPackets.UdpSNpcMove, HandleNpcMove);
             Packets.Add((int)ServerUdpPackets.UdpSPlayerAttacking, HandlePlayerAttacking);
-            Packets.Add((int)ServerUdpPackets.UdpSSendChunk, HandleChunkReceived);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -93,32 +92,6 @@ namespace YnamarClient.Network
             {
                 Types.Players[playerIndex].WeaponAnim.Play(Types.Players[playerIndex].EquippedItems.ElementAt(0).Item.AnimationClip);
             }
-
-            buffer.Dispose();
-        }
-
-        private void HandleChunkReceived(int index, byte[] data)
-        {
-            PacketBuffer buffer = new PacketBuffer();
-            buffer.AddByteArray(data);
-            buffer.GetInteger();
-
-            int bufferLength = buffer.GetInteger();
-            byte[] chunkBuff = buffer.GetByteArray(bufferLength);
-            ChunkDto deserializedChunk = buffer.DeserializeProto<ChunkDto>(chunkBuff);
-
-            Chunk chunk = Game1.chunkManager.FromDto(deserializedChunk);
-            
-            if (chunk == null)
-            {
-                buffer.Dispose();
-                return;
-            }
-
-            var key = (chunk.X, chunk.Y);
-
-            Game1.chunkManager.AddChunk(chunk);
-            Game1.chunkManager.RequestedChunks.Remove(key);
 
             buffer.Dispose();
         }

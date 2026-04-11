@@ -206,6 +206,8 @@ namespace YnamarServer.GameLogic
     
         public static MapNpc? CheckForNpcInRange(int mapNum, int targetX, int targetY)
         {
+            if (InMemoryDatabase.Maps[mapNum].Npcs.Count == 0) return null;
+
             return InMemoryDatabase.Maps[mapNum].Npcs
                 .Select((npc, i) => new { npc, i })
                 .FirstOrDefault(a => a.npc.X == targetX && a.npc.Y == targetY).npc;

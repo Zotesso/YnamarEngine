@@ -35,6 +35,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SInventorySlotUpdate, HandleInventorySlotUpdate);
             Packets.Add((int)ServerPackets.SInventorySlotDelete, HandleInventorySlotDelete);
             Packets.Add((int)ServerPackets.SUdpHandshake, HandleUdpHandshake);
+            Packets.Add((int)ServerPackets.SSendChunk, HandleChunkReceived);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -235,6 +236,32 @@ namespace YnamarClient.Network
             {
                 Types.Players[Globals.playerIndex].Inventory.Slots.Remove(invSlotToRemove);
             }
+        }
+
+        private void HandleChunkReceived(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int bufferLength = buffer.GetInteger();
+            byte[] chunkBuff = buffer.GetByteArray(bufferLength);
+            ChunkDto deserializedChunk = buffer.DeserializeProto<ChunkDto>(chunkBuff);
+
+            Chunk chunk = Game1.chunkManager.FromDto(deserializedChunk);
+
+            if (chunk == null)
+            {
+                buffer.Dispose();
+                return;
+            }
+
+            var key = (chunk.X, chunk.Y);
+
+            Game1.chunkManager.AddChunk(chunk);
+            Game1.chunkManager.RequestedChunks.Remove(key);
+
+            buffer.Dispose();
         }
     }
 }

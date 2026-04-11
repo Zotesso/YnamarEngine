@@ -84,7 +84,7 @@ namespace YnamarClient.Graphics
             // DrawPlayerName();
             foreach (var chunk in chunkManager.GetVisibleChunks())
             {
-                DrawChunk(chunk);
+                DrawChunk(chunk, gameTime);
             }
             // DrawMapGrid(gameTime);
             DrawPlayerHealthBar(Globals.playerIndex);
@@ -182,7 +182,7 @@ namespace YnamarClient.Graphics
             double logPlayerNameLength = Math.Log(Types.Players[index].Name.Length, 10);
             int lengthOffset = 0;//Convert.ToInt32(Math.Round(logPlayerNameLength)) * 3;
             int x = (xoffset - Camera.X) - 6 - lengthOffset;
-            int y = (yoffset - Camera.Y) + 20;
+            int y = (yoffset - Camera.Y) - 32;
 
             //int x = ConvertMapX(xoffset) - 6 - lengthOffset;
             //int y = ConvertMapY(yoffset) - 20;
@@ -289,7 +289,7 @@ namespace YnamarClient.Graphics
             Game1.spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
         }
 
-        public static void DrawChunk(Chunk chunk)
+        public static void DrawChunk(Chunk chunk, GameTime gameTime)
         {
             foreach (var layerEntry in chunk.Layers)
             {
@@ -314,6 +314,18 @@ namespace YnamarClient.Graphics
                         int worldY = chunk.Y * chunk.Size + y;
 
                         DrawTile(worldX, worldY, def);
+                    }
+                }
+
+                for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+                {
+                    if (ClientTCP.IsPlaying(i))
+                    {
+                        if ((Types.Players[i].Map == Types.Players[Globals.playerIndex].Map) && layerId == 0)
+                        {
+                            DrawPlayerName(i);
+                            DrawPlayer(i, gameTime);
+                        }
                     }
                 }
             }

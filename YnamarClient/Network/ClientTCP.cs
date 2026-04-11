@@ -34,11 +34,11 @@ namespace YnamarClient.Network
 
             PlayerSocket = new TcpClient();
             clientDataHandle = new ClientHandleDataTCP();
-            PlayerSocket.ReceiveBufferSize = 100000;
-            PlayerSocket.SendBufferSize = 100000;
+            PlayerSocket.ReceiveBufferSize = 4200;
+            PlayerSocket.SendBufferSize = 4200;
             PlayerSocket.NoDelay = false;
 
-            Array.Resize(ref asyncBuff, 100000);
+            Array.Resize(ref asyncBuff, 4200);
 
             PlayerSocket.BeginConnect("127.0.0.1", 5555, new AsyncCallback(ConnectCallback), PlayerSocket);
             connecting = true;
@@ -57,7 +57,7 @@ namespace YnamarClient.Network
             {
                 PlayerSocket.NoDelay = true;
                 myStream = PlayerSocket.GetStream();
-                myStream.BeginRead(asyncBuff, 0, 100000, OnReceive, null);
+                myStream.BeginRead(asyncBuff, 0, 4200, OnReceive, null);
                 connected = true;
                 connecting = false;
             }
@@ -76,7 +76,7 @@ namespace YnamarClient.Network
             }
 
             clientDataHandle.HandleNetworkMessages(0, myBytes);
-            myStream.BeginRead(asyncBuff, 0, 100000, OnReceive, null);
+            myStream.BeginRead(asyncBuff, 0, 4200, OnReceive, null);
         }
 
         public static bool IsPlaying(int index)
@@ -138,6 +138,18 @@ namespace YnamarClient.Network
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInteger((int)ClientTcpPackets.CLoadMap);
             buffer.AddInteger(Types.Players[Globals.playerIndex].Map);
+
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+
+        public void SendChunkRequest(int x, int y)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInteger((int)NetworkPackets.ClientTcpPackets.CRequestChunk);
+
+            buffer.AddInteger(x);
+            buffer.AddInteger(y);
 
             SendData(buffer.ToArray());
             buffer.Dispose();

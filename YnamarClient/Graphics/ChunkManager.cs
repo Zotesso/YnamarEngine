@@ -14,7 +14,7 @@ namespace YnamarClient.Graphics
         public HashSet<(int x, int y)> RequestedChunks = new();
 
         public int ChunkSize = 32;
-        public int ViewDistance = 3; // in chunks
+        public int ViewDistance = 1;
 
         public void Update(int playerTileX, int playerTileY)
         {
@@ -28,6 +28,8 @@ namespace YnamarClient.Graphics
                 {
                     int cx = playerChunkX + x;
                     int cy = playerChunkY + y;
+
+                    if (cx < 0 || cy < 0) continue;
 
                     needed.Add((cx, cy));
 
@@ -116,7 +118,7 @@ namespace YnamarClient.Graphics
 
             RequestedChunks.Add(key);
 
-            NetworkManager.Client.SendChunkRequest(x, y);
+            NetworkManager.ClientTcp.SendChunkRequest(x, y);
         }
     }
 }

@@ -97,16 +97,16 @@ namespace YnamarServer.Services
             bufferSend.Dispose();
         }
 
-        public void SendMapChunkToClient(uint index, ChunkDto chunk)
+        public void SendMapChunkToClient(int index, ChunkDto chunk)
         {
             PacketBuffer bufferSend = new PacketBuffer();
-            bufferSend.AddInteger((int)ServerUdpPackets.UdpSSendChunk);
+            bufferSend.AddInteger((int)ServerPackets.SSendChunk);
 
             byte[] chunkDtoProtoBuf = bufferSend.SerializeProto<ChunkDto>(chunk);
             bufferSend.AddInteger(chunkDtoProtoBuf.Length);
             bufferSend.AddByteArray(chunkDtoProtoBuf);
 
-            NetworkManager.ServerUdp.SendData(index, bufferSend.ToArray());
+            stcp.SendPacket(index, bufferSend);
 
             bufferSend.Dispose();
         }
