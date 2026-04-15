@@ -84,7 +84,35 @@ namespace YnamarClient.Graphics
             // DrawPlayerName();
             foreach (var chunk in chunkManager.GetVisibleChunks())
             {
-                DrawChunk(chunk, gameTime);
+                DrawChunkLayer(chunk, 0);
+            }
+
+
+            for (int i = 0; i < Constants.MAX_PLAYERS; i++)
+            {
+                if (ClientTCP.IsPlaying(i))
+                {
+                    if ((Types.Players[i].Map == Types.Players[Globals.playerIndex].Map))
+                    {
+                        DrawPlayerName(i);
+                        DrawPlayer(i, gameTime);
+                    }
+                }
+            }
+
+            foreach (MapNpc mapNpc in chunkManager.GetVisibleMapNpcs())
+            {
+                if (mapNpc.RespawnWait > 0)
+                    continue;
+
+                DrawMapNpc(mapNpc);
+                DrawNpcName(mapNpc);
+                DrawNpcHealthBar(mapNpc);
+            }
+
+            foreach (var chunk in chunkManager.GetVisibleChunks())
+            {
+                DrawChunkLayer(chunk, 1);
             }
             // DrawMapGrid(gameTime);
             DrawPlayerHealthBar(Globals.playerIndex);
@@ -289,47 +317,61 @@ namespace YnamarClient.Graphics
             Game1.spriteBatch.Draw(Characters[sprite], new Vector2(X, Y), srcrec, Color.White);
         }
 
-        public static void DrawChunk(Chunk chunk, GameTime gameTime)
+        //public static void DrawChunk(Chunk chunk, GameTime gameTime)
+        //{
+        //    foreach (var layerEntry in chunk.Layers)
+        //    {
+        //        int layerId = layerEntry.Key;
+
+        //        ushort[] tiles = layerEntry.Value;
+
+        //        for (int y = 0; y < chunk.Size; y++)
+        //        {
+        //            for (int x = 0; x < chunk.Size; x++)
+        //            {
+        //                int index = y * chunk.Size + x;
+        //                ushort tileId = tiles[index];
+
+        //                if (tileId == 0)
+        //                    continue;
+
+        //                if (!Globals.tileDefinitionsLookup.TryGetValue(tileId, out var def))
+        //                    continue;
+
+        //                int worldX = chunk.X * chunk.Size + x;
+        //                int worldY = chunk.Y * chunk.Size + y;
+
+        //                DrawTile(worldX, worldY, def);
+        //            }
+        //        }
+
+        //    }
+        //}
+
+        public static void DrawChunkLayer(Chunk chunk, int layerNum)
         {
-            foreach (var layerEntry in chunk.Layers)
+            if (!chunk.Layers.TryGetValue(layerNum, out var tiles))
+                return;
+            for (int y = 0; y < chunk.Size; y++)
             {
-                int layerId = layerEntry.Key;
-
-                ushort[] tiles = layerEntry.Value;
-
                 for (int x = 0; x < chunk.Size; x++)
                 {
-                    for (int y = 0; y < chunk.Size; y++)
-                    {
-                        int index = y * chunk.Size + x;
-                        ushort tileId = tiles[index];
+                    int index = y * chunk.Size + x;
+                    ushort tileId = tiles[index];
 
-                        if (tileId == 0)
-                            continue;
+                    if (tileId == 0)
+                        continue;
 
-                        if (!Globals.tileDefinitionsLookup.TryGetValue(tileId, out var def))
-                            continue;
+                    if (!Globals.tileDefinitionsLookup.TryGetValue(tileId, out var def))
+                        continue;
 
-                        int worldX = chunk.X * chunk.Size + x;
-                        int worldY = chunk.Y * chunk.Size + y;
-
-                        DrawTile(worldX, worldY, def);
-                    }
-                }
-
-                for (int i = 0; i < Constants.MAX_PLAYERS; i++)
-                {
-                    if (ClientTCP.IsPlaying(i))
-                    {
-                        if ((Types.Players[i].Map == Types.Players[Globals.playerIndex].Map) && layerId == 0)
-                        {
-                            DrawPlayerName(i);
-                            DrawPlayer(i, gameTime);
-                        }
-                    }
+                    int worldX = chunk.X * chunk.Size + x;
+                    int worldY = chunk.Y * chunk.Size + y;
+                    DrawTile(worldX, worldY, def);
                 }
             }
         }
+
         private static void DrawMapGrid(GameTime gameTime)
         {
             int maxMapLayer = Globals.PlayerMap.Layer.Length;

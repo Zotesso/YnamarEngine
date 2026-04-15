@@ -210,7 +210,7 @@ namespace YnamarServer.GameLogic
 
             return InMemoryDatabase.Maps[mapNum].Npcs
                 .Select((npc, i) => new { npc, i })
-                .FirstOrDefault(a => a.npc.X == targetX && a.npc.Y == targetY).npc;
+                .FirstOrDefault(a => a.npc.X == targetX && a.npc.Y == targetY)?.npc;
         }
     }
 }

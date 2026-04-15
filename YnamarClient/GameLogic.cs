@@ -211,24 +211,33 @@ namespace YnamarClient
 
         public static void ProcessMapNpcsMovement()
         {
-            int maxMapLayer = Globals.PlayerMap.Layer.Length;
-
-            for (int layer = 0; layer < maxMapLayer; layer++)
+            foreach (MapNpc mapNpc in Game1.chunkManager.GetVisibleMapNpcs())
             {
-                if (Globals.PlayerMap.Layer[layer].MapNpc == null) continue;
+                if (mapNpc.RespawnWait > 0)
+                    continue;
 
-                for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
-                {
-                    var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
-                    if (npc != null)
-                    {
-                        if (npc.RespawnWait > 0)
-                            continue;
+                ProcessNpcMovement(mapNpc);
 
-                        ProcessNpcMovement(npc);
-                    }
-                }
             }
+
+            //int maxMapLayer = Globals.PlayerMap.Layer.Length;
+
+            //for (int layer = 0; layer < maxMapLayer; layer++)
+            //{
+            //    if (Globals.PlayerMap.Layer[layer].MapNpc == null) continue;
+
+            //    for (int x = 0; x < Globals.PlayerMap.Layer[layer].MapNpc.Length; x++)
+            //    {
+            //        var npc = Globals.PlayerMap.Layer[layer].MapNpc[x];
+            //        if (npc != null)
+            //        {
+            //            if (npc.RespawnWait > 0)
+            //                continue;
+
+            //            ProcessNpcMovement(npc);
+            //        }
+            //    }
+            //}
         }
 
         public static void ProcessNpcMovement(MapNpc mapNpc)

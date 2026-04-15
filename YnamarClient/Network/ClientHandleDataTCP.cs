@@ -36,6 +36,7 @@ namespace YnamarClient.Network
             Packets.Add((int)ServerPackets.SInventorySlotDelete, HandleInventorySlotDelete);
             Packets.Add((int)ServerPackets.SUdpHandshake, HandleUdpHandshake);
             Packets.Add((int)ServerPackets.SSendChunk, HandleChunkReceived);
+            Packets.Add((int)ServerPackets.SSendMapNpcChunk, HandleMapNpcChunkReceived);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -191,8 +192,9 @@ namespace YnamarClient.Network
             byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
-            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+            Game1.chunkManager.UpdateMapNpc(deserializedMapNpc.Id, deserializedMapNpc);
         }
+
         private void HandleInventorySlotUpdate(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
@@ -260,6 +262,23 @@ namespace YnamarClient.Network
 
             Game1.chunkManager.AddChunk(chunk);
             Game1.chunkManager.RequestedChunks.Remove(key);
+
+            buffer.Dispose();
+        }
+
+        private void HandleMapNpcChunkReceived(int index, byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddByteArray(data);
+            buffer.GetInteger();
+
+            int bufferLength = buffer.GetInteger();
+            byte[] mapNpcChunkBuff = buffer.GetByteArray(bufferLength);
+            List<MapNpc> deserializedMapNpcChunk = buffer.DeserializeProto<List<MapNpc>>(mapNpcChunkBuff);
+
+            if (deserializedMapNpcChunk.Count == 0) return;
+
+            Game1.chunkManager.AddMapNpcCunkList(deserializedMapNpcChunk);
 
             buffer.Dispose();
         }

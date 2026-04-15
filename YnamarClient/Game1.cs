@@ -139,7 +139,8 @@ namespace YnamarClient
 
                         GameLogic.ProcessMovement(player);
                     }
-                    //CORRIGIR AQ DPS - GameLogic.ProcessMapNpcsMovement();
+
+                    GameLogic.ProcessMapNpcsMovement();
                     WalkTimer = Tick + 30;
                 }
 

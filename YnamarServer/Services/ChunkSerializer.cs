@@ -131,9 +131,9 @@ namespace YnamarServer.Services
                     {
                         ushort[] tiles = new ushort[chunkSize * chunkSize];
 
-                        for (int x = 0; x < chunkSize; x++)
+                        for (int y = 0; y < chunkSize; y++)
                         {
-                            for (int y = 0; y < chunkSize; y++)
+                            for (int x = 0; x < chunkSize; x++)
                             {
                                 int worldX = cx * chunkSize + x;
                                 int worldY = cy * chunkSize + y;
@@ -145,7 +145,7 @@ namespace YnamarServer.Services
                                     continue;
                                 }
 
-                                var tile = layer.Tile.FirstOrDefault(t => t.X == worldX && t.Y == worldY);
+                                var tile = layer.Tile.FirstOrDefault(t => t.X == worldY && t.Y == worldX);
 
                                 if (tile != null)
                                 {

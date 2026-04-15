@@ -72,7 +72,8 @@ namespace YnamarClient.Network
             byte[] mapNpcBuff = buffer.GetByteArray(bufferLength);
             MapNpc deserializedMapNpc = buffer.DeserializeProto<MapNpc>(mapNpcBuff);
 
-            Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
+            Game1.chunkManager.UpdateMapNpc(deserializedMapNpc.Id, deserializedMapNpc);
+            //Types.Map[mapNum].Layer[layerNum].MapNpc[mapNpcNum] = deserializedMapNpc;
         }
 
         private void HandlePlayerAttacking(int index, byte[] data)

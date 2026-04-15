@@ -19,6 +19,7 @@ namespace YnamarClient.Network
             SInventorySlotDelete,
             SUdpHandshake,
             SSendChunk,
+            SSendMapNpcChunk,
         }
 
         public enum ClientTcpPackets

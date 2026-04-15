@@ -128,9 +128,9 @@ namespace YnamarServer.Services
             foreach (var (layerId, grid) in layerGrids)
             {
 
-                for (int y = 0; y < mapMetadata.MaxMapY; y++)
+                for (int x = 0; x < mapMetadata.MaxMapX; x++)
                 {
-                    for (int x = 0; x < mapMetadata.MaxMapX; x++)
+                    for (int y = 0; y < mapMetadata.MaxMapY; y++)
                     {
                         var tile = grid[x, y];
 

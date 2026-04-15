@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
 using System.Numerics;
@@ -244,6 +245,7 @@ namespace YnamarServer.Network
             Console.WriteLine($"Player: {session.PlayerId} Chunk enviado: {x}, {y}");
 
             Program.mapService.SendMapChunkToClient(session.Index, dto);
+            Program.npcService.SendMapNpcChunkToClient(session.Index, mapId, new Point(x * 32, y * 32), new Point((x + 1) * 32 - 1, (y + 1) * 32 - 1));
             buffer.Dispose();
         }
     }

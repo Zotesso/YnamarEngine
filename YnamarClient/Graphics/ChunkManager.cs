@@ -11,6 +11,8 @@ namespace YnamarClient.Graphics
     public class ChunkManager
     {
         private readonly Dictionary<(int x, int y), Chunk> _loadedChunks = new();
+        private readonly Dictionary<int, MapNpc> _visibleMapNpcs = new();
+
         public HashSet<(int x, int y)> RequestedChunks = new();
 
         public int ChunkSize = 32;
@@ -93,6 +95,19 @@ namespace YnamarClient.Graphics
             _loadedChunks[(chunk.X, chunk.Y)] = chunk;
         }
 
+        public void AddMapNpcCunkList(List<MapNpc> mapNpcList)
+        {
+            foreach (MapNpc mapNpc in mapNpcList)
+            {
+                _visibleMapNpcs.TryAdd(mapNpc.Id, mapNpc);
+            }
+        }
+
+        public void UpdateMapNpc(int id, MapNpc mapNpc)
+        {
+            _visibleMapNpcs[id] = mapNpc;
+        }
+
         public void UnloadChunk(int x, int y)
         {
             if (_loadedChunks.TryGetValue((x, y), out var chunk))
@@ -104,6 +119,11 @@ namespace YnamarClient.Graphics
         public IEnumerable<Chunk> GetVisibleChunks()
         {
             return _loadedChunks.Values;
+        }
+
+        public IEnumerable<MapNpc> GetVisibleMapNpcs()
+        {
+            return _visibleMapNpcs.Values;
         }
 
         private void RequestChunk(int x, int y)

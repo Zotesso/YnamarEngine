@@ -1,11 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
-using static YnamarServer.Network.NetworkPackets;
-using YnamarServer.Database.Models;
-using YnamarServer.Network;
-using System.Collections.Generic;
-using YnamarServer.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
+using YnamarServer.Database;
+using YnamarServer.Database.Models;
+using YnamarServer.Database.Protos;
+using YnamarServer.Network;
+using static YnamarServer.Network.NetworkPackets;
 
 namespace YnamarServer.Services
 {
@@ -61,6 +63,29 @@ namespace YnamarServer.Services
             bufferSend.AddByteArray(mapNpcProtoBuf);
 
             stcp.SendPacketToMap(mapNum, bufferSend);
+
+            bufferSend.Dispose();
+        }
+
+        public void SendMapNpcChunkToClient(int index, int mapNum, Point chunkInitialPosition, Point chunkFinalPosition)
+        {
+            PacketBuffer bufferSend = new PacketBuffer();
+            bufferSend.AddInteger((int)ServerPackets.SSendMapNpcChunk);
+
+            List<MapNpc> mapNpcChunk = new List<MapNpc>();
+            foreach (MapNpc mapNpc in InMemoryDatabase.Maps[mapNum].Npcs)
+            {
+                if (mapNpc.X >= chunkInitialPosition.X && mapNpc.X <= chunkFinalPosition.X &&
+                    mapNpc.Y >= chunkInitialPosition.Y && mapNpc.Y <= chunkFinalPosition.Y)
+                {
+                    mapNpcChunk.Add(mapNpc);
+                }
+            }
+            byte[] mapNpcChunkProtoBuf = bufferSend.SerializeProto<List<MapNpc>>(mapNpcChunk);
+            bufferSend.AddInteger(mapNpcChunkProtoBuf.Length);
+            bufferSend.AddByteArray(mapNpcChunkProtoBuf);
+
+            stcp.SendPacket(index, bufferSend);
 
             bufferSend.Dispose();
         }
