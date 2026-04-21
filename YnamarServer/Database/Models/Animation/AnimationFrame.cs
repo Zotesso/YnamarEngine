@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,5 +47,8 @@ namespace YnamarServer.Database.Models.Animation
         [NotMapped]
         public Rectangle SourceRect =>
         new(SourceX, SourceY, SourceWidth, SourceHeight);
+
+        [NotMapped]
+        public List<Vector2> Hitboxes { get; set; } = new();
     }
 }

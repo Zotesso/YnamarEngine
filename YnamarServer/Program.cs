@@ -8,6 +8,7 @@ using System.Diagnostics;
 using YnamarServer.Admin.Controllers;
 using YnamarServer.Admin.Services;
 using YnamarServer.GameLogic;
+using YnamarServer.GameLogic.Collision;
 using YnamarServer.Network.Session;
 using YnamarServer.Services;
 
@@ -15,6 +16,7 @@ internal class Program
 {
     private static Stopwatch _stopwatch = Stopwatch.StartNew();
     public static long CurrentTick { get; private set; }
+    public static float CurrentTime { get; private set; }
 
     private static General? general;
     private static Thread? consoleThread;
@@ -23,6 +25,7 @@ internal class Program
     private static Thread? gameLoopThread;
 
     public static SessionManager SessionManager = new SessionManager(100);
+    public static AttackManager AttackManager = new AttackManager();
 
     private static YnamarServer.Database.Database database;
     public static AccountService accountService;
@@ -137,6 +140,47 @@ internal class Program
             frameTime = tick;
 
             CurrentTick = tick;
+            CurrentTime = (float)_stopwatch.Elapsed.TotalSeconds;
+
+            //foreach (var attack in AttackManager.activeAttacks)
+            //{
+            //    float elapsed = CurrentTime - attack.StartTime;
+
+            //    foreach (var frame in attack.Animation.Frames)
+            //    {
+            //        if (frame.Duration <= elapsed && !frame.Processed)
+            //        {
+            //            AttackManager.ProcessFrame(attack, frame);
+            //            frame.Processed = true;
+            //        }
+            //    }
+            //}
+            if (tick >= tmr25)
+            {
+                for (int i = AttackManager.activeAttacks.Count - 1; i >= 0; i--)
+                {
+                    var attack = AttackManager.activeAttacks[i];
+
+                    if (attack == null) continue;
+
+                    float elapsed = CurrentTime - attack.StartTime;
+
+                    foreach (var frame in attack.Animation.Frames)
+                    {
+                        if (frame.Duration <= elapsed && !attack.ProcessedFrames.Contains(frame.Id))
+                        {
+                            AttackManager.ProcessFrame(attack, frame);
+                            attack.ProcessedFrames.Add(frame.Id);
+                        }
+                    }
+
+                    if (attack.Animation.Frames.All(f => attack.ProcessedFrames.Contains(f.Id)))
+                    {
+                        AttackManager.activeAttacks.RemoveAt(i);
+                    }
+                }
+                tmr25 = tick + 25;
+            }
 
             if (tick >= tmr500)
             {

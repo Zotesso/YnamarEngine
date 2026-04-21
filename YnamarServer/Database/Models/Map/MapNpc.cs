@@ -1,10 +1,12 @@
 ﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+using YnamarServer.GameLogic.Collision;
 
 
 namespace YnamarServer.Database.Models
@@ -38,5 +40,14 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(7)]
         public byte Dir { get; set; }
+
+        [NotMapped]
+        public BaseRectangleHitbox Hitbox => new BaseRectangleHitbox
+        {
+            X = X,
+            Y = Y,
+            Width = 32,
+            Height = 32
+        };
     }
 }

@@ -9,6 +9,7 @@ using YnamarServer.Database;
 using YnamarServer.Services;
 using YnamarServer.Database.Models;
 using YnamarServer.Network.Session;
+using YnamarServer.GameLogic.Collision;
 
 namespace YnamarServer.GameLogic
 {
@@ -47,20 +48,32 @@ namespace YnamarServer.GameLogic
             }
         }
 
+        public static void StartAttack(PlayerSession session, byte dir)
+        {
+            Program.AttackManager.activeAttacks.Add(new ActiveAttack
+            {
+                PlayerId = session.Index,
+                Direction = dir,
+                StartTime = Program.CurrentTime,
+                Animation = InMemoryDatabase.Player[session.Index].EquippedItems.ElementAt(0)?.Item.AnimationClip,
+            });
+        } 
+
         public static void PlayerAttack(PlayerSession session, byte dir)
         {
-            int targetX = DirToX(InMemoryDatabase.Player[session.Index].X, dir);
-            int targetY = DirToY(InMemoryDatabase.Player[session.Index].Y, dir);
-            int playerMapNum = InMemoryDatabase.Player[session.Index].Map;
-            MapNpc? mapNpc = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
+            StartAttack(session, dir);
+            //int targetX = DirToX(InMemoryDatabase.Player[session.Index].X, dir);
+            //int targetY = DirToY(InMemoryDatabase.Player[session.Index].Y, dir);
+            //int playerMapNum = InMemoryDatabase.Player[session.Index].Map;
+            //MapNpc? mapNpc = MapLogicHandler.CheckForNpcInRange(playerMapNum, targetX, targetY);
 
-            if (mapNpc is not null)
-            {
-                NpcLogicHandler.NpcAttacked(session, playerMapNum, mapNpc, 50);
-                //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
-               // NpcService npcService = Program.npcService;
-                //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
-            }
+            //if (mapNpc is not null)
+            //{
+            //    NpcLogicHandler.NpcAttacked(session, playerMapNum, mapNpc, 50);
+            //InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex).Hp -= 10;
+            // NpcService npcService = Program.npcService;
+            //npcService.SendNpcAttackedtoMap(playerMapNum, 0, InMemoryDatabase.Maps[playerMapNum].Layer.ElementAt(0).MapNpc.ElementAt((int)mapNpcIndex));
+            //}
         }
         public static int DirToX(int x, byte dir)
         {

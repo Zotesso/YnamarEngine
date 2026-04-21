@@ -145,7 +145,7 @@ namespace YnamarServer.Services
                                     continue;
                                 }
 
-                                var tile = layer.Tile.FirstOrDefault(t => t.X == worldY && t.Y == worldX);
+                                var tile = layer.Tile.FirstOrDefault(t => t.X == worldX && t.Y == worldY);
 
                                 if (tile != null)
                                 {

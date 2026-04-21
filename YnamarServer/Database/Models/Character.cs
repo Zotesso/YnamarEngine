@@ -1,11 +1,14 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Numerics;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
-using ProtoBuf;
+using YnamarServer.GameLogic.Collision;
 
 namespace YnamarServer.Database.Models
 {
@@ -62,6 +65,15 @@ namespace YnamarServer.Database.Models
 
         [ProtoMember(16)]
         public ICollection<PlayerEquipament> EquippedItems { get; set; }
+
+        [NotMapped]
+        public Hitbox Hitbox => new BaseRectangleHitbox
+        {
+            X = X,
+            Y = Y,
+            Width = 32,
+            Height = 32
+        };
 
     }
 }

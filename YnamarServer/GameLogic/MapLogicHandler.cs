@@ -37,6 +37,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_UP))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_UP);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -47,6 +48,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_DOWN))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_DOWN);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -57,6 +59,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_LEFT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_LEFT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -67,7 +70,8 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_RIGHT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_RIGHT);
-                                            //didWalk = true;
+                                            break;
+                                            //
                                         }
                                     }
                                     break;
@@ -79,6 +83,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_RIGHT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_RIGHT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -89,6 +94,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_LEFT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_LEFT);
+                                            break;
                                            // didWalk = true;
                                         }
                                     }
@@ -99,6 +105,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_DOWN))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_DOWN);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -109,6 +116,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_UP))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_UP);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -121,6 +129,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_DOWN))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_DOWN);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -131,6 +140,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_UP))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_UP);
+                                            break;
                                            // didWalk = true;
                                         }
                                     }
@@ -141,6 +151,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_RIGHT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_RIGHT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -151,6 +162,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_LEFT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_LEFT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -163,6 +175,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_LEFT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_LEFT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -173,6 +186,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_RIGHT))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_RIGHT);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -183,6 +197,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_UP))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_UP);
+                                            break;
                                             //didWalk = true;
                                         }
                                     }
@@ -193,6 +208,7 @@ namespace YnamarServer.GameLogic
                                         if (NpcLogicHandler.CanNpcMove(map, npc, Constants.DIR_DOWN))
                                         {
                                             NpcLogicHandler.NpcMove(map.Id, npc, Constants.DIR_DOWN);
+                                            break;
                                            // didWalk = true;
                                         }
                                     }
