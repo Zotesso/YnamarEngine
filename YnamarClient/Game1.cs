@@ -64,7 +64,7 @@ namespace YnamarClient
 
             gumProject = Gum.Initialize(this, "GumUI/gumproject.gumx");
             _menuManager = new MenuManager(gumProject);
-            Graphics.Graphics.InitializeGraphics(Content);
+            Graphics.Graphics.InitializeGraphics(Content, _graphics.GraphicsDevice);
 
             var rectangle = new ColoredRectangleRuntime();
             rectangle.Width = 100;

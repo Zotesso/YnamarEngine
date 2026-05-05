@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using YnamarServer.GameLogic.Collision;
 
 namespace YnamarServer.Database.Models.Animation
 {
@@ -30,23 +31,26 @@ namespace YnamarServer.Database.Models.Animation
         public int TextureId { get; init; }
 
         [ProtoMember(4)]
-        public int SourceX { get; set; }
+        public List<PolygonHitbox> Polygons = new();
+
+        //[ProtoMember(4)]
+        //public int SourceX { get; set; }
+
+        //[ProtoMember(5)]
+        //public int SourceY { get; set; }
+
+        //[ProtoMember(6)]
+        //public int SourceWidth { get; set; }
+
+        //[ProtoMember(7)]
+        //public int SourceHeight { get; set; }
 
         [ProtoMember(5)]
-        public int SourceY { get; set; }
-
-        [ProtoMember(6)]
-        public int SourceWidth { get; set; }
-
-        [ProtoMember(7)]
-        public int SourceHeight { get; set; }
-
-        [ProtoMember(8)]
         public float Duration { get; set; }
 
-        [NotMapped]
-        public Rectangle SourceRect =>
-        new(SourceX, SourceY, SourceWidth, SourceHeight);
+        //[NotMapped]
+        //public Rectangle SourceRect =>
+        //new(SourceX, SourceY, SourceWidth, SourceHeight);
 
         [NotMapped]
         public List<Vector2> Hitboxes { get; set; } = new();

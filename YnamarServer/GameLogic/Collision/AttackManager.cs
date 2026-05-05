@@ -19,10 +19,13 @@ namespace YnamarServer.GameLogic.Collision
         {
             var player = InMemoryDatabase.Player[attack.PlayerId];
 
-            frame.Hitboxes = new List<Vector2> { new Vector2(frame.SourceX, frame.SourceY), new Vector2(frame.SourceX + frame.SourceWidth, frame.SourceY), new Vector2(frame.SourceX + frame.SourceWidth, frame.SourceY + frame.SourceHeight), new Vector2(frame.SourceX, frame.SourceY + frame.SourceHeight) };
-                var hitbox = BuildHitbox(frame.Hitboxes.ToArray(), new Vector2(player.X, player.Y), attack.Direction);
+            //frame.Hitboxes = new List<Vector2> { new Vector2(frame.SourceX, frame.SourceY), new Vector2(frame.SourceX + frame.SourceWidth, frame.SourceY), new Vector2(frame.SourceX + frame.SourceWidth, frame.SourceY + frame.SourceHeight), new Vector2(frame.SourceX, frame.SourceY + frame.SourceHeight) };
+            // var hitbox = BuildHitbox(frame.Hitboxes.ToArray(), new Vector2(player.X, player.Y), attack.Direction);
 
-            var targets = GetNearbyEntities(player, (frame.SourceWidth / 32)).ToList();
+            var targets = GetNearbyEntities(player, 32).ToList();
+            foreach (var polygon in frame.Polygons)
+            {
+                var hitbox = BuildHitbox(polygon.Points.Select(p => (Vector2)p).ToArray(), new Vector2(player.X, player.Y), attack.Direction);
 
                 foreach (var entity in targets)
                 {
@@ -35,7 +38,7 @@ namespace YnamarServer.GameLogic.Collision
                         attack.HitEntities.Add(entity.Id);
                     }
                 }
-            
+            }
         }
 
         public PolygonHitbox BuildHitbox(Vector2[] points, Vector2 origin, float rotation)
@@ -46,7 +49,7 @@ namespace YnamarServer.GameLogic.Collision
                 points[i] = PolygonHitbox.Rotate(points[i], Vector2.Zero, rotation) + origin;
             }
 
-            return new PolygonHitbox(points);
+            return new PolygonHitbox(points.Select(p => (PolygonHitbox.Vec2)p).ToArray());
         }
 
         public List<MapNpc> GetNearbyEntities(Character player, float range)

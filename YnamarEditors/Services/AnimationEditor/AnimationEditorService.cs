@@ -56,13 +56,15 @@ namespace YnamarEditors.Services.AnimationEditor
 
         public AnimationFrame CreateNewFrame(int textureId, Rectangle sourceRect)
         {
+            var polygons = new List<PolygonHitbox>
+            {
+                new PolygonHitbox([new System.Numerics.Vector2(sourceRect.X, sourceRect.Y), new System.Numerics.Vector2(sourceRect.Width, sourceRect.Height)])
+            };
+
             return new AnimationFrame
             {
                 TextureId = textureId,
-                SourceHeight = sourceRect.Height,
-                SourceWidth = sourceRect.Width,
-                SourceX = sourceRect.X,
-                SourceY = sourceRect.Y,
+                Polygons = polygons,
                 AnimationClipId = CurrentAnimationClip.Id,
                 Duration = 0.1f
             };

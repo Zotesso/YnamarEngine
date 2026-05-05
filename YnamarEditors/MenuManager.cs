@@ -503,8 +503,9 @@ namespace YnamarEditors
                         animationEditor.AnimationPlayerSprite.TextureAddress =
                             Gum.Managers.TextureAddress.Custom;
 
-                        animationEditor.AnimationPlayerSprite.SourceRectangle =
-                            frame.SourceRect;
+
+                        //animationEditor.AnimationPlayerSprite.SourceRectangle =
+                        //    frame.SourceRect;
                     };
 
                     animationEditor.NewButton.Click += (_, _) =>

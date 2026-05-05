@@ -12,15 +12,15 @@ namespace YnamarServer.GameLogic.Collision
         public static bool Intersects(PolygonHitbox a, PolygonHitbox b)
         {
             // Check axes from both polygons
-            if (!CheckAxes(a.Points, b.Points)) return false;
-            if (!CheckAxes(b.Points, a.Points)) return false;
+            if (!CheckAxes(a.Points.Select(p => (Vector2)p).ToArray(), b.Points.Select(p => (Vector2)p).ToArray())) return false;
+            if (!CheckAxes(b.Points.Select(p => (Vector2)p).ToArray(), a.Points.Select(p => (Vector2)p).ToArray())) return false;
 
             return true;
         }
         public static bool Intersects(PolygonHitbox a, BaseRectangleHitbox b)
         {
             var bPoly = ToPolygon(b);
-            return Intersects(a, new PolygonHitbox(bPoly));
+            return Intersects(a, new PolygonHitbox(bPoly.Select(p => (PolygonHitbox.Vec2)p).ToArray()));
         }
 
         public static Vector2[] ToPolygon(BaseRectangleHitbox rect)

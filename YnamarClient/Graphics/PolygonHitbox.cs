@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Microsoft.Xna.Framework.Graphics;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,27 +7,51 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YnamarServer.GameLogic.Collision
+namespace YnamarClient.Graphics
 {
     [ProtoContract]
-    public class PolygonHitbox : Hitbox
+    public class PolygonHitbox
     {
         [ProtoMember(1)]
-        public Vec2[] Points { get; set; }
-        public PolygonHitbox() { }
+        public Vec2[] Points; // World coordinates
+        public Vector2[] UVs;      // texture coordinates (0–1)
 
         public PolygonHitbox(Vec2[] points)
         {
             Points = points;
+            GenerateUVs();
         }
 
-        public override bool Intersects(Hitbox other)
+        public PolygonHitbox() { }
+
+        public void GenerateUVs()
         {
-            if (other is PolygonHitbox poly)
-                return SAT.Intersects(this, poly);
+            float minX = Points.Min(p => p.X);
+            float maxX = Points.Max(p => p.X);
+            float minY = Points.Min(p => p.Y);
+            float maxY = Points.Max(p => p.Y);
 
-            return false;
+            float width = maxX - minX;
+            float height = maxY - minY;
+
+            UVs = new Vector2[Points.Length];
+
+            for (int i = 0; i < Points.Length; i++)
+            {
+                float u = (Points[i].X - minX) / width;
+                float v = (Points[i].Y - minY) / height;
+
+                UVs[i] = new Vector2(u, v);
+            }
         }
+
+        //public override bool Intersects(Hitbox other)
+        //{
+        //    if (other is PolygonHitbox poly)
+        //        return SAT.Intersects(this, poly);
+
+        //    return false;
+        //}
 
         public static Vector2 Rotate(Vector2 point, Vector2 origin, float angleRad)
         {
@@ -40,7 +65,6 @@ namespace YnamarServer.GameLogic.Collision
                 translated.X * sin + translated.Y * cos
             ) + origin;
         }
-
 
         [ProtoContract]
         public struct Vec2

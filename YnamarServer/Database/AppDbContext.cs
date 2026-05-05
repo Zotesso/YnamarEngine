@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
+using System.Text.Json;
 using YnamarServer.Database.Models;
 using YnamarServer.Database.Models.Animation;
 using YnamarServer.Database.Models.Items;
+using YnamarServer.GameLogic.Collision;
 
 namespace YnamarServer.Database
 {
@@ -85,6 +87,13 @@ namespace YnamarServer.Database
                 .WithMany(c => c.EquippedItems)
                 .HasForeignKey(pe => pe.CharacterId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AnimationFrame>()
+                .Property(a => a.Polygons)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                    v => JsonSerializer.Deserialize<List<PolygonHitbox>>(v, (JsonSerializerOptions)null)
+                );
         }
     }
 }

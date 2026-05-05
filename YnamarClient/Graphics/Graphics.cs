@@ -25,9 +25,26 @@ namespace YnamarClient.Graphics
         public static Texture2D healthbar;
 
         public static List<ChatMessage> ChatMessages = new();
+        private static VertexPositionTexture[] _vertices;
+        private static int _vertexCount;
+        private static BasicEffect _effect;
 
-        public static void InitializeGraphics(ContentManager manager)
+        private static GraphicsDevice _graphicDevice;
+        public static void InitializeGraphics(ContentManager manager, GraphicsDevice graphicsDevice)
         {
+            _graphicDevice = graphicsDevice;
+            _effect = new BasicEffect(_graphicDevice);
+            _effect.TextureEnabled = true;
+            _effect.View = Matrix.Identity;
+            _effect.World = Matrix.Identity;
+            _effect.Projection = Matrix.CreateOrthographicOffCenter(
+                0,
+                _graphicDevice.Viewport.Width,
+                _graphicDevice.Viewport.Height,
+                0,
+                0,
+                1);
+
             LoadFonts(manager);
             LoadCharacters(manager);
             LoadTilesets(manager);
@@ -186,15 +203,15 @@ namespace YnamarClient.Graphics
                 if (Types.Players[index].WeaponAnim.IsPlaying)
                 {
                     //Acabar aqui o srcrec
-                    var frameRectangle = Types.Players[index].WeaponAnim.CurrentFrame.SourceRect;
-                    Rectangle rectAnimation = new Rectangle(frameRectangle.X, frameRectangle.Y, frameRectangle.Width, frameRectangle.Height);
+                    //var frameRectangle = Types.Players[index].WeaponAnim.CurrentFrame.SourceRect;
+                    //Rectangle rectAnimation = new Rectangle(frameRectangle.X, frameRectangle.Y, frameRectangle.Width, frameRectangle.Height);
                     int animX = (X + animOffsetX) - Camera.X;
                     int animY = (Y + animOffsetY) - Camera.Y;
 
                     //var animX = ConvertMapX(X + animOffsetX);
                     //var animY = ConvertMapY(Y + animOffsetY);
 
-                    DrawAttackAnimation(animX, animY, Types.Players[index].WeaponAnim.CurrentTexture, rectAnimation);
+                    DrawAttackAnimation(animX, animY, Types.Players[index].WeaponAnim.CurrentTexture, Types.Players[index].WeaponAnim.CurrentFrame.Polygons, Types.Players[index].Dir);
                 }
 
             }
@@ -302,9 +319,32 @@ namespace YnamarClient.Graphics
             }
         }
 
-        public static void DrawAttackAnimation(int x, int y, Texture2D sprite, Rectangle srcrec)
+        public static void DrawAttackAnimation(int x, int y, Texture2D sprite, List<PolygonHitbox> polygons, float dir)
         {
-            Game1.spriteBatch.Draw(sprite, new Vector2(x, y), srcrec, Color.White);
+            _vertexCount = 0;
+
+            foreach (var polygon in polygons)
+            {
+                BuildTriangles(polygon, new Vector2(x, y), dir);
+            }
+
+            _graphicDevice.BlendState = BlendState.AlphaBlend;
+            _graphicDevice.DepthStencilState = DepthStencilState.None;
+            _graphicDevice.RasterizerState = RasterizerState.CullNone;
+
+            _effect.Texture = sprite;
+
+            foreach (var pass in _effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                _graphicDevice.DrawUserPrimitives(
+                    PrimitiveType.TriangleList,
+                    _vertices,
+                    0,
+                    _vertexCount / 3
+                );
+            }
         }
 
         private static void DrawSprite(int sprite, int x2, int y2, Rectangle srcrec)
@@ -497,6 +537,28 @@ namespace YnamarClient.Graphics
 
             srcrec = new Rectangle(def.TileX, def.TileY, Constants.TILE_SIZE, Constants.TILE_SIZE);
             Game1.spriteBatch.Draw(Tilesets[def.Tileset], new Vector2(screenX, screenY), srcrec, Color.White);
+        }
+
+        private static void BuildTriangles(PolygonHitbox poly, Vector2 offset, float dir)
+        {
+            for (int i = 1; i < poly.Points.Length - 1; i++)
+            {
+                AddVertex(poly, 0, offset, dir);
+                AddVertex(poly, i, offset, dir);
+                AddVertex(poly, i + 1, offset, dir);
+            }
+        }
+
+        private static void AddVertex(PolygonHitbox poly, int i, Vector2 offset, float rotation)
+        {
+            Vector2 rotated = PolygonHitbox.Rotate(poly.Points[i], new System.Numerics.Vector2(offset.X, offset.Y), rotation);
+            Vector2 final = rotated + offset;
+
+            _vertices[_vertexCount++] =
+                new VertexPositionTexture(
+                    new Vector3(final, 0),
+                    poly.UVs[i]
+                );
         }
     }
 }
